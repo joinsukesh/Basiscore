@@ -1,0 +1,136 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Default.master.cs" Inherits="SitecoreCustomTools.sitecore.admin.minions.Default" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
+    <link href="/sitecore/admin/minions/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/sitecore/admin/minions/assets/css/custom-speak-default-theme.css" rel="stylesheet" type="text/css" />
+    <link href="/sitecore/admin/minions/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/sitecore/admin/minions/assets/css/app.css?v=1.0" rel="stylesheet" />
+    <script src="/sitecore/admin/minions/assets/js/jquery.min.js"></script>
+    <script src="/sitecore/admin/minions/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/sitecore/admin/minions/assets/js/app.js?v=1.0"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+
+<body class="sc sc-fullWidth">
+    <div class="sc-list">
+        <div class="container-narrow">
+            <header class="sc-globalHeader">
+                <div class="row sc-globalHeader-content">
+                    <div class="col-md-6">
+                        <div class="sc-globalHeader-startButton">
+                            <a class="sc-global-logo medium" href="/sitecore/shell/sitecore/client/Applications/Launchpad"></a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <section class="sc-applicationContent">
+                <div class="sc-navigation-wrapper">
+                    <nav class="sc-applicationContent-navigation sc-navigation-menu">
+                        <div class="sc-menu">
+                            <div class="app-menuroot">
+                                <!--MENU ITEMS-->
+                                <div class="form-group">
+                                    <div class="header menuItem">
+                                        <a href='#' data-toggle="collapse" data-target="#submenu1">
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <i class="menuIcon fa fa-cubes"></i>&nbsp;
+                                            <span class="toplevel">ITEMS</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <i class="menuExpandIcon fa fa-plus"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div id="submenu1" class="toplevelcontainer collapse">
+                                        <div class="itemRow menuItem">
+                                            <div class="rightcolumn">
+                                                <a href="/sitecore/admin/minions/publishitems.aspx" target="_self">
+                                                    <span class="rcpad">Publish Items</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="header menuItem">
+                                        <a href='#' data-toggle="collapse" data-target="#submenu2">
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <i class="menuIcon fa fa-paw"></i>&nbsp;
+                                                    <span class="toplevel">MISC</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <i class="menuExpandIcon fa fa-plus"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div id="submenu2" class="toplevelcontainer collapse">
+                                        <div class="itemRow menuItem">
+                                            <div class="rightcolumn">
+                                                <a href="/sitecore/admin/minions/generatepackage.aspx" target="_self">
+                                                    <span class="rcpad">Generate Package</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="itemRow menuItem">
+                                            <div class="rightcolumn">
+                                                <a href="/sitecore/admin/minions/templatemapper.aspx" target="_self">
+                                                    <span class="rcpad">Template Mapper</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                    <div class="sc-navigation-content">
+                        <header class="sc-applicationHeader">
+                            <div class="sc-applicationHeader-row1 ">
+                                <div class="sc-applicationHeader-content">
+                                    <div class="sc-applicationHeader-title">
+                                        <span class="sc-text moduleName"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+                        <section class="sc-applicationContent-main">
+                            <div class="sct-module-content">
+                                <form id="form1" runat="server">
+                                    <div>
+                                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                        </asp:ContentPlaceHolder>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="modal" id="mdlLoad" data-backdrop="static" data-keyboard="false">
+        <div class="app-load-modal-dialog modal-dialog modal-sm-modal-dialog-centered">
+            <div class="modal-content app-modal-content">
+                <div class="modal-body">
+                    <div class="sc-progressindicator-inner app-sc-progressindicator-inner">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
