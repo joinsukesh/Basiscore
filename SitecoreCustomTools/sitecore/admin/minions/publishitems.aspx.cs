@@ -206,11 +206,10 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                     lstItemPublishStatus.AddRange(tempListOfPublishedItems);
                 }
 
-                tempListOfPublishedItems = null;
-
                 ///publish items from the list given in the second textbox
                 if (lstItemPathsToPublish.Count > 0)
                 {
+                    tempListOfPublishedItems = null;
                     errorLog = "";
                     tempListOfPublishedItems = GetPublishedItemsStats(lstItemPathsToPublish, databaseNames, languages, excludeItemsWithWorkflow, out errorLog);
 
@@ -248,6 +247,10 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                             }
                         }
                     }
+                }
+                else
+                {
+
                 }
             }
             catch (Exception ex)
@@ -628,12 +631,11 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                                 }
                             }
 
-                            tempListOfPublishedItems = null;
-                            uniqueItemPaths = null;
-
                             ///publish this item's children
                             if (masterDbItem.HasChildren)
                             {
+                                tempListOfPublishedItems = null;
+                                uniqueItemPaths = null;
                                 itemsCreated = 0;
                                 itemsUpdated = 0;
                                 itemsSkipped = 0;
@@ -660,6 +662,24 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                                         itemsCreated += currentItemPublishStats.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsCreated);
                                         itemsUpdated += currentItemPublishStats.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsUpdated);
                                         itemsSkipped += currentItemPublishStats.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsSkipped);
+
+                                        GetItemPublishedStatsSummary(itemsCreated, itemsUpdated, itemsSkipped, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus);
+                                        itemPublishStatus.ItemsCreatedStatus += itemsCreatedStatus;
+                                        itemPublishStatus.ItemsUpdatedStatus += itemsUpdatedStatus;
+                                        itemPublishStatus.ItemsSkippedStatus += itemsSkippedStatus;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (tempListOfPublishedItems != null && tempListOfPublishedItems.Count > 0)
+                                {
+                                    ///get the sum of published stats of this parent item
+                                    foreach (string dbName in databaseNames)
+                                    {
+                                        itemsCreated = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsCreated);
+                                        itemsUpdated = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsUpdated);
+                                        itemsSkipped = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsSkipped);
 
                                         GetItemPublishedStatsSummary(itemsCreated, itemsUpdated, itemsSkipped, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus);
                                         itemPublishStatus.ItemsCreatedStatus += itemsCreatedStatus;
