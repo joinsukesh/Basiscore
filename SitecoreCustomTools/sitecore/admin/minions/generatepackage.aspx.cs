@@ -5,6 +5,7 @@ namespace SitecoreCustomTools.sitecore.admin.minions
     using Sitecore.Configuration;
     using Sitecore.Data;
     using Sitecore.Data.Items;
+    using Sitecore.Globalization;
     using Sitecore.Install;
     using Sitecore.Install.Framework;
     using Sitecore.Install.Items;
@@ -16,6 +17,7 @@ namespace SitecoreCustomTools.sitecore.admin.minions
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Web.Script.Serialization;
     using System.Web.Services;
 
@@ -47,7 +49,7 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                     if (!IsPostBack)
                     {
                         Session[SctConstants.Timestamp] = Server.UrlEncode(DateTime.Now.ToString());
-                    }                   
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -105,7 +107,7 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                     {
                         lblError.Text = "ERROR - " + ex.Message;
                         lblError.Visible = true;
-                        btnDownload.Visible = false; 
+                        btnDownload.Visible = false;
                     }
                 }
             }
@@ -146,7 +148,7 @@ namespace SitecoreCustomTools.sitecore.admin.minions
             {
                 if (ex.Message != "Thread was being aborted.")
                 {
-                    
+
                 }
             }
         }
@@ -239,6 +241,8 @@ namespace SitecoreCustomTools.sitecore.admin.minions
             sourceCollection.Add(packageItemSource);
             Item item = null;
             Database database = Factory.GetDatabase(generatePackageDataModel.DatabaseName);
+            Item itemByLanguage = null;
+            List<string> lstItemPathsToInclude = new List<string>();
 
             ///add items that are to be included with subitems
             foreach (string itemPath in generatePackageDataModel.GetItemPathsToIncludeWithSubitems())
@@ -247,37 +251,54 @@ namespace SitecoreCustomTools.sitecore.admin.minions
 
                 if (item != null)
                 {
-                    sourceCollection.Add(new ItemSource()
-                    {
-                        SkipVersions = true,
-                        Database = item.Uri.DatabaseName,
-                        Root = item.Uri.ItemID.ToString()
-                    });
+                    lstItemPathsToInclude.Add(itemPath);
+                    lstItemPathsToInclude.AddRange(item.Axes.GetDescendants().Select(x => x.Paths.FullPath));
                 }
             }
 
             ///add items that are to be included singly
             foreach (string itemPath in generatePackageDataModel.GetItemPathsToInclude())
             {
-                item = database.Items.GetItem(itemPath);
-                
-                if (item != null)
+                if (!lstItemPathsToInclude.Any(x => x.ToLower() == itemPath.ToLower()))
                 {
-                    packageItemSource.Entries.Add(new ItemReference(item.Uri, false).ToString());
+                    lstItemPathsToInclude.Add(itemPath);
+                }
+            }
+
+            if (lstItemPathsToInclude != null && lstItemPathsToInclude.Count > 0)
+            {
+                foreach(string itemPath in lstItemPathsToInclude)
+                {
+                    item = database.Items.GetItem(itemPath);
+
+                    if (item != null)
+                    {
+                        foreach (Language language in item.Languages)
+                        {
+                            itemByLanguage = item.Database.GetItem(item.ID, language);
+
+                            if (itemByLanguage != null && itemByLanguage.Versions.Count > 0)
+                            {
+                                packageItemSource.Entries.Add(new ItemReference(itemByLanguage.Uri, false).ToString());
+                            }
+                        }
+                    }
                 }
             }
 
             if (packageItemSource.Entries.Count > 0 || sourceCollection.Sources.Count > 1)
             {
+                string packageName = generatePackageDataModel.PackageName;
+                packageName += !string.IsNullOrEmpty(generatePackageDataModel.Version) ? packageName + "-" + generatePackageDataModel.Version : "";
                 packageProject.Sources.Add(sourceCollection);
                 packageProject.SaveProject = true;
-                fileName = string.Format("{0}/{1}.zip", Settings.PackagePath, generatePackageDataModel.PackageName + "-" + generatePackageDataModel.Version);
+                fileName = string.Format("{0}/{1}.zip", Settings.PackagePath, packageName);
                 fileNameWithPath = MainUtil.MapPath(fileName);
                 FileInfo file = new FileInfo(fileNameWithPath);
 
                 if (file.Exists)
                 {
-                    fileName = string.Format("{0}/{1}.zip", Settings.PackagePath, generatePackageDataModel.PackageName + "-" + generatePackageDataModel.Version + "_" + DateTime.Now.ToString("yyyyMMddhhmmss"));
+                    fileName = string.Format("{0}/{1}.zip", Settings.PackagePath, packageName + "_" + DateTime.Now.ToString("yyyyMMddhhmmss"));
                     fileNameWithPath = MainUtil.MapPath(fileName);
                 }
 
@@ -293,7 +314,6 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                 }
 
                 statusMessage = "Package created successfully in the instance packages folder.";
-                //statusMessage = "<p class=\"success-msg\">Package generated successfully. Click <a href=\"" + fileNameWithPath + "\">here</a> to download.</p>";
                 taskStatus = new TaskStatus { StatusCode = 1, StatusMessage = "Package created successfully in the instance packages folder.", FileName = fileName };
             }
             else
