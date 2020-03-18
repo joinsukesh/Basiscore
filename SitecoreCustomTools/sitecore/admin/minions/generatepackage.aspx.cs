@@ -289,7 +289,8 @@ namespace SitecoreCustomTools.sitecore.admin.minions
             if (packageItemSource.Entries.Count > 0 || sourceCollection.Sources.Count > 1)
             {
                 string packageName = generatePackageDataModel.PackageName;
-                packageName += !string.IsNullOrEmpty(generatePackageDataModel.Version) ? packageName + "-" + generatePackageDataModel.Version : "";
+                string packageVersion = generatePackageDataModel.Version;
+                packageName = !string.IsNullOrEmpty(packageVersion) ? packageName + "-" + packageVersion : packageName;
                 packageProject.Sources.Add(sourceCollection);
                 packageProject.SaveProject = true;
                 fileName = string.Format("{0}/{1}.zip", Settings.PackagePath, packageName);
