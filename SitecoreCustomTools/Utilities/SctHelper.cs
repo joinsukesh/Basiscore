@@ -85,7 +85,7 @@ namespace SitecoreCustomTools.Utilities
             return item;
         }
 
-        public static Item GetItem(string itemPath, Language language, string databaseName = "")
+        public static Item GetItem(string itemPath, Language language = null, string databaseName = "")
         {
             Item item = null;
             Database db = string.IsNullOrEmpty(databaseName) ? GetDatabase(SctConstants.DatabaseNames.Master) : GetDatabase(databaseName);

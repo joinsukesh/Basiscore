@@ -91,6 +91,7 @@
     <Content Include="sitecore\admin\minions\assets\js\app.js" />
     <Content Include="sitecore\admin\minions\assets\js\bootstrap.bundle.min.js" />
     <Content Include="sitecore\admin\minions\assets\js\jquery.min.js" />
+    <Content Include="sitecore\admin\minions\findbyvalue.aspx" />
     <Content Include="sitecore\admin\minions\generatepackage.aspx" />
     <Content Include="sitecore\admin\minions\index.aspx" />
     <Content Include="sitecore\admin\minions\publishitems.aspx" />
@@ -111,12 +112,15 @@
     </Compile>
     <Compile Include="Models\CustomPublishDataModel.cs" />
     <Compile Include="Models\CustomPublishReport.cs" />
+    <Compile Include="Models\FindByValueDataModel.cs" />
+    <Compile Include="Models\FindByValueReport.cs" />
     <Compile Include="Models\GeneratePackageDataModel.cs" />
     <Compile Include="Models\ItemPublishedStatus.cs" />
     <Compile Include="Models\MyPublisher.cs" />
     <Compile Include="Models\TaskStatus.cs" />
     <Compile Include="Models\TemplateMapperDataModel.cs" />
     <Compile Include="Models\TemplateMapperResult.cs" />
+    <Compile Include="Models\ValueMatchedItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SctConstants.cs" />
     <Compile Include="sitecore\admin\minions\Default.Master.cs">
@@ -125,6 +129,13 @@
     </Compile>
     <Compile Include="sitecore\admin\minions\Default.Master.designer.cs">
       <DependentUpon>Default.Master</DependentUpon>
+    </Compile>
+    <Compile Include="sitecore\admin\minions\findbyvalue.aspx.cs">
+      <DependentUpon>findbyvalue.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sitecore\admin\minions\findbyvalue.aspx.designer.cs">
+      <DependentUpon>findbyvalue.aspx</DependentUpon>
     </Compile>
     <Compile Include="sitecore\admin\minions\generatepackage.aspx.cs">
       <DependentUpon>generatepackage.aspx</DependentUpon>

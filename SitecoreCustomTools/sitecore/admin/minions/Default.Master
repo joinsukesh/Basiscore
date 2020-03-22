@@ -56,6 +56,13 @@
                                     <div id="submenu1" class="toplevelcontainer collapse">
                                         <div class="itemRow menuItem">
                                             <div class="rightcolumn">
+                                                <a href="/sitecore/admin/minions/findbyvalue.aspx" target="_self">
+                                                    <span class="rcpad">Find by Value</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="itemRow menuItem">
+                                            <div class="rightcolumn">
                                                 <a href="/sitecore/admin/minions/publishitems.aspx" target="_self">
                                                     <span class="rcpad">Publish Items</span>
                                                 </a>
