@@ -9,11 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title></title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
+    <%--<link rel="shortcut icon" href="/sitecore/images/favicon.ico" />--%>
+    <link rel="shortcut icon" href="/sitecore/admin/minions/assets/img/logian.png" />
     <link href="/sitecore/admin/minions/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/sitecore/admin/minions/assets/css/custom-speak-default-theme.css" rel="stylesheet" type="text/css" />
     <link href="/sitecore/admin/minions/assets/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/sitecore/admin/minions/assets/css/app.css?v=1.0" rel="stylesheet" />
+    <link href="/sitecore/admin/minions/assets/css/app.css?v=1.4" rel="stylesheet" />
     <script src="/sitecore/admin/minions/assets/js/jquery.min.js"></script>
     <script src="/sitecore/admin/minions/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/sitecore/admin/minions/assets/js/app.js?v=1.0"></script>
@@ -28,7 +29,10 @@
                 <div class="row sc-globalHeader-content">
                     <div class="col-md-6">
                         <div class="sc-globalHeader-startButton">
-                            <a class="sc-global-logo medium" href="/sitecore/shell/sitecore/client/Applications/Launchpad"></a>
+                            <%--<a class="sc-global-logo medium" href="/sitecore/shell/sitecore/client/Applications/Launchpad"></a>--%>
+                            <a class="minions-logo medium" href="/sitecore/shell/sitecore/client/Applications/Launchpad">
+                                <%--<img src="/assets/img/logian.png" />--%>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,7 @@ namespace SitecoreCustomTools.Utilities
     using Sitecore.Publishing.Pipelines.Publish;
     using Sitecore.SecurityModel;
     using SitecoreCustomTools.Models;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -355,7 +356,8 @@ namespace SitecoreCustomTools.Utilities
 
             if (!string.IsNullOrEmpty(name))
             {
-                char[] charsInName = name.ToLower().ToCharArray();
+                char[] charsInName = name.ToCharArray();
+
                 foreach (char character in charsInName)
                 {
                     if (!SctConstants.ValidCharacters.Contains(character))
@@ -371,6 +373,30 @@ namespace SitecoreCustomTools.Utilities
             }
 
             return isValidName;
+        }
+
+        public static string ReplaceFirstInstance(string source, string keyword, string replaceWith)
+        {
+            int keywordPosition = source.IndexOf(keyword, 0, StringComparison.CurrentCultureIgnoreCase);
+
+            if (keywordPosition < 0)
+            {
+                return source;
+            }
+
+            string result = source.Substring(0, keywordPosition) + replaceWith + source.Substring(keywordPosition + keyword.Length);
+            return result;
+        }
+
+        public static string ReplaceLastInstance(string source, string keyword, string replaceWith)
+        {
+            int keywordPosition = source.LastIndexOf(keyword, source.Length, StringComparison.CurrentCultureIgnoreCase);
+
+            if (keywordPosition == -1)
+                return source;
+
+            string result = source.Remove(keywordPosition, keyword.Length).Insert(keywordPosition, replaceWith);
+            return result;
         }
     }
 }

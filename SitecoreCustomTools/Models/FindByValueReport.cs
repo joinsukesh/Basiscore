@@ -9,6 +9,8 @@ namespace SitecoreCustomTools.Models
 
         public int TaskStatus { get; set; }
 
+        public string TaskStatusMessage { get; set; }
+
         public List<ValueMatchedItem> LstValueMatchedItems { get; set; }
     }
 }

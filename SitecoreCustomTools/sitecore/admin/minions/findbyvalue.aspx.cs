@@ -1,6 +1,7 @@
 ﻿
 namespace SitecoreCustomTools.sitecore.admin.minions
 {
+    using Microsoft.VisualBasic;
     using Sitecore.Data;
     using Sitecore.Data.Fields;
     using Sitecore.Data.Items;
@@ -9,6 +10,7 @@ namespace SitecoreCustomTools.sitecore.admin.minions
     using SitecoreCustomTools.Utilities;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using System.Web.Script.Serialization;
@@ -58,12 +60,69 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                             {
                                 result.TaskStatus = 1;
                                 result.LstValueMatchedItems = GetMatchLog(lstValueMatchedItems, findByValueDataModel.SelectedLanguages);
+                                result.TaskStatusMessage = "List of items whose field values have this keyword";
                             }
                             else
                             {
                                 result.TaskStatus = 0;
                                 result.Error = "No matches found for the keyword";
-                            }                            
+                            }
+                        }
+                        else
+                        {
+                            result.TaskStatus = 0;
+                            result.Error = error;
+                        }
+                    }
+                    else
+                    {
+                        result.Error = "Invalid input";
+                    }
+                }
+                else
+                {
+                    result.TaskStatus = 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.LstValueMatchedItems = new List<ValueMatchedItem>();
+                result.TaskStatus = 0;
+                result.Error = ex.Message;
+            }
+
+            output = new JavaScriptSerializer().Serialize(result);
+            return output;
+        }
+
+        [WebMethod]
+        public static string ReplaceKeyword(FindByValueDataModel findByValueDataModel)
+        {
+            FindByValueReport result = new FindByValueReport();
+            string error = "";
+            string output = "";
+
+            try
+            {
+                if (SctHelper.IsUserLoggedIn())
+                {
+                    if (IsValidModel(findByValueDataModel))
+                    {
+                        List<ValueMatchedItem> lstValueMatchedItems = FindItemsByValue(findByValueDataModel, out error);
+
+                        if (string.IsNullOrEmpty(error))
+                        {
+                            if (lstValueMatchedItems != null && lstValueMatchedItems.Count > 0)
+                            {
+                                result.TaskStatus = 1;
+                                result.LstValueMatchedItems = GetMatchLog(lstValueMatchedItems, findByValueDataModel.SelectedLanguages);
+                                result.TaskStatusMessage = "List of items whose field values are updated with the new value";
+                            }
+                            else
+                            {
+                                result.TaskStatus = 0;
+                                result.Error = "No matches found for the keyword";
+                            }
                         }
                         else
                         {
@@ -137,15 +196,24 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                 lstValueMatchedItems = new List<ValueMatchedItem>();
                 int matchCondition = dataModel.MatchCondition;
                 string keyword = dataModel.Keyword.Trim().ToLower();
+                int taskId = dataModel.TaskId;
+                List<Language> selectedLanguages = dataModel.SelectedLanguages;
                 List<string> lstFields = null;
                 Item itemByLanguage = null;
+                bool replaceKeywordInContent = false;
+                string replaceValue = dataModel.ReplaceValue;
 
                 foreach (Item item in lstItemsToCheck)
                 {
                     lstFields = new List<string>();
                     Language currentLanguage = item.Language;
-                    lstFields = GetValueMatchedFields(item, matchCondition, keyword);
-                    lstValueMatchedItems = AddToMatchedList(item, lstValueMatchedItems, lstFields);
+
+                    if (selectedLanguages.Any(x => x.Name == currentLanguage.Name))
+                    {
+                        replaceKeywordInContent = taskId == 2;
+                        lstFields = GetValueMatchedFields(item, matchCondition, keyword, replaceKeywordInContent, replaceValue);
+                        lstValueMatchedItems = AddToMatchedList(item, lstValueMatchedItems, lstFields); 
+                    }
 
                     List<Language> lstOtherSelectedLanguages = dataModel.SelectedLanguages.Where(x => x != currentLanguage).ToList();
 
@@ -153,7 +221,8 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                     {
                         lstFields = null;
                         itemByLanguage = SctHelper.GetItem(item.ID, language);
-                        lstFields = GetValueMatchedFields(itemByLanguage, matchCondition, keyword);
+                        replaceKeywordInContent = taskId == 2 && selectedLanguages.Any(x => x.Name == language.Name);
+                        lstFields = GetValueMatchedFields(itemByLanguage, matchCondition, keyword, replaceKeywordInContent, replaceValue);
                         lstValueMatchedItems = AddToMatchedList(itemByLanguage, lstValueMatchedItems, lstFields);
                     }
                 }
@@ -166,38 +235,55 @@ namespace SitecoreCustomTools.sitecore.admin.minions
             return lstValueMatchedItems;
         }
 
-        private static List<string> GetValueMatchedFields(Item item, int matchCondition, string keyword)
+        private static List<string> GetValueMatchedFields(Item item, int matchCondition, string keyword, bool replaceKeywordInContent = false, string replaceWith = "")
         {
             List<string> lstFields = null;
             bool matchFound = false;
+            string content = string.Empty;
+            string newFieldValue = string.Empty;
 
             if (item.Versions.Count > 0)
             {
+                keyword = keyword.ToLower();
                 lstFields = new List<string>();
                 item.Fields.ReadAll();
 
                 foreach (Field field in item.Fields)
                 {
                     matchFound = false;
+                    content = item.Fields[field.ID].Value;
 
                     switch (matchCondition)
                     {
                         case 1:
-                            if (item.Fields[field.ID].Value.ToLower().Contains(keyword))
+                            if (content.IndexOf(keyword, 0, StringComparison.CurrentCultureIgnoreCase) != -1)
                             {
                                 matchFound = true;
+
+                                if (replaceKeywordInContent)
+                                {
+                                    newFieldValue = Microsoft.VisualBasic.Strings.Replace(content, keyword, replaceWith, 1, -1,CompareMethod.Text);
+                                }
                             }
                             break;
                         case 2:
-                            if (item.Fields[field.ID].Value.ToLower().StartsWith(keyword))
+                            if (content.StartsWith(keyword, StringComparison.CurrentCultureIgnoreCase))
                             {
                                 matchFound = true;
+
+                                if (replaceKeywordInContent)
+                                {
+                                }
                             }
                             break;
                         case 3:
-                            if (item.Fields[field.ID].Value.ToLower().EndsWith(keyword))
+                            if (content.EndsWith(keyword, StringComparison.CurrentCultureIgnoreCase))
                             {
                                 matchFound = true;
+
+                                if (replaceKeywordInContent)
+                                {
+                                }
                             }
                             break;
                     }
@@ -205,6 +291,11 @@ namespace SitecoreCustomTools.sitecore.admin.minions
                     if (matchFound)
                     {
                         lstFields.Add(field.DisplayName);
+
+                        if (replaceKeywordInContent)
+                        {
+                            UpdateFieldValue(item, field.ID, newFieldValue);
+                        }
                     }
                 }
             }
@@ -266,7 +357,7 @@ namespace SitecoreCustomTools.sitecore.admin.minions
             {
                 foreach (Language language in languages)
                 {
-                    valueMatchedItem = lstValueMatchedItems.Where(x => x.ItemPath == itemPath && x.LanguageCode == language.Name).First();
+                    valueMatchedItem = lstValueMatchedItems.Where(x => x.ItemPath == itemPath && x.LanguageCode == language.Name).FirstOrDefault();
 
                     if (valueMatchedItem != null)
                     {
@@ -283,6 +374,12 @@ namespace SitecoreCustomTools.sitecore.admin.minions
             return lstMatchLog;
         }
 
+        private static void UpdateFieldValue(Item sourceItem, ID fieldId, string newFieldValue)
+        {
+            SctHelper.UpdateFieldValues(sourceItem, new List<KeyValuePair<ID, string>> {
+                                                    new KeyValuePair<ID, string> ( fieldId, newFieldValue )
+                                                });
+        }
         #endregion
     }
 }

@@ -11,8 +11,10 @@
     min-height: 518px;
 }
 
+.sc .form-control[disabled], .sc .form-control[readonly], .sc .form-control fieldset[disabled] {
+    opacity: 1;
+}
 /*#endregion */
-
 /*#region MODAL*/
 .modal-backdrop.show {
     opacity: .8 !important;
@@ -50,7 +52,22 @@
     background: #f0f0f0;
 }
 /*#endregion  */
+
 /*#region APP */
+.sc .minions-logo.medium {
+    margin-top: 8.5px;
+    width: 33px;
+    height: 33px;
+}
+
+.sc .minions-logo {
+    display: block;
+    background: url(/sitecore/admin/minions/assets/img/logian.png);
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: cover;
+}
+
 .center {
     text-align: center;
 }

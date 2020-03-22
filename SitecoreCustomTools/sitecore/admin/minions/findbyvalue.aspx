@@ -52,11 +52,18 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Match Condition</label>
         <div class="col-sm-4">
-            <asp:DropDownList ID="ddlMatchConditions" runat="server" CssClass="form-control" ClientIDMode="Static">
+            <asp:DropDownList ID="ddlMatchConditions" runat="server" CssClass="form-control" ClientIDMode="Static" Enabled="false">
                 <asp:ListItem Text="Contains" Value="1"></asp:ListItem>
-                <asp:ListItem Text="Starts With" Value="2"></asp:ListItem>
-                <asp:ListItem Text="Ends With" Value="3"></asp:ListItem>
+                <%--<asp:ListItem Text="Starts With" Value="2"></asp:ListItem>
+                <asp:ListItem Text="Ends With" Value="3"></asp:ListItem>--%>
             </asp:DropDownList>
+        </div>
+    </div>
+    <div class="divReplaceWith form-group row" style="display:none;">
+        <label class="col-sm-2 col-form-label">Replace Keyword With</label>
+        <div class="col-sm-4">
+            <asp:TextBox ID="txtReplaceWith" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+            <span class="">If this field is empty, the keyword in content will be replaced with empty string by the match condition.</span>
         </div>
     </div>
     <div class="form-group row">
@@ -75,7 +82,7 @@
         <div class="col-sm-12">
             <button type="button" id="btnReset" class="btn btn-default pull-left">RESET</button>
             <button type="button" id="btnFind" class="btn btn-primary pull-right">FIND ITEMS</button>
-            <button type="button" id="btnReplace" class="btn btn-primary pull-right" style="display: none;">FIND & REPLACE</button>
+            <button type="button" id="btnReplace" class="btn btn-primary pull-right" style="display: none;">REPLACE KEYWORD</button>
         </div>
     </div>
     <br />
@@ -86,6 +93,7 @@
                 <p id="pError" class="error-msg"></p>
             </div>
             <br />
+            <p id="pTaskStatus" class="success-msg"></p>
             <table id="tblResult" class="table table-striped table-bordered table-condensed" style="display: none;">
                 <thead>
                     <tr>
@@ -106,6 +114,19 @@
                 ClearFieldValues();
             });
 
+            $("#ddlTasks").change(function () {
+                if ($(this).val() == 2) {
+                    $("#btnFind").hide();
+                    $("#btnReplace").show();
+                    $(".divReplaceWith").show();
+                }
+                else {
+                    $("#btnFind").show();
+                    $("#btnReplace").hide();
+                    $(".divReplaceWith").hide();
+                }
+            });
+
             $("#chkAllLanguages").change(function () {
                 if ($(this).is(":checked")) {
                     $("#chkLanguages input[type='checkbox']").prop("checked", "checked");
@@ -124,16 +145,16 @@
             $("#btnFind").click(function () {
                 ClearResults();
 
-                if (IsValidModel(1)) {
+                if (IsValidModel()) {
                     var dataModel = GetDataModel(1);
                     OnSubmit(1, dataModel);
                 }
             });
 
-            $("#btnReplace").click(function () {
+            $("#btnReplace").click(function () {                
                 ClearResults();
 
-                if (IsValidModel(2)) {
+                if (IsValidModel()) {
                     var dataModel = GetDataModel(2);
                     OnSubmit(2, dataModel);
                 }
@@ -150,7 +171,7 @@
             dataModel.MatchCondition = $("#ddlMatchConditions").val();
 
             if (inputType == 2) {
-
+                dataModel.ReplaceValue = $("#txtReplaceWith").val();
             }
 
             dataModel.CommaSeparatedLanguageCodes = GetSelectedLanguageCodes().join(',');
@@ -184,6 +205,7 @@
                                 }
                                 else {
                                     if (objData.TaskStatus == 1) {
+                                        $("#pTaskStatus").html(objData.TaskStatusMessage);
                                         var rows = "";
                                         $.each(objData.LstValueMatchedItems, function () {
                                             rows += "<tr>";
@@ -216,7 +238,7 @@
             });
         }
 
-        function IsValidModel(task) {
+        function IsValidModel() {
             var isValidModel = true;
 
             if (app.StringNullOrEmpty($("#txtParentItem").val())) {
@@ -227,13 +249,6 @@
             if (app.StringNullOrEmpty($("#txtKeyword").val())) {
                 isValidModel = false;
                 $("#spKeyword").show();
-            }
-
-            if (task == 2) {
-                if (app.StringNullOrEmpty($("#txtReplaceValue").val())) {
-                    isValidModel = false;
-                    $("#spReplaceValue").show();
-                }
             }
 
             var selectedLanguageCodes = GetSelectedLanguageCodes();
@@ -266,6 +281,10 @@
             });
 
             $("#ddlTasks").val(1);
+            $("#btnFind").show();
+            $("#btnReplace").hide();
+            $(".divReplaceWith").hide();
+            $("#txtReplaceWith").val("");
             $("#ddlMatchConditions").val(1);
 
             //uncheck all checkboxes
@@ -281,6 +300,7 @@
         //clear result section
         function ClearResults() {
             $(".validation-msg").hide();
+            $("#pTaskStatus").html("");
             $("#tbResultRows").html("");
             $("#tblResult").hide();
             $(".divErrorLogContainer").hide();
