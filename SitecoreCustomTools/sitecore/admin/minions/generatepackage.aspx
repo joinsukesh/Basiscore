@@ -117,11 +117,7 @@
                 }
                 else {
                     return false;
-                }
-                //if (IsValidModel()) {
-                //    var dataModel = GetDataModel();
-                //    OnSubmit(dataModel);
-                //}
+                }                
             });
 
             $("#btnCloseStatusModal").click(function () {

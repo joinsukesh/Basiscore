@@ -31,7 +31,6 @@
                         <div class="sc-globalHeader-startButton">
                             <%--<a class="sc-global-logo medium" href="/sitecore/shell/sitecore/client/Applications/Launchpad"></a>--%>
                             <a class="minions-logo medium" href="/sitecore/shell/sitecore/client/Applications/Launchpad">
-                                <%--<img src="/assets/img/logian.png" />--%>
                             </a>
                         </div>
                     </div>

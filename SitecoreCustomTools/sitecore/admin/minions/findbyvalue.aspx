@@ -196,7 +196,7 @@
                         function () {
                             app.HideLoadingModal();
                             var objData = JSON.parse(data.d);
-                            console.log(objData);
+                            //console.log(objData);
 
                             if (objData != null) {
                                 if (objData.Error != null && objData.Error.length > 0) {
