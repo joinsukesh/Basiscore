@@ -69,7 +69,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
         {
             if (MinionHelper.IsUserLoggedIn())
             {
-                if (Session[MinionConstants.Timestamp].ToString() == ViewState[MinionConstants.Timestamp].ToString())
+                if (System.Convert.ToString(Session[MinionConstants.Timestamp]) == System.Convert.ToString(ViewState[MinionConstants.Timestamp]))
                 {
                     ViewState[MinionConstants.Timestamp] = DateTime.Now;
                     string statusMessage = string.Empty;
@@ -131,7 +131,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         }
                         else
                         {
-                            error += "ERROR:<br>" + error;
+                            error = "ERROR:<br>" + error;
                         }
                     }
                     catch (Exception ex)
@@ -219,7 +219,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
             if (!MinionHelper.IsValidFile(fupExcel.PostedFile.FileName, ValidFileExtensions))
             {
                 errorCount++;
-                sbError.AppendLine("Invalid file");
+                sbError.AppendLine("Invalid file<br>");
             }
 
             int startRow = MainUtil.GetInt(txtStartFromRow.Text.Trim(), 2);
@@ -227,19 +227,19 @@ namespace Basiscore.Minions.sitecore.admin.minions
             if (startRow < 2)
             {
                 errorCount++;
-                sbError.AppendLine("Invalid start row");
+                sbError.AppendLine("Invalid start row<br>");
             }
 
             string endRowInput = txtEndAtRow.Text.Trim();
 
             if (!string.IsNullOrEmpty(endRowInput))
             {
-                int endRow = MainUtil.GetInt(txtEndAtRow.Text.Trim(), -1);
+                int endRow = MainUtil.GetInt(endRowInput, -1);
 
-                if (startRow > endRow)
+                if (startRow > endRow || endRow < 2)
                 {
                     errorCount++;
-                    sbError.AppendLine("Invalid end row");
+                    sbError.AppendLine("Invalid end row<br>");
                 }
             }
 
@@ -359,7 +359,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                             }
                             else
                             {
-                                itemInfo.FailureReason = "Invalid item template";
+                                itemInfo.FailureReason = "Invalid template";
                                 lstInvalidItemInfo.Add(itemInfo);
                             }
                         }

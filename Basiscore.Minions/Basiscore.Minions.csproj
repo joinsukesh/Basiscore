@@ -103,11 +103,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sitecore\admin\minions\assets\css\animate.css" />
+    <Content Include="sitecore\admin\minions\assets\css\animate.min.css" />
     <Content Include="sitecore\admin\minions\assets\css\app.css" />
     <Content Include="sitecore\admin\minions\assets\css\bootstrap.min.css" />
     <Content Include="sitecore\admin\minions\assets\css\custom-speak-default-theme.css" />
     <Content Include="sitecore\admin\minions\assets\css\font-awesome.min.css" />
     <Content Include="sitecore\admin\minions\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="sitecore\admin\minions\assets\img\home\1.gif" />
+    <Content Include="sitecore\admin\minions\assets\img\home\10.gif" />
+    <Content Include="sitecore\admin\minions\assets\img\home\2.gif" />
+    <Content Include="sitecore\admin\minions\assets\img\home\3.gif" />
+    <Content Include="sitecore\admin\minions\assets\img\home\4.gif" />
+    <Content Include="sitecore\admin\minions\assets\img\home\5.gif" />
+    <Content Include="sitecore\admin\minions\assets\img\home\6.gif" />
+    <Content Include="sitecore\admin\minions\assets\img\home\7.gif" />
+    <Content Include="sitecore\admin\minions\assets\img\home\8.gif" />
+    <Content Include="sitecore\admin\minions\assets\img\home\9.gif" />
     <Content Include="sitecore\admin\minions\assets\img\logian.png" />
     <Content Include="sitecore\admin\minions\assets\img\minion-gum.gif" />
     <Content Include="sitecore\admin\minions\assets\img\sc-spinner32.gif" />

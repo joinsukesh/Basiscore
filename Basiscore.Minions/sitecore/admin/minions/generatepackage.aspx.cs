@@ -1,6 +1,8 @@
 ﻿
 namespace Basiscore.Minions.sitecore.admin.minions
 {
+    using Basiscore.Minions.Models;
+    using Basiscore.Minions.Utilities;
     using Sitecore;
     using Sitecore.Configuration;
     using Sitecore.Data;
@@ -12,8 +14,6 @@ namespace Basiscore.Minions.sitecore.admin.minions
     using Sitecore.Install.Zip;
     using Sitecore.SecurityModel;
     using Sitecore.sitecore.admin;
-    using Basiscore.Minions.Models;
-    using Basiscore.Minions.Utilities;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -68,7 +68,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
             {
                 try
                 {
-                    if (Session[MinionConstants.Timestamp].ToString() == ViewState[MinionConstants.Timestamp].ToString())
+                    if (System.Convert.ToString(Session[MinionConstants.Timestamp]) == System.Convert.ToString(ViewState[MinionConstants.Timestamp]))
                     {
                         ViewState[MinionConstants.Timestamp] = DateTime.Now;
                         GeneratePackageDataModel generatePackageDataModel = new GeneratePackageDataModel();
@@ -121,7 +121,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
         {
             try
             {
-                if (Session[MinionConstants.Timestamp].ToString() == ViewState[MinionConstants.Timestamp].ToString())
+                if (System.Convert.ToString(Session[MinionConstants.Timestamp]) == System.Convert.ToString(ViewState[MinionConstants.Timestamp]))
                 {
                     string filePath = MainUtil.MapPath(hdnFileName.Value);
                     FileInfo file = new FileInfo(filePath);
@@ -188,7 +188,6 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 {
                     if (IsValidModel(generatePackageDataModel, out statusMessage))
                     {
-                        //GeneratePackage(generatePackageDataModel, out statusMessage);
                         result.ResultStatus = 1;
                         result.ResultMessage = "<p class=\"success-msg\">Package generated successfully. Click <a href=\"#\">here</a> to download.</p>";
                     }

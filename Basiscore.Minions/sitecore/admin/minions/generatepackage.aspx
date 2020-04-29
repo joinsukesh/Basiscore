@@ -8,11 +8,25 @@
     <asp:HiddenField ID="hdnFileName" runat="server" ClientIDMode="Static" Value="" />
     <div class="row">
         <div class="col-md-12">
-            <blockquote class="blockquote bg-warning">
-                <p>
-                    Specify the item paths and generate a Sitecore package for them. The package will be created in the instance's packages folder.
-                </p>
-            </blockquote>
+            <div class="panel-group">
+                <div class="panel summary-panel">
+                    <a class="anc-summary-panel-heading-section" data-toggle="collapse" href="#collapse1">
+                        <div class="bg-burlywood bg-noise summary-panel-heading-section">
+                            <h4 class="panel-title">Instructions
+                            </h4>
+                            <span class="expand-collapse-icon fa fa-chevron-down"></span>
+                        </div>
+                    </a>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body summary-panel-body-section">
+                            <p>
+                                Use this utility to quickly generate a Sitecore package by specifying the item paths.<br />
+                                You can download the package just after it is created. It will also be created in the instance's packages folder.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <hr />
@@ -118,7 +132,7 @@
                 }
                 else {
                     return false;
-                }                
+                }
             });
 
             $("#btnCloseStatusModal").click(function () {

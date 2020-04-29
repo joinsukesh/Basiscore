@@ -13,12 +13,13 @@
     <link rel="shortcut icon" href="/sitecore/admin/minions/assets/img/logian.png" />
     <link href="/sitecore/admin/minions/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/sitecore/admin/minions/assets/css/custom-speak-default-theme.css" rel="stylesheet" type="text/css" />
+    <link href="/sitecore/admin/minions/assets/css/animate.min.css" rel="stylesheet" />
     <link href="/sitecore/admin/minions/assets/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/sitecore/admin/minions/assets/css/app.css?v=1.6" rel="stylesheet" />
+    <link href="/sitecore/admin/minions/assets/css/app.css?v=150420" rel="stylesheet" />
     <script src="/sitecore/admin/minions/assets/js/jquery.min.js"></script>
     <script src="/sitecore/admin/minions/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="/sitecore/admin/minions/assets/js/loadmessages.js?v=1.0"></script>
-    <script src="/sitecore/admin/minions/assets/js/app.js?v=1.5"></script>
+    <script src="/sitecore/admin/minions/assets/js/loadmessages.js?v=150420"></script>
+    <script src="/sitecore/admin/minions/assets/js/app.js?v=150420"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -31,7 +32,7 @@
                     <div class="col-md-6">
                         <div class="sc-globalHeader-startButton">
                             <%--<a class="sc-global-logo medium" href="/sitecore/shell/sitecore/client/Applications/Launchpad"></a>--%>
-                            <a class="minions-logo medium" href="/sitecore/shell/sitecore/client/Applications/Launchpad"></a>
+                            <a class="minions-logo medium" href="/sitecore/admin/minions/index.aspx" target="_self"></a>
                         </div>
                     </div>
                 </div>

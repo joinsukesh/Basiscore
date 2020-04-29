@@ -2,12 +2,21 @@
     $(".moduleName").html($(".hdnModuleName").val());
     app.HighlightActiveMenu();
 
+    /*--SECTION SUMMARY EXPAND COLLAPSE ICONS--*/
+    $(".summary-panel .panel-collapse").on("show.bs.collapse", function () {        
+        $(this).siblings(".anc-summary-panel-heading-section").addClass("active");
+    });
 
+    $(".summary-panel .panel-collapse").on("hide.bs.collapse", function () {
+        $(this).siblings(".anc-summary-panel-heading-section").removeClass("active");        
+    });
+    /*--END SECTION SUMMARY EXPAND COLLAPSE ICONS--*/
 });
 
 var app = {
     scrollDuration: 1000,
     modalShowDelay: 3000,
+    minionQuoteDelay: 3000,
 
     StringNullOrEmpty(value) {
         return value == null || value == undefined || (value.trim()).length <= 0;
@@ -22,7 +31,7 @@ var app = {
 
     HideLoadingModal() {
         $("#pWaitMessage").html("");
-        $("#mdlLoad").modal("hide");  
+        $("#mdlLoad").modal("hide");
     },
 
     HighlightActiveMenu() {
@@ -39,6 +48,13 @@ var app = {
                 $(menuItem).addClass("active");
             }
         }
+    },
+
+    /// Function to generate random number in a range 
+    GetRandomNumber(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 };
 

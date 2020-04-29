@@ -6,17 +6,31 @@
     <input type="hidden" class="hdnModuleName" value="<%=Page.Title%>" />
     <div class="row">
         <div class="col-md-12">
-            <blockquote class="blockquote bg-warning">
-                <p>
-                    Use this tool for these item field related tasks, in the master database<br />
-                    Find all items that have the keyword as a raw value, in any of their fields.<br />
-                    Replace the keyword in a field value<br />
-                    Update the field value.
-                    <br />
-                    <br />
-                    <strong>NOTE: </strong>For a faster search, specify the target template, field IDs & select only the reqd. language.
-                </p>
-            </blockquote>
+            <div class="panel-group">
+                <div class="panel summary-panel">
+                    <a class="anc-summary-panel-heading-section" data-toggle="collapse" href="#collapse1">
+                        <div class="bg-cadetblue bg-noise summary-panel-heading-section">
+                            <h4 class="panel-title">Instructions
+                            </h4>
+                            <span class="expand-collapse-icon fa fa-chevron-down"></span>
+                        </div>
+                    </a>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body summary-panel-body-section">
+                            <p>
+                                Use this tool for these item field related tasks, in the master database.<br />
+                                <ul>
+                                    <li>Find all items that have the keyword as a raw value, in any of their fields.</li>
+                                    <li>Replace the keyword in a field value.</li>
+                                    <li>Update the field value.</li>
+                                </ul>                                
+                                <br />
+                                <strong>NOTE: </strong>For a faster search, specify the target template, field IDs & select only the required language.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <hr />
@@ -48,8 +62,8 @@
             <span class="text-muted">Enter ID of the template. Child items of only this template will be searched.</span>
         </div>
     </div>
-    <div class="form-group row"> 
-        <label class="col-sm-2 col-form-label">Target Field <span class="task-3 required" style="display:none;">*</span></label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Target Field <span class="task-3 required" style="display: none;">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtFieldId" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
             <span class="text-muted">Enter ID of the field whose value should be searched/updated.</span><br />
@@ -63,7 +77,7 @@
             <span id="spKeyword" class="validation-msg">This field is required</span>
         </div>
     </div>
-    
+
     <div class="form-group row" style="display: none;">
         <label class="col-sm-2 col-form-label">Match Condition</label>
         <div class="col-sm-4">

@@ -6,12 +6,25 @@
     <input type="hidden" class="hdnModuleName" value="<%=Page.Title%>" />
     <div class="row">
         <div class="col-md-12">
-            <blockquote class="blockquote bg-warning">
-                <p>
-                    <strong>USE CASE: </strong>As a developer, whenever you create a <em>Sitecore Template</em>, you also need to have its ID, field references & a related <em>C# class</em>, to access items.
-                    Use this tool to generate template references and its mapper class, that you can copy & use in your code.
-                </p>
-            </blockquote>
+            <div class="panel-group">
+                <div class="panel summary-panel">
+                    <a class="anc-summary-panel-heading-section" data-toggle="collapse" href="#collapse1">
+                        <div class="bg-darkkhaki bg-noise summary-panel-heading-section">
+                            <h4 class="panel-title">Instructions
+                            </h4>
+                            <span class="expand-collapse-icon fa fa-chevron-down"></span>
+                        </div>
+                    </a>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body summary-panel-body-section">
+                            <p>
+                                As a developer, whenever you create a <em>Sitecore Template</em>, you also need to have its ID, field references & a related <em>C# class</em>, to access the related items.<br />
+                                Use this tool to generate template references and its mapper class, that you can copy & use in your code.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>            
         </div>
     </div>
     <hr />
@@ -36,7 +49,7 @@
                 <button type="button" id="btnReset" class="btn btn-default  mtop21">RESET</button>
             </div>
         </div>
-    </div>    
+    </div>
     <br />
     <div class="row">
         <div class="col-lg-12">

@@ -6,13 +6,26 @@
     <input type="hidden" class="hdnModuleName" value="<%=Page.Title%>" />
     <div class="row">
         <div class="col-md-12">
-            <blockquote class="blockquote bg-warning">
-                <p>
-                    <strong>USE CASE:</strong> When a Sitecore package is installed in an instance, generally, the items in that package may also need to be published to the <em>Web</em> databases. 
-                    This tool will help you perform a <em>Smart Publish</em> for bulk items, from <em>Master</em> to the target database(s), in one go.<br />
-                    There are two input modes to choose from - Enter the paths of the items to be published, or pick them from an existing Sitecore package.
-                </p>
-            </blockquote>
+            <div class="panel-group">
+                <div class="panel summary-panel">
+                    <a class="anc-summary-panel-heading-section" data-toggle="collapse" href="#collapse1">
+                        <div class="bg-rosybrown bg-noise summary-panel-heading-section">
+                            <h4 class="panel-title">Instructions
+                            </h4>
+                            <span class="expand-collapse-icon fa fa-chevron-down"></span>
+                        </div>
+                    </a>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body summary-panel-body-section">
+                            <p>
+                                When a Sitecore package is installed in an instance, generally, the items in that package may also need to be published to the <em>Web</em> databases. <br />
+                                This tool will help you perform a <strong><em>Smart Publish</em></strong> for bulk items, from <em>Master</em> to the target database(s), in one go.<br />
+                                There are two input modes to choose from - Enter the paths of the items to be published, or pick them from an existing Sitecore package.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <hr />
@@ -104,9 +117,9 @@
                 <div class="col-md-6">
                     <div class="chkboxlist-container">
                         <label>Publishing languages</label><br />
-                        <input type="checkbox" id="chkAllLanguages"/>&nbsp;Select all<br />
-                        <asp:CheckBoxList ID="chkLanguages" runat="server" CssClass="chkboxlist chkLanguage" 
-                            RepeatLayout="Flow" ClientIDMode="Static">                            
+                        <input type="checkbox" id="chkAllLanguages" />&nbsp;Select all<br />
+                        <asp:CheckBoxList ID="chkLanguages" runat="server" CssClass="chkboxlist chkLanguage"
+                            RepeatLayout="Flow" ClientIDMode="Static">
                         </asp:CheckBoxList>
                     </div>
                     <span id="spLanguageCodes" class="validation-msg">Atleast one language should be selected</span>
@@ -115,7 +128,8 @@
                     <div class="chkboxlist-container">
                         <label>Publishing targets</label><br />
                         <asp:CheckBoxList ID="chkDatabases" runat="server" CssClass="chkboxlist"
-                            RepeatLayout="Flow" ClientIDMode="Static"></asp:CheckBoxList>
+                            RepeatLayout="Flow" ClientIDMode="Static">
+                        </asp:CheckBoxList>
                     </div>
                     <span id="spDbNames" class="validation-msg">Atleast one target should be selected</span>
                 </div>
@@ -204,7 +218,7 @@
             $(".chkLanguage").change(function () {
                 if (!$(this).is(":checked")) {
                     $("#chkAllLanguages").prop("checked", "");
-                }                
+                }
             });
 
             $("body").on("change", "#tbPipRows input[type='checkbox']", function () {

@@ -7,33 +7,48 @@
     <asp:HiddenField ID="hdnPostbackComplete" runat="server" ClientIDMode="Static" Value="0" />
     <div class="row">
         <div class="col-md-12">
-            <blockquote class="blockquote bg-warning">
-                <p>Import data from an excel sheet to create or update Sitecore items.</p>
-                <ul>
-                    <li>The Sitecore template(s) with which the items should be created, should already exist in your CMS.</li>
-                    <li>Use only an excel file with <strong>.xlsx</strong> extension.</li>
-                    <li>The data should be in the first worksheet of the excel file.</li>
-                    <li>The first row should have column headers with these names and exactly in this order - <strong>ITEM_NAME</strong> | <strong>ITEM_TEMPLATE</strong> | <strong>PARENT_ITEM</strong></li>
-                    <li>Each row after that, should have information about one item.
+            <div class="panel-group">
+                <div class="panel summary-panel">
+                    <a class="anc-summary-panel-heading-section" data-toggle="collapse" href="#collapse1">
+                        <div class="bg-warning bg-noise summary-panel-heading-section">
+                            <h4 class="panel-title">Instructions
+                            </h4>
+                            <span class="expand-collapse-icon fa fa-chevron-down"></span>
+                        </div>
+                    </a>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body summary-panel-body-section">
+                            <p>Import data from an excel sheet to create or update Sitecore items.</p>
+                            <ul>
+                                <li>The Sitecore template(s) with which the items should be created, should already exist in your CMS.</li>
+                                <li>Use only an excel file with <strong>.xlsx</strong> extension.</li>
+                                <li>The data should be in the first worksheet of the excel file.</li>
+                                <li>The first row should have column headers with these names and exactly in this order - <strong>ITEM_NAME</strong> | <strong>ITEM_TEMPLATE</strong> | <strong>PARENT_ITEM</strong></li>
+                                <li>Each row after that, should have information about one item.
                             <ul>
                                 <li><em>ITEM_NAME</em> - Enter a valid Sitecore item name</li>
                                 <li><em>ITEM_TEMPLATE</em> - Enter path or ID of the template with which the item should be created.</li>
                                 <li><em>PARENT_ITEM</em> - Enter path or ID of the parent item under which this item should be created.</li>
                             </ul>
-                    </li>
-                    <li>You can also specify field names and their values, when creating or updating the items. To do this, add the field name(s) after the third column.<br />
-                        For e.g., ITEM_NAME | ITEM_TEMPLATE | PARENT_ITEM | MyField1 | MyField2 | ...<br />
-                        Ensure that the column name matches exactly with the item's field name.<br />
-                        It is not necessary that all rows should have items info of only one template. You can have the data for items of different templates in the same sheet. If an item does not have that field, leave the respective cell empty. Check the sample sheet for reference.
-                    </li>
-                    <li>If you have marked '<i>If Item Exists, Update Field Values</i>', and the related cell value is empty, the respective field in CMS will be replaced with an empty string.
-                    </li>
-                    <li>Click <a href="/sitecore/admin/minions/assets/files/ImportExcelDataSample.xlsx">here</a> to download the sample excel file.<br />
-                        You can see that, I have Country and State records in the same sheet. The templates for Country and State are already created in the CMS.<br />
-                        The Country will be created first and then the States under it.
-                    </li>
-                </ul>
-            </blockquote>
+                                </li>
+                                <li>You can also specify field names and their values, when creating or updating the items. To do this, add the field name(s) after the third column.<br />
+                                    For e.g., <em>ITEM_NAME</em> | <em>ITEM_TEMPLATE</em> | <em>PARENT_ITEM</em> | <em>MyField1</em> | <em>MyField2</em> | ...<br />
+                                    Ensure that the column name matches exactly with the item's field name.<br />
+                                    It is not necessary that all rows should have items info of only one template. You can have the data for items of different templates in the same sheet. If an item does not have that field, leave the respective cell empty. Check the sample sheet for reference.
+                                </li>
+                                <li>If you have marked '<i>Update Field Values if Item Exists</i>', and the related cell value is empty, the respective field in CMS will be replaced with an empty string.
+                                </li>
+                                <li>Click <a href="/sitecore/admin/minions/assets/files/ImportExcelDataSample.xlsx"><strong>here</strong></a> to download the template excel file.<br />
+                                    You can see that, the <em>Country</em> & <em>State</em> are different templates, with these fields.<br />
+                                    Country - Title, Code, Currency<br />
+                                    State - Title, Code, Minimum Wage<br />
+                                    Refer the sheet to understand how to create/update items with field values.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>            
         </div>
     </div>
     <hr />
@@ -87,10 +102,9 @@
             <div class="divStatus">
                 <asp:Literal ID="ltStatus" runat="server" ClientIDMode="Static">
                 </asp:Literal>
-            </div>
+            </div>           
             <br />
-            <br />
-            <div id="tblResult" runat="server">
+            <div id="tblResult" runat="server" class="tblResult">
             </div>
         </div>
     </div>
@@ -194,17 +208,15 @@
 
             $("#ddlLanguages").prop('selectedIndex', 0);
             $("#chkUpdateFieldValues").prop("checked", "");
-            $("#tblResult").html("");
-            $("#divStatus").html("");
-            $(".validation-msg").html("");
-            $(".validation-msg").hide();
+            ClearResults();
         }
 
         ///clear result section
         function ClearResults() {
             $(".validation-msg").html("");
-            $("#divStatus").html("");
-            $("#tblResult").html("");
+            $(".validation-msg").hide();
+            $(".divStatus").html("");
+            $(".tblResult").html("");
             $("#hdnPostbackComplete").val("");
         }
 
