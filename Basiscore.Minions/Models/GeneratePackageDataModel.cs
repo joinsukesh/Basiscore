@@ -77,5 +77,6 @@ namespace Basiscore.Minions.Models
         public int ResultStatus { get; set; }
 
         public string ResultMessage { get; set; }
+
     }
 }

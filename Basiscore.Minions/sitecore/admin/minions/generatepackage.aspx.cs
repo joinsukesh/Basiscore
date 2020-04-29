@@ -18,6 +18,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Web.Script.Serialization;
     using System.Web.Services;
 
@@ -66,6 +67,15 @@ namespace Basiscore.Minions.sitecore.admin.minions
         {
             if (MinionHelper.IsUserLoggedIn())
             {
+                lblSuccess.Text = "";
+                hdnFileName.Value = "";
+                lblSuccess.Visible = false;
+                btnDownload.Visible = false;
+                lblError.Text = "";
+                lblError.Visible = false;
+                pnlInvalidPaths.Visible = false;
+                txtInvalidPaths.Text = "";
+
                 try
                 {
                     if (System.Convert.ToString(Session[MinionConstants.Timestamp]) == System.Convert.ToString(ViewState[MinionConstants.Timestamp]))
@@ -85,12 +95,19 @@ namespace Basiscore.Minions.sitecore.admin.minions
                             lblSuccess.Text = taskStatus.StatusMessage;
                             hdnFileName.Value = taskStatus.FileName;
                             lblSuccess.Visible = true;
+                            btnDownload.Visible = true;
                         }
                         else
                         {
                             lblError.Text = "ERROR - " + taskStatus.StatusMessage;
                             lblError.Visible = true;
                             btnDownload.Visible = false;
+
+                            if (taskStatus.StatusCode == 3)
+                            {
+                                pnlInvalidPaths.Visible = true;
+                                txtInvalidPaths.Text = taskStatus.InvalidPaths;
+                            }
                         }
 
                         hdnPostbackComplete.Value = "1";
@@ -218,7 +235,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
             statusMessage = string.Empty;
             fileName = string.Empty;
             string fileNameWithPath = string.Empty;
-
+            StringBuilder sbInvalidPaths = new StringBuilder("");
 
             PackageProject packageProject = new PackageProject
             {
@@ -252,6 +269,10 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 {
                     lstItemPathsToInclude.Add(itemPath);
                     lstItemPathsToInclude.AddRange(item.Axes.GetDescendants().Select(x => x.Paths.FullPath));
+                }
+                else
+                {
+                    sbInvalidPaths.AppendLine(itemPath);
                 }
             }
 
@@ -292,43 +313,56 @@ namespace Basiscore.Minions.sitecore.admin.minions
                             packageItemSource.Entries.Add(new ItemReference(item.Uri, false).ToString());
                         }
                     }
+                    else
+                    {
+                        sbInvalidPaths.AppendLine(itemPath);
+                    }
                 }
             }
 
-            if (packageItemSource.Entries.Count > 0 || sourceCollection.Sources.Count > 1)
+            string strInvalidPaths = sbInvalidPaths.ToString();
+
+            if (string.IsNullOrEmpty(strInvalidPaths))
             {
-                string packageName = generatePackageDataModel.PackageName;
-                string packageVersion = generatePackageDataModel.Version;
-                packageName = !string.IsNullOrEmpty(packageVersion) ? packageName + "-" + packageVersion : packageName;
-                packageProject.Sources.Add(sourceCollection);
-                packageProject.SaveProject = true;
-                fileName = string.Format("{0}/{1}.zip", Settings.PackagePath, packageName);
-                fileNameWithPath = MainUtil.MapPath(fileName);
-                FileInfo file = new FileInfo(fileNameWithPath);
-
-                if (file.Exists)
+                if (packageItemSource.Entries.Count > 0 || sourceCollection.Sources.Count > 1)
                 {
-                    fileName = string.Format("{0}/{1}.zip", Settings.PackagePath, packageName + "_" + DateTime.Now.ToString("yyyyMMddhhmmss"));
+                    string packageName = generatePackageDataModel.PackageName;
+                    string packageVersion = generatePackageDataModel.Version;
+                    packageName = !string.IsNullOrEmpty(packageVersion) ? packageName + "-" + packageVersion : packageName;
+                    packageProject.Sources.Add(sourceCollection);
+                    packageProject.SaveProject = true;
+                    fileName = string.Format("{0}/{1}.zip", Settings.PackagePath, packageName);
                     fileNameWithPath = MainUtil.MapPath(fileName);
-                }
+                    FileInfo file = new FileInfo(fileNameWithPath);
 
-                using (PackageWriter writer = new PackageWriter(fileNameWithPath))
-                {
-                    using (new SecurityDisabler())
+                    if (file.Exists)
                     {
-                        Sitecore.Context.SetActiveSite("shell");
-                        writer.Initialize(Installer.CreateInstallationContext());
-                        PackageGenerator.GeneratePackage(packageProject, writer);
-                        Sitecore.Context.SetActiveSite("website");
+                        fileName = string.Format("{0}/{1}.zip", Settings.PackagePath, packageName + "_" + DateTime.Now.ToString("yyyyMMddhhmmss"));
+                        fileNameWithPath = MainUtil.MapPath(fileName);
                     }
-                }
 
-                statusMessage = "Package created successfully in the instance packages folder.";
-                taskStatus = new TaskStatus { StatusCode = 1, StatusMessage = statusMessage, FileName = fileName };
+                    using (PackageWriter writer = new PackageWriter(fileNameWithPath))
+                    {
+                        using (new SecurityDisabler())
+                        {
+                            Sitecore.Context.SetActiveSite("shell");
+                            writer.Initialize(Installer.CreateInstallationContext());
+                            PackageGenerator.GeneratePackage(packageProject, writer);
+                            Sitecore.Context.SetActiveSite("website");
+                        }
+                    }
+
+                    statusMessage = "Package created successfully in the instance packages folder.";
+                    taskStatus = new TaskStatus { StatusCode = 1, StatusMessage = statusMessage, FileName = fileName };
+                }
+                else
+                {
+                    taskStatus = new TaskStatus { StatusCode = 0, StatusMessage = "No items found to create the package.", FileName = "" };
+                }
             }
             else
             {
-                taskStatus = new TaskStatus { StatusCode = 0, StatusMessage = "No items found to create the package.", FileName = "" };
+                taskStatus = new TaskStatus { StatusCode = 3, StatusMessage = "Package not created as there are invalid item paths. Close this dialog to check the log.", FileName = "", InvalidPaths = strInvalidPaths };
             }
 
             return taskStatus;

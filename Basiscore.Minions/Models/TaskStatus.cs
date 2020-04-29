@@ -8,5 +8,7 @@ namespace Basiscore.Minions.Models
         public string StatusMessage { get; set; }
 
         public string FileName { get; set; }
+
+        public string InvalidPaths { get; set; }
     }
 }

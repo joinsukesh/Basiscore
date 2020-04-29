@@ -80,6 +80,10 @@
                     <br />
                     <span id="spItemPaths" class="validation-msg">Atleast one item path should be provided</span>
                 </div>
+                <asp:Panel ID="pnlInvalidPaths" runat="server" CssClass="form-group" Visible="false" ClientIDMode="Static">
+                    <label class="errorLog">INVALID ITEM PATHS</label><br />
+                    <asp:TextBox ID="txtInvalidPaths" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="5" ClientIDMode="Static" BorderColor="Red" ReadOnly="true"></asp:TextBox>
+                </asp:Panel>
             </div>
             <br />
             <div class="row">
@@ -137,6 +141,12 @@
 
             $("#btnCloseStatusModal").click(function () {
                 $("#mdlStatus").modal("hide");
+
+                if ($("#pnlInvalidPaths").is(":visible")) {
+                    $("html, body").animate({
+                        scrollTop: $("#pnlInvalidPaths").offset().top
+                    }, app.scrollDuration);
+                }
             });
 
         });
@@ -194,12 +204,12 @@
         ///clear result section
         function ClearResults() {
             $(".validation-msg").hide();
-            $(".divStatusContainer").html("");
-            $(".divStatusContainer").hide();
             $("#hdnPostbackComplete").val("");
             $("#hdnFileName").val("");
             $("#lblError").html("");
             $("#lblSuccess").html("");
+            $("#txtInvalidPaths").val("");
+            $("#pnlInvalidPaths").hide();
         }
     </script>
 </asp:Content>

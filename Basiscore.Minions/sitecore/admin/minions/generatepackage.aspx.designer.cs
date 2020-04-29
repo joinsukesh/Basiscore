@@ -85,6 +85,24 @@ namespace Basiscore.Minions.sitecore.admin.minions {
         protected global::System.Web.UI.WebControls.TextBox txtIncludeItems;
         
         /// <summary>
+        /// pnlInvalidPaths control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlInvalidPaths;
+        
+        /// <summary>
+        /// txtInvalidPaths control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtInvalidPaths;
+        
+        /// <summary>
         /// btnGeneratePackage control.
         /// </summary>
         /// <remarks>

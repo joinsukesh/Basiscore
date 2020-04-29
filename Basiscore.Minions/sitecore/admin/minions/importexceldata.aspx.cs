@@ -78,6 +78,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     int startRowInExcelSheet = 2;
                     int endRowInExcelSheet = -1;
                     bool updateFieldValuesIfItemExists = false;
+                    ltStatus.Text = "";
+                    tblResult.InnerHtml = "";
 
                     try
                     {
