@@ -12,5 +12,7 @@ namespace Basiscore.Minions.Models
         public string TaskStatusMessage { get; set; }
 
         public List<ValueMatchedItem> LstValueMatchedItems { get; set; }
+
+        public string ColumnName { get; set; }
     }
 }

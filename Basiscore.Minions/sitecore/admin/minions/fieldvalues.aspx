@@ -21,9 +21,10 @@
                                 Use this tool for these item field related tasks, in the master database.<br />
                                 <ul>
                                     <li>Find all items that have the keyword as a raw value, in any of their fields.</li>
+                                    <li>Get items and their field values for a field.</li>
                                     <li>Replace the keyword in a field value.</li>
                                     <li>Update the field value.</li>
-                                </ul>                                
+                                </ul>
                                 <br />
                                 <strong>NOTE: </strong>For a faster search, specify the target template, field IDs & select only the required language.
                             </p>
@@ -37,20 +38,22 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Tasks</label>
         <div class="col-sm-4">
-            <asp:DropDownList ID="ddlTasks" runat="server" CssClass="form-control" ClientIDMode="Static">
+            <asp:dropdownlist id="ddlTasks" runat="server" cssclass="form-control" clientidmode="Static">
                 <asp:ListItem Text="Find Items by Field Value" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Get Items and Field Values by Field" Value="4"></asp:ListItem>
                 <asp:ListItem Text="Replace Keyword in Field Value" Value="2"></asp:ListItem>
                 <asp:ListItem Text="Update Field Value" Value="3"></asp:ListItem>
-            </asp:DropDownList>
-            <span class="task-1 text-muted">Find all the items under a parent node whose field value <strong>Contains</strong> the keyword.</span>
-            <span class="task-2 text-muted" style="display: none;">Replace all occurrences of the keyword in the item field value, with the replacement value.</span>
-            <span class="task-3 text-muted" style="display: none;">Update target field values with the replacement value.</span>
+            </asp:dropdownlist>
+            <span class="task task-1 text-muted">Find all items under a parent node whose field value <strong>Contains</strong> the keyword.</span>
+            <span class="task task-4 text-muted">Get all items under a parent node with field values, having this field.</span>
+            <span class="task task-2 text-muted" style="display: none;">Replace all occurrences of the keyword in the item field value, with the replacement value.</span>
+            <span class="task task-3 text-muted" style="display: none;">Update target field values with the replacement value.</span>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Parent Item <span class="required">*</span></label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtParentItem" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+            <asp:textbox id="txtParentItem" runat="server" cssclass="form-control" clientidmode="Static"></asp:textbox>
             <span class="text-muted">Enter ID of the parent item. All its descendants will be searched including this item.</span><br />
             <span id="spParentItem" class="validation-msg">This field is required</span>
         </div>
@@ -58,22 +61,22 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Target Item Template</label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtTargetItemTemplate" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+            <asp:textbox id="txtTargetItemTemplate" runat="server" cssclass="form-control" clientidmode="Static"></asp:textbox>
             <span class="text-muted">Enter ID of the template. Child items of only this template will be searched.</span>
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Target Field <span class="task-3 required" style="display: none;">*</span></label>
+        <label class="col-sm-2 col-form-label">Target Field <span class="task task-3 task-4 required" style="display: none;">*</span></label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtFieldId" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+            <asp:textbox id="txtFieldId" runat="server" cssclass="form-control" clientidmode="Static"></asp:textbox>
             <span class="text-muted">Enter ID of the field whose value should be searched/updated.</span><br />
             <span id="spFieldId" class="validation-msg">This field is required</span>
         </div>
     </div>
-    <div class="task-1 task-2 form-group row">
+    <div class="task task-1 task-2 form-group row">
         <label class="col-sm-2 col-form-label">Search For <span class="required">*</span></label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtKeyword" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+            <asp:textbox id="txtKeyword" runat="server" cssclass="form-control" clientidmode="Static"></asp:textbox>
             <span id="spKeyword" class="validation-msg">This field is required</span>
         </div>
     </div>
@@ -81,43 +84,50 @@
     <div class="form-group row" style="display: none;">
         <label class="col-sm-2 col-form-label">Match Condition</label>
         <div class="col-sm-4">
-            <asp:DropDownList ID="ddlMatchConditions" runat="server" CssClass="form-control" ClientIDMode="Static" Enabled="false">
+            <asp:dropdownlist id="ddlMatchConditions" runat="server" cssclass="form-control" clientidmode="Static" enabled="false">
                 <asp:ListItem Text="Contains" Value="1"></asp:ListItem>
-            </asp:DropDownList>
+            </asp:dropdownlist>
         </div>
     </div>
-    <div class="task-2 task-3 form-group row" style="display: none;">
+    <div class="task task-2 task-3 form-group row" style="display: none;">
         <label class="col-sm-2 col-form-label">New Field Value</label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtReplaceWith" runat="server" CssClass="form-control" ClientIDMode="Static" TextMode="MultiLine" Rows="3" autocomplete="on"></asp:TextBox>
-            <span class="task-2 text-muted" style="display: none;">If this field is empty, the keyword in content will be replaced with an empty string.</span>
-            <span class="task-3 text-muted" style="display: none;">If this field is empty, the field value will be replaced with an empty string.</span>
+            <asp:textbox id="txtReplaceWith" runat="server" cssclass="form-control" clientidmode="Static" textmode="MultiLine" rows="3" autocomplete="on"></asp:textbox>
+            <span class="task task-2 text-muted" style="display: none;">If this field is empty, the keyword in content will be replaced with an empty string.</span>
+            <span class="task task-3 text-muted" style="display: none;">If this field is empty, the field value will be replaced with an empty string.</span>
         </div>
     </div>
-    <div class="task-2 task-3 form-group row" style="display: none;">
+    <div class="task task-2 task-3 form-group row" style="display: none;">
         <label class="col-sm-2 col-form-label">Create New Language Version</label>
         <div class="col-sm-4">
-            <asp:CheckBox ID="chkCreateVersion" runat="server" CssClass="checkbox-inline" ClientIDMode="Static" Checked="true"></asp:CheckBox>
+            <asp:checkbox id="chkCreateVersion" runat="server" cssclass="checkbox-inline" clientidmode="Static" checked="true"></asp:checkbox>
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row task task-1 task-2 task-3">
         <label class="col-sm-2 col-form-label">Target Languages</label>
         <div class="col-md-4">
             <div class="chkboxlist-container">
                 <input type="checkbox" id="chkAllLanguages" />&nbsp;Select all<br />
-                <asp:CheckBoxList ID="chkLanguages" runat="server" CssClass="chkboxlist chkLanguage"
-                    RepeatLayout="Flow" ClientIDMode="Static">
-                </asp:CheckBoxList>
+                <asp:checkboxlist id="chkLanguages" runat="server" cssclass="chkboxlist chkLanguage"
+                    repeatlayout="Flow" clientidmode="Static">
+                </asp:checkboxlist>
             </div>
             <span id="spLanguageCodes" class="validation-msg">Atleast one language should be selected</span>
+        </div>
+    </div>
+    <div class="form-group row task task-4" style="display: none;">
+        <label class="col-sm-2 col-form-label">Target Language</label>
+        <div class="col-sm-4">            
+            <asp:dropdownlist id="ddlLanguages" runat="server" cssclass="form-control" clientidmode="Static">
+            </asp:dropdownlist>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <button type="button" id="btnReset" class="btn btn-default pull-left">RESET</button>
-            <button type="button" id="btnFind" class="btn btn-primary pull-right task-1">FIND ITEMS</button>
-            <button type="button" id="btnReplace" class="btn btn-primary pull-right task-2" style="display: none;">REPLACE</button>
-            <button type="button" id="btnUpdate" class="btn btn-primary pull-right task-3" style="display: none;">UPDATE</button>
+            <button type="button" id="btnFind" class="btn btn-primary pull-right task task-1 task-4">FIND ITEMS</button>
+            <button type="button" id="btnReplace" class="btn btn-primary pull-right task task-2" style="display: none;">REPLACE</button>
+            <button type="button" id="btnUpdate" class="btn btn-primary pull-right task task-3" style="display: none;">UPDATE</button>
         </div>
     </div>
     <br />
@@ -135,7 +145,7 @@
                         <th class="col-sm-1 text-center">#</th>
                         <th class="col-sm-3">ITEM ID</th>
                         <th class="col-sm-5">ITEM PATH</th>
-                        <th class="col-sm-3">FIELDS WITH A MATCH</th>
+                        <th class="col-sm-3 thVariableColumn"></th>
                     </tr>
                 </thead>
                 <tbody id="tbResultRows">
@@ -153,21 +163,9 @@
 
             $("#ddlTasks").change(function () {
                 $(".validation-msg").hide();
-                $(".task-1").hide();
-                $(".task-2").hide();
-                $(".task-3").hide();
-
+                $(".task").hide();
                 var selectedTaskId = $(this).val();
-
-                if (selectedTaskId == 1) {
-                    $(".task-1").show();
-                }
-                else if (selectedTaskId == 2) {
-                    $(".task-2").show();
-                }
-                else if (selectedTaskId == 3) {
-                    $(".task-3").show();
-                }
+                $(".task-" + selectedTaskId).show();                
             });
 
             $("#chkAllLanguages").change(function () {
@@ -234,7 +232,13 @@
                 dataModel.CreateVersion = $("#chkCreateVersion").is(":checked");
             }
 
-            dataModel.CommaSeparatedLanguageCodes = GetSelectedLanguageCodes().join(',');
+            if (taskId == 1 || taskId == 2 || taskId == 3) {
+                dataModel.CommaSeparatedLanguageCodes = GetSelectedLanguageCodes().join(',');
+            }
+            else if (taskId == 4){
+                dataModel.TargetLanguageCode = $("#ddlLanguages").val();
+            }
+
             return dataModel;
         }
 
@@ -249,6 +253,9 @@
             }
             else if (task == 3) {
                 postUrl = "fieldvalues.aspx/UpdateFieldValue";
+            }
+            else if (task == 4) {
+                postUrl = "fieldvalues.aspx/GetItemsAndFieldValues";
             }
 
             $.ajax({
@@ -291,6 +298,14 @@
                                             rows += "</tr>";
                                             index++;
                                         });
+
+                                        if (task == 4) {
+                                            $(".thVariableColumn").html(objData.ColumnName);
+                                        }
+                                        else {
+                                            $(".thVariableColumn").html("FIELDS WITH A MATCH");
+                                        }
+                                        
                                         $("#tbResultRows").html(rows);
                                         $("#tblResult").show();
                                         $("html, body").animate({
@@ -332,18 +347,20 @@
                 }
             }
 
-            if (taskId == 3) {
+            if (taskId == 3 || taskId == 4) {
                 if (app.StringNullOrEmpty($("#txtFieldId").val())) {
                     isValidModel = false;
                     $("#spFieldId").show();
                 }
             }
 
-            var selectedLanguageCodes = GetSelectedLanguageCodes();
+            if (taskId == 1 || taskId == 2 || taskId == 3) {
+                var selectedLanguageCodes = GetSelectedLanguageCodes();
 
-            if (selectedLanguageCodes == null || selectedLanguageCodes.length <= 0) {
-                isValidModel = false;
-                $("#spLanguageCodes").show();
+                if (selectedLanguageCodes == null || selectedLanguageCodes.length <= 0) {
+                    isValidModel = false;
+                    $("#spLanguageCodes").show();
+                }
             }
 
             return isValidModel;
@@ -369,8 +386,8 @@
             });
 
             $("#ddlTasks").val(1);
+            $(".task").hide();
             $(".task-1").show();
-            $(".task-2, .task-3").hide();
             $("#ddlMatchConditions").val(1);
             $("#chkCreateVersion").prop("checked", "checked");
 

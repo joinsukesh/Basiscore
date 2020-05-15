@@ -92,5 +92,14 @@ namespace Basiscore.Minions.sitecore.admin.minions {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBoxList chkLanguages;
+        
+        /// <summary>
+        /// ddlLanguages control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlLanguages;
     }
 }

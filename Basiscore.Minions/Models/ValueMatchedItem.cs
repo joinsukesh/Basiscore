@@ -14,5 +14,6 @@ namespace Basiscore.Minions.Models
         public List<string> Fields { get; set; }
 
         public string MatchLog { get; set; }
+
     }
 }

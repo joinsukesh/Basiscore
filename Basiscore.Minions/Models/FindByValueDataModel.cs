@@ -1,9 +1,10 @@
 ﻿
 namespace Basiscore.Minions.Models
 {
-    using Sitecore.Globalization;
     using Basiscore.Minions.Utilities;
+    using Sitecore.Globalization;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class FindByValueDataModel
     {
@@ -30,6 +31,16 @@ namespace Basiscore.Minions.Models
             get
             {
                 return MinionHelper.GetTargetLanguages(CommaSeparatedLanguageCodes);
+            }
+        }
+
+        public string TargetLanguageCode { get; set; }
+
+        public Language SelectedLanguage
+        {
+            get
+            {
+                return MinionHelper.GetTargetLanguages(TargetLanguageCode).FirstOrDefault();
             }
         }
     }
