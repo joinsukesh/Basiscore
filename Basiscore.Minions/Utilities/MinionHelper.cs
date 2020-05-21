@@ -366,7 +366,7 @@ namespace Basiscore.Minions.Utilities
 
                             itemToUpdate.Editing.EndEdit();
                         }
-                    } 
+                    }
                 }
             }
         }
@@ -610,7 +610,7 @@ namespace Basiscore.Minions.Utilities
                         }
 
                         newItem.Editing.EndEdit();
-                    } 
+                    }
                 }
             }
 
@@ -656,6 +656,29 @@ namespace Basiscore.Minions.Utilities
             }
 
             return isValidFile;
+        }
+
+        public static List<Item> GetItemsFromPathOrId(List<string> lstItemPaths)
+        {
+            List<Item> lstItems = null;
+            Item item = null;
+
+            if (lstItemPaths != null && lstItemPaths.Count > 0)
+            {
+                lstItems = new List<Item>();
+
+                foreach (string itemPath in lstItemPaths)
+                {
+                    item = GetItem(itemPath);
+
+                    if (item != null)
+                    {
+                        lstItems.Add(item);
+                    }
+                }
+            }
+
+            return lstItems;
         }
     }
 }

@@ -152,7 +152,119 @@ namespace Basiscore.Minions.sitecore.admin.minions
         }
 
         [WebMethod]
+        public static string ReplaceKeywordForSpecifiedItems(FindByValueDataModel dataModel)
+        {
+            FindByValueReport result = new FindByValueReport();
+            string error = "";
+            string output = "";
+
+            try
+            {
+                if (MinionHelper.IsUserLoggedIn())
+                {
+                    if (IsValidModel(dataModel, out error))
+                    {
+                        List<ValueMatchedItem> lstValueMatchedItems = FindItemsByValue(dataModel, out error);
+
+                        if (string.IsNullOrEmpty(error))
+                        {
+                            if (lstValueMatchedItems != null && lstValueMatchedItems.Count > 0)
+                            {
+                                result.TaskStatus = 1;
+                                result.LstValueMatchedItems = GetMatchLog(lstValueMatchedItems, dataModel.SelectedLanguages);
+                                result.TaskStatusMessage = "List of items whose field values are updated";
+                            }
+                            else
+                            {
+                                result.TaskStatus = 0;
+                                result.Error = "No matches found for the keyword";
+                            }
+                        }
+                        else
+                        {
+                            result.TaskStatus = 0;
+                            result.Error = error;
+                        }
+                    }
+                    else
+                    {
+                        result.Error = error;
+                    }
+                }
+                else
+                {
+                    result.TaskStatus = 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.LstValueMatchedItems = new List<ValueMatchedItem>();
+                result.TaskStatus = 0;
+                result.Error = ex.Message;
+            }
+
+            output = new JavaScriptSerializer().Serialize(result);
+            return output;
+        }
+
+        [WebMethod]
         public static string UpdateFieldValue(FindByValueDataModel dataModel)
+        {
+            FindByValueReport result = new FindByValueReport();
+            string error = "";
+            string output = "";
+
+            try
+            {
+                if (MinionHelper.IsUserLoggedIn())
+                {
+                    if (IsValidModel(dataModel, out error))
+                    {
+                        List<ValueMatchedItem> lstValueMatchedItems = FindItemsByValue(dataModel, out error);
+
+                        if (string.IsNullOrEmpty(error))
+                        {
+                            if (lstValueMatchedItems != null && lstValueMatchedItems.Count > 0)
+                            {
+                                result.TaskStatus = 1;
+                                result.LstValueMatchedItems = GetMatchLog(lstValueMatchedItems, dataModel.SelectedLanguages);
+                                result.TaskStatusMessage = "List of items whose field values are updated";
+                            }
+                            else
+                            {
+                                result.TaskStatus = 0;
+                                result.Error = "No matches found for the keyword";
+                            }
+                        }
+                        else
+                        {
+                            result.TaskStatus = 0;
+                            result.Error = error;
+                        }
+                    }
+                    else
+                    {
+                        result.Error = error;
+                    }
+                }
+                else
+                {
+                    result.TaskStatus = 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.LstValueMatchedItems = new List<ValueMatchedItem>();
+                result.TaskStatus = 0;
+                result.Error = ex.Message;
+            }
+
+            output = new JavaScriptSerializer().Serialize(result);
+            return output;
+        }
+
+        [WebMethod]
+        public static string UpdateFieldValueByItemPaths(FindByValueDataModel dataModel)
         {
             FindByValueReport result = new FindByValueReport();
             string error = "";
@@ -297,14 +409,18 @@ namespace Basiscore.Minions.sitecore.admin.minions
 
             if (dataModel != null)
             {
-                if (dataModel.TaskId < 0 || dataModel.TaskId > 4)
+                if (dataModel.TaskId < 0 || dataModel.TaskId > 6)
                 {
                     error = "Invalid Task; ";
                 }
 
-                if (string.IsNullOrEmpty(dataModel.ParentItemId) || !MinionHelper.IsValidID(dataModel.ParentItemId))
+                if (dataModel.TaskId == 1 || dataModel.TaskId == 2 || 
+                    dataModel.TaskId == 3 || dataModel.TaskId == 4)
                 {
-                    error += "Invalid Parent Item Id; ";
+                    if (string.IsNullOrEmpty(dataModel.ParentItemId) || !MinionHelper.IsValidID(dataModel.ParentItemId))
+                    {
+                        error += "Invalid Parent Item Id; ";
+                    } 
                 }
 
                 if (!string.IsNullOrEmpty(dataModel.TargetTemplateId) && !MinionHelper.IsValidID(dataModel.TargetTemplateId))
@@ -312,15 +428,21 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     error += "Invalid target template Id; ";
                 }
 
-                if ((!string.IsNullOrEmpty(dataModel.TargetFieldId) || dataModel.TaskId == 3 || dataModel.TaskId == 4) &&
-                    !MinionHelper.IsValidID(dataModel.TargetFieldId))
+                if (dataModel.TaskId == 3 || dataModel.TaskId == 4 || dataModel.TaskId == 5)
                 {
-                    error += "Invalid target field Id; ";
+                    if ((!string.IsNullOrEmpty(dataModel.TargetFieldId)) &&
+                                !MinionHelper.IsValidID(dataModel.TargetFieldId))
+                    {
+                        error += "Invalid target field Id; ";
+                    } 
                 }
 
-                if ((dataModel.TaskId == 1 || dataModel.TaskId == 2) && string.IsNullOrEmpty(Convert.ToString(dataModel.Keyword).Trim()))
+                if (dataModel.TaskId == 1 || dataModel.TaskId == 2 || dataModel.TaskId == 6)
                 {
-                    error += "Invalid search keyword; ";
+                    if (string.IsNullOrEmpty(Convert.ToString(dataModel.Keyword).Trim()))
+                    {
+                        error += "Invalid search keyword; ";
+                    } 
                 }
 
                 if (dataModel.MatchCondition < 0 || dataModel.MatchCondition > 3)
@@ -328,7 +450,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     error += "Invalid input; ";
                 }
 
-                if (dataModel.TaskId == 1 || dataModel.TaskId == 2 || dataModel.TaskId == 3)
+                if (dataModel.TaskId == 1 || dataModel.TaskId == 2 || 
+                    dataModel.TaskId == 3 || dataModel.TaskId == 5 || dataModel.TaskId == 6)
                 {
                     if (dataModel.SelectedLanguages == null || dataModel.SelectedLanguages.Count == 0)
                     {
@@ -340,6 +463,16 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     if (dataModel.SelectedLanguage == null)
                     {
                         error += "Invalid target language; ";
+                    }
+                }
+
+                if (dataModel.TaskId == 5 || dataModel.TaskId == 6)
+                {
+                    List<string> lstItemPaths = dataModel.GetItemPaths();
+
+                    if (lstItemPaths == null || lstItemPaths.Count == 0)
+                    {
+                        error += "Invalid item paths; ";
                     }
                 }
             }
@@ -356,20 +489,31 @@ namespace Basiscore.Minions.sitecore.admin.minions
         {
             errorLog = string.Empty;
             List<ValueMatchedItem> lstValueMatchedItems = null;
-            List<Item> lstItemsToCheck = GetCheckListItems(dataModel.ParentItemId, dataModel.TargetTemplateId);
+            List<Item> lstItemsToCheck = null;
+            int taskId = dataModel.TaskId;
+
+            if (taskId == 5 || taskId == 6)
+            {
+                lstItemsToCheck = MinionHelper.GetItemsFromPathOrId(dataModel.GetItemPaths()); 
+            }
+            else
+            {
+                lstItemsToCheck = GetCheckListItems(dataModel.ParentItemId, dataModel.TargetTemplateId);
+            }
 
             if (lstItemsToCheck != null && lstItemsToCheck.Count > 0)
             {
                 lstValueMatchedItems = new List<ValueMatchedItem>();
                 List<string> lstFields = null;
                 Item itemByLanguage = null;
-                int taskId = dataModel.TaskId;
+                Language currentLanguage = null;
                 List<Language> selectedLanguages = dataModel.SelectedLanguages;
+                List<Language> lstOtherSelectedLanguages = null;
 
                 foreach (Item item in lstItemsToCheck)
                 {
                     lstFields = new List<string>();
-                    Language currentLanguage = item.Language;
+                    currentLanguage = item.Language;
 
                     ///process the task wih the current language item
                     if (selectedLanguages.Any(x => x.Name == currentLanguage.Name))
@@ -379,7 +523,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     }
 
                     ///get languages other than the one processed above
-                    List<Language> lstOtherSelectedLanguages = selectedLanguages.Where(x => x != currentLanguage).ToList();
+                    lstOtherSelectedLanguages = selectedLanguages.Where(x => x != currentLanguage).ToList();
 
                     foreach (Language language in lstOtherSelectedLanguages)
                     {
@@ -445,8 +589,9 @@ namespace Basiscore.Minions.sitecore.admin.minions
             string newFieldValue = string.Empty;
             List<KeyValuePair<ID, string>> lstItemFieldsToBeUpdated = new List<KeyValuePair<ID, string>>();
             List<string> lstUpdatedFieldNames = new List<string>();
+            int taskId = dataModel.TaskId;
 
-            if (dataModel.TaskId == 3)
+            if (taskId == 3 || taskId == 5)
             {
                 ///if the task is to update field value
                 Field field = new Field(new ID(dataModel.TargetFieldId), item);
@@ -466,7 +611,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     lstFields = new List<string>();
                     int matchCondition = dataModel.MatchCondition;
                     string keyword = dataModel.Keyword;
-                    bool replaceKeywordInContent = dataModel.TaskId == 2;
+                    bool replaceKeywordInContent = (taskId == 2 || taskId == 6); ///if task is to replace keyword in content
                     string replaceWith = dataModel.ReplaceValue;
                     string targetFieldId = dataModel.TargetFieldId;
                     ID fieldId = !string.IsNullOrEmpty(targetFieldId) ? new ID(targetFieldId) : Sitecore.Data.ID.NewID;

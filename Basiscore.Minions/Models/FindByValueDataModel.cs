@@ -43,5 +43,31 @@ namespace Basiscore.Minions.Models
                 return MinionHelper.GetTargetLanguages(TargetLanguageCode).FirstOrDefault();
             }
         }
+
+        public string TargetItemPaths { get; set; }
+
+        public List<string> GetItemPaths()
+        {
+            List<string> lstItemPaths = new List<string>();
+            string[] arrItemPaths = TargetItemPaths != null ? TargetItemPaths.Split('\n') : null;
+            string validItemPath = "";
+
+            if (arrItemPaths != null && arrItemPaths.Length > 0)
+            {
+                ///for each string remove trailing / and add only unique paths to the list.
+                foreach (string itemPath in arrItemPaths)
+                {
+                    validItemPath = itemPath.Trim().TrimEnd('/');
+
+                    if (!string.IsNullOrEmpty(validItemPath)
+                        && !lstItemPaths.Any(x => x == itemPath))
+                    {
+                        lstItemPaths.Add(validItemPath);
+                    }
+                }
+            }
+
+            return lstItemPaths;
+        }
     }
 }
