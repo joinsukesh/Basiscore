@@ -44,6 +44,7 @@ namespace Basiscore.Minions
             public static string Templates = "/sitecore/templates/";
             public static string SystemTemplates = "/sitecore/templates/system/";
             public static string BranchTemplate = "/sitecore/templates/branches/";
+            public static string Content = "/sitecore/content/";
         }
 
 

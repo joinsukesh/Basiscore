@@ -337,7 +337,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                 ///get the item for this language
                                 sourceItem = MinionHelper.GetItem(itemPath, language);
 
-                                ///proceed to publish if it is a template or it has versions
+                                ///proceed to publish if it is non-content or it has versions
                                 if (sourceItem != null)
                                 {
                                     if (sourceItem.Fields[MinionConstants.Templates.Publishing.Fields.NeverPublish].Value != MinionConstants.One)
@@ -345,8 +345,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                         hasWorkflow = MinionHelper.HasWorkflow(sourceItem);
 
                                         ///if excludeitemswithworkflow option is selected, check if item has workflow & exlcude if yes
-                                        ///Also, if the item is a template, it SHOULD be published.
-                                        if (excludeItemsWithWorkflow && !itemPath.StartsWith(MinionConstants.Paths.Templates))
+                                        ///Also, if the item is non-content (like template, rendering, media etc), it SHOULD be published.
+                                        if (excludeItemsWithWorkflow && itemPath.StartsWith(MinionConstants.Paths.Content))
                                         {
                                             if (hasWorkflow)
                                             {
@@ -360,7 +360,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                         {
                                             if (hasWorkflow)
                                             {
-                                                ///store the workflow id
+                                                ///store the workflow id                                                
                                                 workflowId = sourceItem.Fields[MinionConstants.Templates.Workflow.Fields.Workflow].Value;
                                                 MinionHelper.RemoveWorkflow(sourceItem, language);
                                             }
