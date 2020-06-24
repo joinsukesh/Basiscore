@@ -185,6 +185,7 @@
 
     <script>
         $(document).ready(function () {
+            Init();
 
             $("input[name='optInputType']").on("change", function () {
                 ClearFieldValues();
@@ -517,6 +518,14 @@
             $("#chkAllItemPaths").prop("checked", "checked");
             $("#tbPipRows").html("");
             $("#tblPip").hide();
+        }
+
+        function ResetForm() {
+            ClearFieldValues();
+        }
+
+        function Init() {
+            ResetForm();
         }
     </script>
 </asp:Content>

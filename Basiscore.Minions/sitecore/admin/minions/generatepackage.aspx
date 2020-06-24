@@ -114,7 +114,7 @@
     </div>
     <script>
         $(document).ready(function () {
-            app.HideLoadingModal();
+            Init();
 
             ///if it pageload after postback, then show the status modal.
             var isPostbackComplete = $("#hdnPostbackComplete").val();
@@ -210,6 +210,15 @@
             $("#lblSuccess").html("");
             $("#txtInvalidPaths").val("");
             $("#pnlInvalidPaths").hide();
+        }
+
+        function ResetForm() {
+            ClearFieldValues();
+        }
+
+        function Init() {
+            app.HideLoadingModal();
+            ResetForm();
         }
     </script>
 </asp:Content>

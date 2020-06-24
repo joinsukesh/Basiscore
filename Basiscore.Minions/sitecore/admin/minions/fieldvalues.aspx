@@ -172,6 +172,7 @@
 
     <script>
         $(document).ready(function () {
+            Init();
 
             $("#btnReset").click(function () {
                 ResetValues();                
@@ -448,6 +449,9 @@
             $(".divErrorLogContainer").hide();
         }
 
+        function Init() {
+            ResetValues();
+        }
     </script>
 </asp:Content>
 

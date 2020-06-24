@@ -74,6 +74,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            Init();
 
             $("#txtTemplateId").focus();
 
@@ -171,6 +172,14 @@
             $(".divError").html("");
             $("#txtTemplateReferences").val("");
             $("#txtTemplateClass").val("");
+        }
+
+        function ResetForm() {
+            ClearFieldValues();
+        }
+
+        function Init() {
+            ResetForm();
         }
     </script>
 </asp:Content>

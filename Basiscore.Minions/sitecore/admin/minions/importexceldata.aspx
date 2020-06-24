@@ -113,7 +113,7 @@
         var selectedFile;
 
         $(document).ready(function () {
-            app.HideLoadingModal();
+            Init();
 
             ///if it pageload after postback, scroll down to result section.
             var isPostbackComplete = $("#hdnPostbackComplete").val();
@@ -218,6 +218,15 @@
             $(".divStatus").html("");
             $(".tblResult").html("");
             $("#hdnPostbackComplete").val("");
+        }
+
+        function ResetForm() {
+            ClearFieldValues();
+        }
+
+        function Init() {
+            app.HideLoadingModal();
+            ResetForm();
         }
 
     </script>
