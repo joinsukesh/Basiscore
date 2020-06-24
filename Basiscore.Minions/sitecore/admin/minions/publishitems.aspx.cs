@@ -162,7 +162,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
         }
 
         /// <summary>
-        /// read the user give list of items paths & publish them
+        /// read the user given list of items paths & publish them
         /// </summary>
         /// <param name="customPublishDataModel"></param>
         /// <param name="errorLog"></param>
@@ -236,7 +236,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     itemsCreated = tempListOfPublishedItems.Where(x => x.ItemPath == itemPath && x.TargetDatabase == dbName).Sum(x => x.ItemsCreated);
                                     itemsUpdated = tempListOfPublishedItems.Where(x => x.ItemPath == itemPath && x.TargetDatabase == dbName).Sum(x => x.ItemsUpdated);
                                     itemsSkipped = tempListOfPublishedItems.Where(x => x.ItemPath == itemPath && x.TargetDatabase == dbName).Sum(x => x.ItemsSkipped);
-
+                                    /// use this field to caution user if an item is neither created nor updated on publish.
+                                    itemPublishStatus.CautionUser = itemsCreated == 0 && itemsUpdated == 0;
                                     GetItemPublishedStatsSummary(itemsCreated, itemsUpdated, itemsSkipped, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus);
                                     itemPublishStatus.ItemsCreatedStatus += itemsCreatedStatus;
                                     itemPublishStatus.ItemsUpdatedStatus += itemsUpdatedStatus;

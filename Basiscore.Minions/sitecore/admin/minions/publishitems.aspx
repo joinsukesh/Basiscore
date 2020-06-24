@@ -18,7 +18,8 @@
                     <div id="collapse1" class="panel-collapse collapse">
                         <div class="panel-body summary-panel-body-section">
                             <p>
-                                When a Sitecore package is installed in an instance, generally, the items in that package may also need to be published to the <em>Web</em> databases. <br />
+                                When a Sitecore package is installed in an instance, generally, the items in that package may also need to be published to the <em>Web</em> databases.
+                                <br />
                                 This tool will help you perform a <strong><em>Smart Publish</em></strong> for bulk items, from <em>Master</em> to the target database(s), in one go.<br />
                                 There are two input modes to choose from - Enter the paths of the items to be published, or pick them from an existing Sitecore package.
                             </p>
@@ -164,7 +165,10 @@
                 </div>
             </div>
             <br />
-            <table id="tblResult" class="table table-striped table-bordered table-condensed" style="display: none;">
+            <div class="showForResult" style="display: none; margin-bottom:10px;">
+                <strong>The <span style="color:coral">colored</span> row is to caution, if an item is neither created nor updated on this publish.</strong>
+            </div>
+            <table id="tblResult" class="table table-bordered table-condensed" style="display: none;">
                 <thead>
                     <tr>
                         <th>ITEM PATH</th>
@@ -366,7 +370,13 @@
                                 if (objData.PublishStatus == 1) {
                                     var rows = "";
                                     $.each(objData.LstItemPublishStatus, function () {
-                                        rows += "<tr>";
+                                        if (this.CautionUser) {
+                                            rows += '<tr class="bg-coral">';
+                                        }
+                                        else {
+                                            rows += "<tr>";
+                                        }
+                                        
                                         rows += "<td>" + this.ItemPath + "</td>";
                                         rows += "<td align='center'>" + this.ItemsCreatedStatus + "</td>";
                                         rows += "<td align='center'>" + this.ItemsUpdatedStatus + "</td>";
@@ -375,6 +385,7 @@
                                     });
                                     $("#tbResultRows").html(rows);
                                     $("#tblResult").show();
+                                    $(".showForResult").show();
                                     $("html, body").animate({
                                         scrollTop: $("#tblResult").offset().top
                                     }, app.scrollDuration);
@@ -484,6 +495,7 @@
             $(".validation-msg").hide();
             $("#tbResultRows").html("");
             $("#tblResult").hide();
+            $(".showForResult").hide();
             $(".divError").html("");
             $(".divErrorLogContainer").hide();
             $(".divPipError").html("");

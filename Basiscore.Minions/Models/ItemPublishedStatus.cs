@@ -11,6 +11,7 @@ namespace Basiscore.Minions.Models
         public int ItemsUpdated { get; set; }
         public int ItemsSkipped { get; set; }
         public string TargetDatabase { get; set; }
-        public string Error { get; set; }
+        public string Error { get; set; }        
+        public bool CautionUser { get; set; }        
     }
 }

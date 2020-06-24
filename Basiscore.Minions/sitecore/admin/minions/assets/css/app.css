@@ -20,6 +20,7 @@
     line-height: 22px;
 }
 /*#endregion */
+
 /*#region MODAL*/
 .modal-backdrop.show {
     opacity: .9 !important;
@@ -134,6 +135,11 @@
     color: #fff;
 }
 
+.table tbody tr.bg-coral,
+.table tbody tr.bg-coral:nth-of-type(odd){
+    background-color: coral !important;
+}
+ 
 .thead-chkbox-inline {
     vertical-align: sub;
 }
@@ -308,6 +314,7 @@ blockquote {
     border-left: 2px solid darkgoldenrod;
 }
 /*#endregion  */
+
 /*#region MARGINS */
 .m-top-m5 {
     margin-top: -5px;
