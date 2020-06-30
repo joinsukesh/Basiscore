@@ -23,7 +23,7 @@
 
     );
 
-    return lines[Math.round(Math.random() * (lines.length - 1))];
+    return lines[GetRandomArrayValue(lines.length)];
 }
 
 function GetRandomMinionQuote() {
@@ -36,7 +36,7 @@ function GetRandomMinionQuote() {
         "If your coffee order is more than four words, you are part of the problem",
         "The best things in life.... are actually really expensive.",
         "Every day is another oppurtunity to screw it up all again.",
-        "Enjoy the good times because something terrible is probably about to happen.",
+        "Enjoy the good times, because something terrible is probably about to happen.",
         "If I have ever offended you, I'm not sorry and it's your fault.",
         "If life doesn't break you today, don't worry. It will try again tomorrow.",
         "Happiness is just sadness that hasn't happened yet.",
@@ -44,7 +44,7 @@ function GetRandomMinionQuote() {
         "Try hard and if you fail, don't worry because everyone expected that.",
         "Those who doubt your ability probably have a valid reason.",
         "The light at the end of the tunnel is a train",
-        "Always believe that something wonderful will probably never happen.",
+        "Always believe that something wonderful... will probably never happen.",
         "Your family only loves you because they have to.",
         "If at first you don't succeed, it's probably never going to happen.",
         "Never put off until tomorrow when you can straight up cancel.",        
@@ -52,5 +52,9 @@ function GetRandomMinionQuote() {
 
     );
 
-    return quotes[Math.round(Math.random() * (quotes.length - 1))];
+    return quotes[GetRandomArrayValue(quotes.length)];
+}
+
+function GetRandomArrayValue(arrayLength) {
+    return Math.round(Math.random() * (arrayLength - 1));
 }

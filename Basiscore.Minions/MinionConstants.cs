@@ -9,7 +9,7 @@ namespace Basiscore.Minions
         public static string ValidCharacters = "abcdefghijklmnopqrstuvwxyz0123456789.-_ ";
         public static string Timestamp = "Timestamp";
         public static string One = "1";
-
+        
         public struct DatabaseNames
         {
             //public static string Core = "core";
@@ -36,6 +36,12 @@ namespace Basiscore.Minions
             public const string MultilistWithSearch = "Multilist with Search";
             public const string Treelist = "Treelist";
             public const string TreelistEx = "TreelistEx";
+            public const string Integer = "Integer";
+            public const string Number = "Number";
+            public const string Date = "Date";
+            public const string Datetime = "Datetime";
+            public const string Droplink = "Droplink";
+            public const string Droptree = "Droptree";
         }
 
         public struct Paths
@@ -46,7 +52,6 @@ namespace Basiscore.Minions
             public static string BranchTemplate = "/sitecore/templates/branches/";
             public static string Content = "/sitecore/content/";
         }
-
 
         public struct Items
         {
@@ -125,7 +130,6 @@ namespace Basiscore.Minions
                     public static ID NeverPublish = new ID("{9135200A-5626-4DD8-AB9D-D665B8C11748}");
                 }
             }
-
         }
     }
 }
