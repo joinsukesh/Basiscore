@@ -124,6 +124,7 @@
             }
 
             $("#btnReset").click(function () {
+                ClearStatusModalFields();
                 ClearFieldValues();
             });
 
@@ -204,12 +205,15 @@
         ///clear result section
         function ClearResults() {
             $(".validation-msg").hide();
+            $("#txtInvalidPaths").val("");
+            $("#pnlInvalidPaths").hide();
+        }
+
+        function ClearStatusModalFields() {
             $("#hdnPostbackComplete").val("");
             $("#hdnFileName").val("");
             $("#lblError").html("");
             $("#lblSuccess").html("");
-            $("#txtInvalidPaths").val("");
-            $("#pnlInvalidPaths").hide();
         }
 
         function ResetForm() {
