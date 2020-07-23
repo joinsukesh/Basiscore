@@ -16,7 +16,7 @@
 var app = {
     scrollDuration: 1000,
     modalShowDelay: 3000,
-    minionQuoteDelay: 3000,
+    minionQuoteDelay: 2000,
 
     StringNullOrEmpty(value) {
         return value == null || value == undefined || (value.trim()).length <= 0;

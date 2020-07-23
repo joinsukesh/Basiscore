@@ -75,6 +75,12 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 lblError.Visible = false;
                 pnlInvalidPaths.Visible = false;
                 txtInvalidPaths.Text = "";
+                string databaseName = System.Convert.ToString(txtDatabase.Text).Trim();
+                string packageName = System.Convert.ToString(txtPackageName.Text).Trim();
+                string author = System.Convert.ToString(txtAuthor.Text).Trim();
+                string version = System.Convert.ToString(txtVersion.Text).Trim();
+                string itemPathsToIncludeWithSubitems = System.Convert.ToString(txtIncludeWithSubitems.Text).Trim();
+                string itemPathsToInclude = System.Convert.ToString(txtIncludeItems.Text).Trim();
 
                 try
                 {
@@ -82,12 +88,12 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     {
                         ViewState[MinionConstants.Timestamp] = DateTime.Now;
                         GeneratePackageDataModel generatePackageDataModel = new GeneratePackageDataModel();
-                        generatePackageDataModel.DatabaseName = txtDatabase.Text;
-                        generatePackageDataModel.PackageName = txtPackageName.Text;
-                        generatePackageDataModel.Author = txtAuthor.Text;
-                        generatePackageDataModel.Version = txtVersion.Text;
-                        generatePackageDataModel.ItemPathsToIncludeWithSubitems = txtIncludeWithSubitems.Text;
-                        generatePackageDataModel.ItemPathsToInclude = txtIncludeItems.Text;
+                        generatePackageDataModel.DatabaseName = databaseName;
+                        generatePackageDataModel.PackageName = packageName;
+                        generatePackageDataModel.Author = author;
+                        generatePackageDataModel.Version = version;
+                        generatePackageDataModel.ItemPathsToIncludeWithSubitems = itemPathsToIncludeWithSubitems;
+                        generatePackageDataModel.ItemPathsToInclude = itemPathsToInclude;
                         TaskStatus taskStatus = GenerateSitecorePackage(generatePackageDataModel);
 
                         if (taskStatus.StatusCode == 1)
@@ -107,6 +113,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                             {
                                 pnlInvalidPaths.Visible = true;
                                 txtInvalidPaths.Text = taskStatus.InvalidPaths;
+                                hdnInvalidPaths.Value = "1";
                             }
                         }
 
@@ -127,6 +134,13 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         btnDownload.Visible = false;
                     }
                 }
+
+                txtDatabase.Text = databaseName;
+                txtPackageName.Text = packageName;
+                txtAuthor.Text = author;
+                txtVersion.Text = version;
+                txtIncludeWithSubitems.Text = itemPathsToIncludeWithSubitems;
+                txtIncludeItems.Text = itemPathsToInclude;
             }
             else
             {

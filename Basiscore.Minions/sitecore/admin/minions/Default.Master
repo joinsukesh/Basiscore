@@ -19,7 +19,7 @@
     <script src="/sitecore/admin/minions/assets/js/jquery.min.js"></script>
     <script src="/sitecore/admin/minions/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/sitecore/admin/minions/assets/js/loadmessages.js?v=300620"></script>
-    <script src="/sitecore/admin/minions/assets/js/app.js?v=150420"></script>
+    <script src="/sitecore/admin/minions/assets/js/app.js?v=1.7"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>

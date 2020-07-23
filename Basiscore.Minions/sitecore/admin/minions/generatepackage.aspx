@@ -5,6 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <input type="hidden" class="hdnModuleName" value="<%=Page.Title%>" />
     <asp:HiddenField ID="hdnPostbackComplete" runat="server" ClientIDMode="Static" Value="0" />
+    <asp:HiddenField ID="hdnInvalidPaths" runat="server" ClientIDMode="Static" Value="0" />
     <asp:HiddenField ID="hdnFileName" runat="server" ClientIDMode="Static" Value="" />
     <div class="row">
         <div class="col-md-12">
@@ -82,7 +83,7 @@
                 </div>
                 <asp:Panel ID="pnlInvalidPaths" runat="server" CssClass="form-group" Visible="false" ClientIDMode="Static">
                     <label class="errorLog">INVALID ITEM PATHS</label><br />
-                    <asp:TextBox ID="txtInvalidPaths" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="5" ClientIDMode="Static" BorderColor="Red" ReadOnly="true"></asp:TextBox>
+                    <asp:TextBox ID="txtInvalidPaths" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="5" ClientIDMode="Static" BorderColor="Red" ReadOnly="false"></asp:TextBox>
                 </asp:Panel>
             </div>
             <br />
@@ -222,7 +223,12 @@
 
         function Init() {
             app.HideLoadingModal();
-            ResetForm();
+            $(".validation-msg").hide();
+
+            if ($("#hdnInvalidPaths").val() != "1" && $("#hdnInvalidPaths").val() != 1) {
+                $("#txtInvalidPaths").val("");
+                $("#pnlInvalidPaths").hide();
+            }
         }
     </script>
 </asp:Content>
