@@ -131,6 +131,7 @@
     <Content Include="sitecore\admin\minions\generatepackage.aspx" />
     <Content Include="sitecore\admin\minions\importexceldata.aspx" />
     <Content Include="sitecore\admin\minions\index.aspx" />
+    <Content Include="sitecore\admin\minions\installpackage.aspx" />
     <Content Include="sitecore\admin\minions\publishitems.aspx" />
     <Content Include="sitecore\admin\minions\templatemapper.aspx" />
     <None Include="Global.asax" />
@@ -196,6 +197,13 @@
     </Compile>
     <Compile Include="sitecore\admin\minions\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sitecore\admin\minions\installpackage.aspx.cs">
+      <DependentUpon>installpackage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sitecore\admin\minions\installpackage.aspx.designer.cs">
+      <DependentUpon>installpackage.aspx</DependentUpon>
     </Compile>
     <Compile Include="sitecore\admin\minions\publishitems.aspx.cs">
       <DependentUpon>publishitems.aspx</DependentUpon>

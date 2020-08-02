@@ -18,7 +18,7 @@
     <link href="/sitecore/admin/minions/assets/css/app.css?v=180620" rel="stylesheet" />
     <script src="/sitecore/admin/minions/assets/js/jquery.min.js"></script>
     <script src="/sitecore/admin/minions/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="/sitecore/admin/minions/assets/js/loadmessages.js?v=300620"></script>
+    <script src="/sitecore/admin/minions/assets/js/loadmessages.js?v=300720"></script>
     <script src="/sitecore/admin/minions/assets/js/app.js?v=1.7"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -64,14 +64,7 @@
                                                     <span class="rcpad">Field Values</span>
                                                 </a>
                                             </div>
-                                        </div>
-                                        <div class="itemRow menuItem">
-                                            <div class="rightcolumn">
-                                                <a href="/sitecore/admin/minions/generatepackage.aspx" target="_self">
-                                                    <span class="rcpad">Generate Package</span>
-                                                </a>
-                                            </div>
-                                        </div>
+                                        </div>                                        
                                         <div class="itemRow menuItem">
                                             <div class="rightcolumn">
                                                 <a href="/sitecore/admin/minions/importexceldata.aspx" target="_self">
@@ -93,6 +86,37 @@
                                         <a href='#' data-toggle="collapse" data-target="#submenu2">
                                             <div class="row">
                                                 <div class="col-md-10">
+                                                    <i class="menuIcon fa fa-gift"></i>&nbsp;
+                                                    <span class="toplevel">PACKAGES</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <i class="menuExpandIcon fa fa-plus"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div id="submenu2" class="toplevelcontainer collapse">                                        
+                                        <div class="itemRow menuItem">
+                                            <div class="rightcolumn">
+                                                <a href="/sitecore/admin/minions/generatepackage.aspx" target="_self">
+                                                    <span class="rcpad">Generate Package</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="itemRow menuItem">
+                                            <div class="rightcolumn">
+                                                <a href="/sitecore/admin/minions/installpackage.aspx" target="_self">
+                                                    <span class="rcpad">Install Package</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="header menuItem">
+                                        <a href='#' data-toggle="collapse" data-target="#submenu3">
+                                            <div class="row">
+                                                <div class="col-md-10">
                                                     <i class="menuIcon fa fa-paw"></i>&nbsp;
                                                     <span class="toplevel">MISC</span>
                                                 </div>
@@ -102,7 +126,7 @@
                                             </div>
                                         </a>
                                     </div>
-                                    <div id="submenu2" class="toplevelcontainer collapse">                                        
+                                    <div id="submenu3" class="toplevelcontainer collapse">                                        
                                         <div class="itemRow menuItem">
                                             <div class="rightcolumn">
                                                 <a href="/sitecore/admin/minions/templatemapper.aspx" target="_self">
