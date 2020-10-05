@@ -143,7 +143,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
 
                     if (!string.IsNullOrEmpty(error))
                     {
-                        ltStatus.Text = "<span style=\"font-weight:bold;color:red;\">" + error + "</span>";
+                        ltStatus.Text = Server.HtmlDecode("<span style=\"font-weight:bold;color:red;\">" + error + "</span>");
                     }
                     else
                     {
@@ -151,11 +151,11 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         {
                             if (updateFieldValuesIfItemExists)
                             {
-                                ltStatus.Text = "<span style=\"font-weight:bold;color:red;\">THE FOLLOWING ITEM(S) COULD NOT BE CREATED/UPDATED.</span>";
+                                ltStatus.Text = Server.HtmlDecode("<span style=\"font-weight:bold;color:red;\">THE FOLLOWING ITEM(S) COULD NOT BE CREATED/UPDATED.</span>");
                             }
                             else
                             {
-                                ltStatus.Text = "<span style=\"font-weight:bold;color:red;\">THE FOLLOWING ITEM(S) COULD NOT BE CREATED.</span>";
+                                ltStatus.Text = Server.HtmlDecode("<span style=\"font-weight:bold;color:red;\">THE FOLLOWING ITEM(S) COULD NOT BE CREATED.</span>");
                             }
 
                             tblResult.InnerHtml = GetStatusTable(lstInvalidItemInfo);
@@ -181,7 +181,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
 
                             statusMessage += "ITEMS CREATED:  " + itemsCreated + "<br>";
                             statusMessage += "ITEMS UPDATED:  " + itemsUpdated;
-                            ltStatus.Text = "<span style=\"font-weight:bold;color:forestgreen;\">" + statusMessage + "</span>";
+                            ltStatus.Text = Server.HtmlDecode("<span style=\"font-weight:bold;color:forestgreen;\">" + statusMessage + "</span>");
                             tblResult.InnerHtml = "";
                         }
                     }

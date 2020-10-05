@@ -69,5 +69,7 @@ namespace Basiscore.Minions.Models
 
             return lstItemPaths;
         }
+
+        public string UpdateCondition { get; set; }
     }
 }

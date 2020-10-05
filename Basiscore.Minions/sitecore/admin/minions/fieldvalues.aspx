@@ -113,6 +113,19 @@
             <span class="task task-3 task-5 task-6 text-muted" style="display: none;">If this field is empty, the field value will be replaced with an empty string.</span>
         </div>
     </div>
+    <div class="task task-3 task-5 form-group row" style="display: none;">
+        <label class="col-sm-2 col-form-label">New Value Update Condition</label>
+        <div class="col-sm-4">
+            <asp:DropDownList ID="ddlUpdateConditions" runat="server" CssClass="form-control" ClientIDMode="Static">
+                <asp:ListItem Text="Select update condition" Value="0"></asp:ListItem>
+                <asp:ListItem Text="Append value at the start of existing value" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Append value at the end of existing value" Value="2"></asp:ListItem>
+                <asp:ListItem Text="Replace existing field value with the new value" Value="3"></asp:ListItem>
+            </asp:DropDownList>
+            <span id="spUpdateCondition" class="validation-msg">Choose a condition</span>
+        </div>
+        
+    </div>
     <div class="task task-2 task-3 task-5 task-6 form-group row" style="display: none;">
         <label class="col-sm-2 col-form-label">Create New Language Version</label>
         <div class="col-sm-4">
@@ -183,6 +196,7 @@
                 $(".task").hide();
                 var selectedTaskId = $(this).val();
                 $(".task-" + selectedTaskId).show();
+                $("#ddlUpdateConditions").val(0);
             });
 
             $("#chkAllLanguages").change(function () {
@@ -247,6 +261,10 @@
             if (taskId == 2 || taskId == 3 || taskId == 5 || taskId == 6) {
                 dataModel.ReplaceValue = $("#txtReplaceWith").val();
                 dataModel.CreateVersion = $("#chkCreateVersion").is(":checked");
+            }
+
+            if (taskId == 3 || taskId == 5) {
+                dataModel.UpdateCondition = $.trim($("#ddlUpdateConditions").val());
             }
 
             if (taskId == 5 || taskId == 6) {
@@ -398,6 +416,14 @@
                     $("#spLanguageCodes").show();
                 }
             }
+            
+            if (taskId == 3 || taskId == 5) {
+                var updateCondition = $("#ddlUpdateConditions").val();
+                if (updateCondition == 0 || updateCondition == "0") {
+                    isValidModel = false;
+                    $("#spUpdateCondition").show();
+                }
+            }
 
             return isValidModel;
         }
@@ -413,6 +439,7 @@
         function ResetValues() {
             ClearFieldValues();
             $("#ddlTasks").val(1);
+            $("#ddlUpdateConditions").val(0);
             $(".task").hide();
             $(".task-1").show();
             $("#ddlMatchConditions").val(1);

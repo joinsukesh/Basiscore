@@ -241,7 +241,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return InnerItem.LinkUrl(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    sb.AppendLine("             return InnerItem.LinkFieldUrl(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
 
@@ -250,7 +250,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return InnerItem.LinkTargetType(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    sb.AppendLine("             return InnerItem.LinkFieldTarget(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
                                     break;

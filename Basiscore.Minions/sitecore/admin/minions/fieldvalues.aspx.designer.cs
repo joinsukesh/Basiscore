@@ -85,6 +85,15 @@ namespace Basiscore.Minions.sitecore.admin.minions {
         protected global::System.Web.UI.WebControls.TextBox txtReplaceWith;
         
         /// <summary>
+        /// ddlUpdateConditions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlUpdateConditions;
+        
+        /// <summary>
         /// chkCreateVersion control.
         /// </summary>
         /// <remarks>

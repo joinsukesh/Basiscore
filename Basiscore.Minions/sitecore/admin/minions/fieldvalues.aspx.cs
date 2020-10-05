@@ -599,7 +599,21 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 if (field != null && field.ID != Sitecore.Data.ID.NewID && !field.ID.IsNull && MinionHelper.ItemHasField(item, field.ID))
                 {
                     lstFields = new List<string>();
-                    KeyValuePair<ID, string> kvp = new KeyValuePair<ID, string>(field.ID, dataModel.ReplaceValue);
+
+                    switch (dataModel.UpdateCondition)
+                    {
+                        case "1":
+                            newFieldValue = dataModel.ReplaceValue + field.Value;
+                            break;
+                        case "2":
+                            newFieldValue = field.Value + dataModel.ReplaceValue;
+                            break;
+                        case "3":
+                            newFieldValue = dataModel.ReplaceValue;
+                            break;
+                    }
+
+                    KeyValuePair<ID, string> kvp = new KeyValuePair<ID, string>(field.ID, newFieldValue);
                     MinionHelper.UpdateFieldValues(item, new List<KeyValuePair<ID, string>> { kvp }, dataModel.CreateVersion);
                     lstFields.Add(field.DisplayName);
                 }
@@ -638,30 +652,34 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     }
                     else
                     {
-                        List<TemplateFieldItem> lstNonSystemTemplateFields = MinionHelper.GetTemplateFields(item, false);
-
-                        if (lstNonSystemTemplateFields != null && lstNonSystemTemplateFields.Count > 0)
+                        ///check all the fields only when user has not provided a target field.
+                        if (string.IsNullOrEmpty(dataModel.TargetFieldId))
                         {
-                            foreach (TemplateFieldItem field in lstNonSystemTemplateFields)
-                            {
-                                matchFound = false;
-                                content = item.Fields[field.ID].Value;
-                                matchFound = IsMatchFound(matchCondition, content, keyword, replaceWith, replaceKeywordInContent, out newFieldValue);
+                            List<TemplateFieldItem> lstNonSystemTemplateFields = MinionHelper.GetTemplateFields(item, false);
 
-                                if (matchFound)
+                            if (lstNonSystemTemplateFields != null && lstNonSystemTemplateFields.Count > 0)
+                            {
+                                foreach (TemplateFieldItem field in lstNonSystemTemplateFields)
                                 {
-                                    if (replaceKeywordInContent)
+                                    matchFound = false;
+                                    content = item.Fields[field.ID].Value;
+                                    matchFound = IsMatchFound(matchCondition, content, keyword, replaceWith, replaceKeywordInContent, out newFieldValue);
+
+                                    if (matchFound)
                                     {
-                                        ///collect all fields whose values are to be updated
-                                        lstItemFieldsToBeUpdated.Add(new KeyValuePair<ID, string>(field.ID, newFieldValue));
-                                        lstUpdatedFieldNames.Add(field.DisplayName);
-                                    }
-                                    else
-                                    {
-                                        lstFields.Add(field.DisplayName);
+                                        if (replaceKeywordInContent)
+                                        {
+                                            ///collect all fields whose values are to be updated
+                                            lstItemFieldsToBeUpdated.Add(new KeyValuePair<ID, string>(field.ID, newFieldValue));
+                                            lstUpdatedFieldNames.Add(field.DisplayName);
+                                        }
+                                        else
+                                        {
+                                            lstFields.Add(field.DisplayName);
+                                        }
                                     }
                                 }
-                            }
+                            } 
                         }
                     }
 
@@ -674,6 +692,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     }
                 }
             }
+
             return lstFields;
         }
 

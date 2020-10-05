@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <input type="hidden" class="hdnModuleName" value="<%=Page.Title%>" />
-    <asp:HiddenField ID="hdnPostbackComplete" runat="server" ClientIDMode="Static" Value="0" />
+    <asp:HiddenField ID="hdnPostbackComplete" runat="server" ClientIDMode="Static" />
     <div class="row">
         <div class="col-md-12">
             <div class="panel-group">
@@ -113,20 +113,7 @@
         var selectedFile;
 
         $(document).ready(function () {
-            Init();
-
-            ///if it pageload after postback, scroll down to result section.
-            var isPostbackComplete = $("#hdnPostbackComplete").val();
-
-            if (isPostbackComplete == 1 || isPostbackComplete == "1") {
-                var divResult = $(".divResult");
-
-                if (divResult.length) {
-                    $("html, body").animate({
-                        scrollTop: $(divResult).offset().top
-                    }, app.scrollDuration);
-                }
-            }
+            Init();            
 
             $("#fupExcel").change(function (e) {
                 selectedFile = null;
@@ -151,6 +138,9 @@
 
             $("#btnReset").click(function () {
                 ClearFieldValues();
+                $("#hdnPostbackComplete").val("");
+                $("#ltStatus").html("");
+                $(".tblResult").html("");    
             });
 
         });
@@ -207,26 +197,35 @@
             });
 
             $("#ddlLanguages").prop('selectedIndex', 0);
-            $("#chkUpdateFieldValues").prop("checked", "");
-            ClearResults();
+            $("#chkUpdateFieldValues").prop("checked", "");            
         }
 
         ///clear result section
         function ClearResults() {
             $(".validation-msg").html("");
-            $(".validation-msg").hide();
-            $(".divStatus").html("");
-            $(".tblResult").html("");
-            $("#hdnPostbackComplete").val("");
+            $(".validation-msg").hide();                    
         }
 
-        function ResetForm() {
-            ClearFieldValues();
-        }
+        function ScrollToResults() {
+            ///if it pageload after postback, scroll down to result section.
+            var isPostbackComplete = $("#hdnPostbackComplete").val();
 
+            if (isPostbackComplete == 1 || isPostbackComplete == "1") {
+                var divResult = $(".divResult");
+
+                if (divResult.length) {
+                    $("html, body").animate({
+                        scrollTop: $(divResult).offset().top
+                    }, app.scrollDuration);
+                }
+            }
+        }
+         
         function Init() {
             app.HideLoadingModal();
-            ResetForm();
+            ClearFieldValues();
+            ClearResults();
+            ScrollToResults();
         }
 
     </script>
