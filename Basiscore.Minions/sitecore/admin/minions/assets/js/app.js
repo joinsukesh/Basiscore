@@ -11,6 +11,25 @@
         $(this).siblings(".anc-summary-panel-heading-section").removeClass("active");        
     });
     /*--END SECTION SUMMARY EXPAND COLLAPSE ICONS--*/
+
+    /*LANGUAGE CHECKBOX SECTION*/
+    $("#chkAllLanguages").change(function () {
+        if ($(this).is(":checked")) {
+            $("#chkLanguages input[type='checkbox']").prop("checked", "checked");
+        }
+        else {
+            $("#chkLanguages input[type='checkbox']").prop("checked", "");
+        }
+    });
+
+    $(".chkLanguage").change(function () {
+        if (!$(this).is(":checked")) {
+            $("#chkAllLanguages").prop("checked", "");
+        }
+    });
+    /*END LANGUAGE CHECKBOX SECTION*/
+
+    
 });
 
 var app = {
@@ -55,6 +74,31 @@ var app = {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+
+    ///get selected language codes
+    GetSelectedLanguageCodes() {
+        var selectedLanguageCodes = [];
+        $("#chkLanguages input:checked").each(function () {
+            selectedLanguageCodes.push($(this).attr("value"));
+        });
+        return selectedLanguageCodes;
+    },
+
+    /*DEFAULT RESET FORM*/
+    DefaultResetForm(){
+        ///hide all validation msgs
+        $(".validation-msg").hide();
+
+        ///clear all textbox values
+        $("input[type='text'], textarea").each(function () {
+            $(this).val("");
+        });
+
+        ///uncheck all checkboxes
+        $(".chkboxlist input[type='checkbox']").prop("checked", "");
+        $("#chkAllLanguages").prop("checked", "");
     }
+    
 };
 

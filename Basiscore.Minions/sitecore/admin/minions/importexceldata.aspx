@@ -190,12 +190,7 @@
 
         //clear all field values
         function ClearFieldValues() {
-
-            //clear all textbox values
-            $("input[type='text'], input[type='file']").each(function () {
-                $(this).val('');
-            });
-
+            app.DefaultResetForm();
             $("#ddlLanguages").prop('selectedIndex', 0);
             $("#chkUpdateFieldValues").prop("checked", "");            
         }

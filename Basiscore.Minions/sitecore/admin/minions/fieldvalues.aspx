@@ -199,21 +199,6 @@
                 $("#ddlUpdateConditions").val(0);
             });
 
-            $("#chkAllLanguages").change(function () {
-                if ($(this).is(":checked")) {
-                    $("#chkLanguages input[type='checkbox']").prop("checked", "checked");
-                }
-                else {
-                    $("#chkLanguages input[type='checkbox']").prop("checked", "");
-                }
-            });
-
-            $(".chkLanguage").change(function () {
-                if (!$(this).is(":checked")) {
-                    $("#chkAllLanguages").prop("checked", "");
-                }
-            });
-
             $("#btnFind").click(function () {
                 ClearResults();
                 var selectedTaskId = $("#ddlTasks").val();
@@ -448,22 +433,7 @@
 
         ///clear all field values
         function ClearFieldValues() {
-
-            ///hide all validation msgs
-            $(".validation-msg").hide();
-
-            ///clear all textbox values
-            $("input[type='text'], textarea").each(function () {
-                $(this).val("");
-            });            
-
-            ///uncheck all checkboxes
-            $(".chkboxlist input[type='checkbox']").prop("checked", "");
-            $("#chkAllLanguages").prop("checked", "");
-
-            $("#tbPipRows").html("");
-            $("#tblPip").hide();
-
+            app.DefaultResetForm();
             ClearResults();
         }
 

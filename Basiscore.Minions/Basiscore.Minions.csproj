@@ -103,6 +103,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sitecore\admin\minions\addrendering.aspx" />
     <Content Include="sitecore\admin\minions\assets\css\animate.css" />
     <Content Include="sitecore\admin\minions\assets\css\animate.min.css" />
     <Content Include="sitecore\admin\minions\assets\css\app.css" />
@@ -157,12 +158,22 @@
     <Compile Include="Models\ImportExcelDataItemInfo.cs" />
     <Compile Include="Models\ItemPublishedStatus.cs" />
     <Compile Include="Models\MyPublisher.cs" />
+    <Compile Include="Models\RenderingModuleResult.cs" />
+    <Compile Include="Models\RenderingsModuleDataModel.cs" />
+    <Compile Include="Models\RenderingTaskStatus.cs" />
     <Compile Include="Models\TaskStatus.cs" />
     <Compile Include="Models\TemplateMapperDataModel.cs" />
     <Compile Include="Models\TemplateMapperResult.cs" />
     <Compile Include="Models\ValueMatchedItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MinionConstants.cs" />
+    <Compile Include="sitecore\admin\minions\addrendering.aspx.cs">
+      <DependentUpon>addrendering.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sitecore\admin\minions\addrendering.aspx.designer.cs">
+      <DependentUpon>addrendering.aspx</DependentUpon>
+    </Compile>
     <Compile Include="sitecore\admin\minions\Default.Master.cs">
       <DependentUpon>Default.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -190,15 +190,7 @@
 
         ///clear all field values
         function ClearFieldValues() {
-
-            ///hide all validation msgs
-            $(".validation-msg").hide();
-
-            ///clear all textbox values
-            $("input[type='text'], textarea").each(function () {
-                $(this).val("");
-            });
-
+            app.DefaultResetForm();
             $("#txtDatabase").val("master");
             ClearResults();
         }

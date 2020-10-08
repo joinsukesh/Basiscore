@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="row m-top-20p">
-        <div class="col-md-12 text-center" style="min-height:60px;">
+        <div class="col-md-12 text-center" style="min-height: 60px;">
             <blockquote class="blockquote minion-quote text-right animated slow">
                 <div class="row">
                     <div class="col-sm-11">
@@ -34,7 +34,7 @@
         function ShowMinionQuote() {
             setTimeout(function () {
                 var quote = GetRandomMinionQuote();
-                var randomNumber = app.GetRandomNumber(1, 10);                
+                var randomNumber = app.GetRandomNumber(1, 10);
                 $(".pQuote").html(quote);
                 $(".imgQuote").prop("src", "assets/img/home/" + randomNumber + ".gif");
                 $(".minion-quote").addClass("blockquote-border-left fadeInDown");
@@ -42,4 +42,17 @@
         }
     </script>
 </asp:Content>
+
+<%--
+INSTRUCTIONS HEADER BG COLORS USED IN ORDER
+-------------------------------------------
+fieldvalues : bg-cadetblue
+importexceldata : bg-warning
+publishitems : bg-rosybrown
+generatepackage : bg-burlywood
+installpackage : bg-coral
+addrendering : bg-darkcyan
+templatemapper : bg-darkkhaki
+
+--%>
 

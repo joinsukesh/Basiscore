@@ -186,8 +186,7 @@
         ///clear all field values
         function ClearFieldValues() {
 
-            //hide all validation msgs
-            $(".validation-msg").hide();
+            app.DefaultResetForm();
 
             //uncheck all radios
             $(".rbPackageName").prop("checked", "");
