@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Search Fields" Language="C#" MasterPageFile="~/sitecore/admin/minions/Default.Master" AutoEventWireup="true" CodeBehind="fieldvalues.aspx.cs" Inherits="Basiscore.Minions.sitecore.admin.minions.fieldvalues" %>
+﻿<%@ Page Title="Update Fields" Language="C#" MasterPageFile="~/sitecore/admin/minions/Default.Master" AutoEventWireup="true" CodeBehind="updatefields.aspx.cs" Inherits="Basiscore.Minions.sitecore.admin.minions.updatefields" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -18,13 +18,11 @@
                     <div id="collapse1" class="panel-collapse collapse">
                         <div class="panel-body summary-panel-body-section">
                             <p>
-                                Use this tool for these item field search related tasks.<br />
+                                Use this tool for these field update related tasks, in the master database.<br />
                                 <ul>
-                                    <li>Find all items that have the keyword as a raw value, in any of their fields.</li>
-                                    <li>Get items and their field values for a field.</li>                                    
+                                    <li>Replace the keyword in a field value.</li>
+                                    <li>Update the field value.</li>
                                 </ul>
-                                <br />
-                                <strong>NOTE: </strong>For a faster search, specify the target template and field IDs.
                             </p>
                         </div>
                     </div>
@@ -37,28 +35,38 @@
         <label class="col-sm-2 col-form-label">Tasks</label>
         <div class="col-sm-4">
             <asp:DropDownList ID="ddlTasks" runat="server" CssClass="form-control" ClientIDMode="Static">
-                <asp:ListItem Text="Find Items by Field Value" Value="1"></asp:ListItem>
-                <asp:ListItem Text="Get Items and Field Values by Field" Value="4"></asp:ListItem>                
+                <asp:ListItem Text="Replace Keyword in Field Value" Value="2" Selected="True"></asp:ListItem>
+                <asp:ListItem Text="Replace Keyword in Field Value By Item Paths" Value="6"></asp:ListItem>
+                <asp:ListItem Text="Update Field Value" Value="3"></asp:ListItem>
+                <asp:ListItem Text="Update Field Value By Item Paths" Value="5"></asp:ListItem>
             </asp:DropDownList>
-            <span class="task task-1 text-muted">Find all items under a parent node whose field value <strong>Contains</strong> the keyword.</span>
-            <span class="task task-4 text-muted" style="display: none;">Get all items under a parent node with field values, having this field.</span>
+            <span class="task task-2 text-muted">Replace all occurrences of the keyword in the item field value, with the replacement value.</span>
+            <span class="task task-6 text-muted" style="display: none;">Replace all occurrences of the keyword in the item field value, with the replacement value, for only specified items.</span>
+            <span class="task task-3 text-muted" style="display: none;">Update target field values with the replacement value.</span>
+            <span class="task task-5 text-muted" style="display: none;">Update target field values with the replacement value, for only specified items.</span>
         </div>
     </div>
-    <div class="form-group row task task-1 task-4">
+    <div class="form-group row task task-2 task-3">
         <label class="col-sm-2 col-form-label">Parent Item <span class="required">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtParentItem" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
             <span class="text-muted">Enter ID of the parent item. All its descendants will be searched including this item.</span><br />
             <span id="spParentItem" class="validation-msg">This field is required</span>
         </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Source Database</label>
+    </div>    
+    <div class="form-group row task task-5 task-6" style="display: none;">
+        <label class="col-sm-2 col-form-label">Target Items <span class="required">*</span></label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtDatabase" runat="server" CssClass="form-control" ClientIDMode="Static" Text="master"></asp:TextBox>
+            <asp:TextBox ID="txtTargetItemPaths" runat="server" CssClass="form-control" ClientIDMode="Static" TextMode="MultiLine" Rows="5"></asp:TextBox>
+            <span class="text-muted">Enter item paths separated by line breaks.<br />
+                e.g:&nbsp;<i>/sitecore/content/item1<br />
+                    &nbsp;&nbsp;&emsp;/sitecore/content/item2</i>
+            </span>
+            <br />
+            <span id="spTargetItemPaths" class="validation-msg">This field is required</span>
         </div>
     </div>
-    <div class="form-group row task task-1 task-4">
+    <div class="form-group row task task-2 task-3">
         <label class="col-sm-2 col-form-label">Target Item Template</label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtTargetItemTemplate" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
@@ -66,23 +74,14 @@
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Target Field Input Type</label>
-        <div class="col-sm-4">
-            <asp:DropDownList ID="ddlTargetFieldInputTypes" runat="server" CssClass="form-control" ClientIDMode="Static">
-                <asp:ListItem Text="Field ID" Value="1"></asp:ListItem>
-                <asp:ListItem Text="Field Name" Value="2"></asp:ListItem>
-            </asp:DropDownList>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Target Field <span class="task task-4 required" style="display: none;">*</span></label>
+        <label class="col-sm-2 col-form-label">Target Field <span class="task task-3 task-5 required" style="display: none;">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtFieldId" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-            <span class="text-muted">Enter <span id="spTfit">ID</span> of the field whose value should be searched/updated.</span><br />
+            <span class="text-muted">Enter ID of the field whose value should be searched/updated.</span><br />
             <span id="spFieldId" class="validation-msg">This field is required</span>
         </div>
     </div>
-    <div class="task task-1 form-group row">
+    <div class="task task-2 task-6 form-group row">
         <label class="col-sm-2 col-form-label">Search For <span class="required">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtKeyword" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
@@ -98,17 +97,50 @@
             </asp:DropDownList>
         </div>
     </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Target Language</label>
+    <div class="task task-2 task-3 task-5 task-6 form-group row">
+        <label class="col-sm-2 col-form-label">New Field Value</label>
         <div class="col-sm-4">
-            <asp:DropDownList ID="ddlLanguages" runat="server" CssClass="form-control" ClientIDMode="Static">
+            <asp:TextBox ID="txtReplaceWith" runat="server" CssClass="form-control" ClientIDMode="Static" TextMode="MultiLine" Rows="3" autocomplete="on"></asp:TextBox>
+            <span class="task task-2 text-muted">If this field is empty, the keyword in content will be replaced with an empty string.</span>
+            <span class="task task-3 task-5 task-6 text-muted" style="display: none;">If this field is empty, the field value will be replaced with an empty string.</span>
+        </div>
+    </div>
+    <div class="task task-3 task-5 form-group row" style="display: none;">
+        <label class="col-sm-2 col-form-label">New Value Update Condition</label>
+        <div class="col-sm-4">
+            <asp:DropDownList ID="ddlUpdateConditions" runat="server" CssClass="form-control" ClientIDMode="Static">
+                <asp:ListItem Text="Select update condition" Value="0"></asp:ListItem>
+                <asp:ListItem Text="Prepend value at the start of existing value" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Append value at the end of existing value" Value="2"></asp:ListItem>
+                <asp:ListItem Text="Replace existing field value with the new value" Value="3"></asp:ListItem>
             </asp:DropDownList>
+            <span id="spUpdateCondition" class="validation-msg">Choose a condition</span>
+        </div>
+
+    </div>
+    <div class="task task-2 task-3 task-5 task-6 form-group row">
+        <label class="col-sm-2 col-form-label">Create New Language Version</label>
+        <div class="col-sm-4">
+            <asp:CheckBox ID="chkCreateVersion" runat="server" CssClass="checkbox-inline" ClientIDMode="Static" Checked="true"></asp:CheckBox>
+        </div>
+    </div>
+    <div class="form-group row task task-2 task-3 task-5 task-6">
+        <label class="col-sm-2 col-form-label">Target Languages</label>
+        <div class="col-md-4">
+            <div class="chkboxlist-container">
+                <input type="checkbox" id="chkAllLanguages" />&nbsp;Select all<br />
+                <asp:CheckBoxList ID="chkLanguages" runat="server" CssClass="chkboxlist chkLanguage"
+                    RepeatLayout="Flow" ClientIDMode="Static">
+                </asp:CheckBoxList>
+            </div>
+            <span id="spLanguageCodes" class="validation-msg">Atleast one language should be selected</span>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <button type="button" id="btnReset" class="btn btn-default pull-left">RESET</button>
-            <button type="button" id="btnFind" class="btn btn-primary pull-right">FIND ITEMS</button>
+            <button type="button" id="btnReplace" class="btn btn-primary pull-right task task-2 task-6">REPLACE</button>
+            <button type="button" id="btnUpdate" class="btn btn-primary pull-right task task-3 task-5" style="display: none;">UPDATE</button>
         </div>
     </div>
     <br />
@@ -148,20 +180,10 @@
                 $(".task").hide();
                 var selectedTaskId = $(this).val();
                 $(".task-" + selectedTaskId).show();
-                ResetTargetFieldInputType();
-            });
+                $("#ddlUpdateConditions").val(0);                
+            });           
 
-            $("#ddlTargetFieldInputTypes").change(function () {
-                var type = $(this).val();
-                if (type == 2 || type == "2") {
-                    $("#spTfit").html("exact name (case sensitive)");
-                }
-                else {
-                    $("#spTfit").html("ID");
-                }
-            });
-
-            $("#btnFind").click(function () {
+            $("#btnReplace").click(function () {
                 ClearResults();
                 var selectedTaskId = $("#ddlTasks").val();
 
@@ -169,24 +191,48 @@
                     var dataModel = GetDataModel(selectedTaskId);
                     OnSubmit(selectedTaskId, dataModel);
                 }
-            });            
+            });
+
+            $("#btnUpdate").click(function () {
+                ClearResults();
+                var selectedTaskId = $("#ddlTasks").val();
+
+                if (IsValidModel(selectedTaskId)) {
+                    var dataModel = GetDataModel(selectedTaskId);
+                    OnSubmit(selectedTaskId, dataModel);
+                }
+            });
 
         });
 
         function GetDataModel(taskId) {
             var dataModel = {};
-            dataModel.TaskId = taskId;
-            dataModel.InputSourceDatabase = $.trim($("#txtDatabase").val());
+            dataModel.TaskId = taskId;            
             dataModel.ParentItemId = $.trim($("#txtParentItem").val());
             dataModel.TargetTemplateId = $.trim($("#txtTargetItemTemplate").val());
-            dataModel.MatchCondition = $("#ddlMatchConditions").val();
-            dataModel.TargetFieldInputType = $("#ddlTargetFieldInputTypes").val();
+            dataModel.MatchCondition = $("#ddlMatchConditions").val();            
             dataModel.TargetFieldId = $.trim($("#txtFieldId").val());
-            dataModel.TargetLanguageCode = $("#ddlLanguages").val();
 
-            if (taskId == 1) {
+            if (taskId == 2 || taskId == 6) {
                 dataModel.Keyword = $("#txtKeyword").val();
             }
+
+            if (taskId == 2 || taskId == 3 || taskId == 5 || taskId == 6) {
+                dataModel.ReplaceValue = $("#txtReplaceWith").val();
+                dataModel.CreateVersion = $("#chkCreateVersion").is(":checked");
+            }
+
+            if (taskId == 3 || taskId == 5) {
+                dataModel.UpdateCondition = $.trim($("#ddlUpdateConditions").val());
+            }
+
+            if (taskId == 5 || taskId == 6) {
+                dataModel.TargetItemPaths = $.trim($("#txtTargetItemPaths").val());
+            }
+
+            if (taskId == 2 || taskId == 3 || taskId == 5 || taskId == 6) {
+                dataModel.CommaSeparatedLanguageCodes = GetSelectedLanguageCodes().join(',');
+            }            
 
             return dataModel;
         }
@@ -194,11 +240,17 @@
         function OnSubmit(task, dataModel) {
             var postUrl = "";
 
-            if (task == 1) {
-                postUrl = "fieldvalues.aspx/FindItems";
+            if (task == 2) {
+                postUrl = "fieldvalues.aspx/ReplaceKeyword";
             }
-            else if (task == 4) {
-                postUrl = "fieldvalues.aspx/GetItemsAndFieldValues";
+            else if (task == 3) {
+                postUrl = "fieldvalues.aspx/UpdateFieldValue";
+            }
+            else if (task == 5) {
+                postUrl = "fieldvalues.aspx/UpdateFieldValueByItemPaths";
+            }
+            else if (task == 6) {
+                postUrl = "fieldvalues.aspx/ReplaceKeywordForSpecifiedItems";
             }
 
             $.ajax({
@@ -237,25 +289,12 @@
                                             rows += '<td class="text-center">' + index + '</td>';
                                             rows += "<td>" + this.ItemId + "</td>";
                                             rows += "<td>" + this.ItemPath + "</td>";
-
-                                            if (task == 4) {
-                                                rows += "<td><xmp>" + this.MatchLog + "</xmp></td>";
-                                            }
-                                            else {
-                                                rows += "<td>" + this.MatchLog + "</td>";
-                                            }
-                                            
+                                            rows += "<td>" + this.MatchLog + "</td>";                                            
                                             rows += "</tr>";
                                             index++;
                                         });
 
-                                        if (task == 4) {
-                                            $(".thVariableColumn").html(objData.ColumnName);
-                                        }
-                                        else {
-                                            $(".thVariableColumn").html("FIELDS WITH A MATCH");
-                                        }
-
+                                        $(".thVariableColumn").html("FIELDS WITH A MATCH");
                                         $("#tbResultRows").html(rows);
                                         $("#tblResult").show();
                                         $("html, body").animate({
@@ -285,49 +324,75 @@
         function IsValidModel(taskId) {
             var isValidModel = true;
 
-            if (taskId == 1 || taskId == 2 || taskId == 3 || taskId == 4) {
+            if (taskId == 2 || taskId == 3) {
                 if (app.StringNullOrEmpty($("#txtParentItem").val())) {
                     isValidModel = false;
                     $("#spParentItem").show();
                 }
             }
 
-            if (taskId == 1 || taskId == 2 || taskId == 6) {
+            if (taskId == 2 || taskId == 6) {
                 if (app.StringNullOrEmpty($("#txtKeyword").val())) {
                     isValidModel = false;
                     $("#spKeyword").show();
                 }
             }
 
-            if (taskId == 3 || taskId == 4 || taskId == 5) {
+            if (taskId == 3 || taskId == 5) {
                 if (app.StringNullOrEmpty($("#txtFieldId").val())) {
                     isValidModel = false;
                     $("#spFieldId").show();
                 }
             }
 
+            if (taskId == 5 || taskId == 6) {
+                if (app.StringNullOrEmpty($("#txtTargetItemPaths").val())) {
+                    isValidModel = false;
+                    $("#spTargetItemPaths").show();
+                }
+            }
+
+            if (taskId == 2 || taskId == 3 || taskId == 5 || taskId == 6) {
+                var selectedLanguageCodes = GetSelectedLanguageCodes();
+
+                if (selectedLanguageCodes == null || selectedLanguageCodes.length <= 0) {
+                    isValidModel = false;
+                    $("#spLanguageCodes").show();
+                }
+            }
+
+            if (taskId == 3 || taskId == 5) {
+                var updateCondition = $("#ddlUpdateConditions").val();
+                if (updateCondition == 0 || updateCondition == "0") {
+                    isValidModel = false;
+                    $("#spUpdateCondition").show();
+                }
+            }
+
             return isValidModel;
         }
 
-        ///clear all field values
-        function ResetTargetFieldInputType() {
-            $("#ddlTargetFieldInputTypes").val(1);
-                $("#spTfit").html("ID");            
+        function GetSelectedLanguageCodes() {
+            var selectedLanguageCodes = [];
+            $("#chkLanguages input:checked").each(function () {
+                selectedLanguageCodes.push($(this).attr("value"));
+            });
+            return selectedLanguageCodes;
         }
 
         function ResetValues() {
             ClearFieldValues();
-            $("#ddlTasks").val(1);
+            $("#ddlTasks").val(2);
+            $("#ddlUpdateConditions").val(0);
             $(".task").hide();
-            $(".task-1").show();
+            $(".task-2").show();
             $("#ddlMatchConditions").val(1);
+            $("#chkCreateVersion").prop("checked", "checked");
         }
 
         ///clear all field values
         function ClearFieldValues() {
-            app.DefaultResetForm();
-            $("#txtDatabase").val("master");
-            ResetTargetFieldInputType();
+            app.DefaultResetForm();            
             ClearResults();
         }
 
@@ -345,4 +410,5 @@
         }
     </script>
 </asp:Content>
+
 

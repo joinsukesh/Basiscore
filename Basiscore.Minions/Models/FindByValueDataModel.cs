@@ -10,6 +10,25 @@ namespace Basiscore.Minions.Models
     {
         public int TaskId { get; set; }
 
+        public string InputSourceDatabase { get; set; }
+
+        public string SourceDatabaseName
+        {
+            ///only tasks 1 & 4 are for finding items. The rest are for updating fields.
+            ///so the database can be different only for tasks 1 & 4. For all other tasks it should only be master.
+            get
+            {
+                string databaseName = MinionConstants.DatabaseNames.Master;
+
+                if (!string.IsNullOrEmpty(this.InputSourceDatabase) && (this.TaskId == 1 || this.TaskId == 4))
+                {
+                    databaseName = this.InputSourceDatabase;
+                }
+
+                return databaseName;
+            }
+        }
+
         public string ParentItemId { get; set; }
 
         public string TargetTemplateId { get; set; }
@@ -17,6 +36,8 @@ namespace Basiscore.Minions.Models
         public string Keyword { get; set; }
 
         public int MatchCondition { get; set; }
+
+        public int TargetFieldInputType { get; set; }
 
         public string TargetFieldId { get; set; }
 

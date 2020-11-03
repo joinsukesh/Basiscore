@@ -31,13 +31,13 @@ namespace Basiscore.Minions.sitecore.admin.minions {
         protected global::System.Web.UI.WebControls.TextBox txtParentItem;
         
         /// <summary>
-        /// txtTargetItemPaths control.
+        /// txtDatabase control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTargetItemPaths;
+        protected global::System.Web.UI.WebControls.TextBox txtDatabase;
         
         /// <summary>
         /// txtTargetItemTemplate control.
@@ -47,6 +47,15 @@ namespace Basiscore.Minions.sitecore.admin.minions {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTargetItemTemplate;
+        
+        /// <summary>
+        /// ddlTargetFieldInputTypes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTargetFieldInputTypes;
         
         /// <summary>
         /// txtFieldId control.
@@ -74,42 +83,6 @@ namespace Basiscore.Minions.sitecore.admin.minions {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlMatchConditions;
-        
-        /// <summary>
-        /// txtReplaceWith control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtReplaceWith;
-        
-        /// <summary>
-        /// ddlUpdateConditions control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlUpdateConditions;
-        
-        /// <summary>
-        /// chkCreateVersion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkCreateVersion;
-        
-        /// <summary>
-        /// chkLanguages control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBoxList chkLanguages;
         
         /// <summary>
         /// ddlLanguages control.

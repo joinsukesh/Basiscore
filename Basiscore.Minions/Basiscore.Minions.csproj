@@ -135,6 +135,7 @@
     <Content Include="sitecore\admin\minions\installpackage.aspx" />
     <Content Include="sitecore\admin\minions\publishitems.aspx" />
     <Content Include="sitecore\admin\minions\templatemapper.aspx" />
+    <Content Include="sitecore\admin\minions\updatefields.aspx" />
     <None Include="Global.asax" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <Content Include="sitecore\admin\minions\assets\fonts\fontawesome-webfont.eot" />
@@ -229,6 +230,13 @@
     </Compile>
     <Compile Include="sitecore\admin\minions\templatemapper.aspx.designer.cs">
       <DependentUpon>templatemapper.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sitecore\admin\minions\updatefields.aspx.cs">
+      <DependentUpon>updatefields.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sitecore\admin\minions\updatefields.aspx.designer.cs">
+      <DependentUpon>updatefields.aspx</DependentUpon>
     </Compile>
     <Compile Include="Utilities\MinionHelper.cs" />
   </ItemGroup>

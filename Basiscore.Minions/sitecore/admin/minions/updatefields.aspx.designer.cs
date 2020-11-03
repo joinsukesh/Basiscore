@@ -10,52 +10,88 @@
 namespace Basiscore.Minions.sitecore.admin.minions {
     
     
-    public partial class importexceldata {
+    public partial class updatefields {
         
         /// <summary>
-        /// hdnPostbackComplete control.
+        /// ddlTasks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnPostbackComplete;
+        protected global::System.Web.UI.WebControls.DropDownList ddlTasks;
         
         /// <summary>
-        /// fupExcel control.
+        /// txtParentItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fupExcel;
+        protected global::System.Web.UI.WebControls.TextBox txtParentItem;
         
         /// <summary>
-        /// txtStartFromRow control.
+        /// txtTargetItemPaths control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStartFromRow;
+        protected global::System.Web.UI.WebControls.TextBox txtTargetItemPaths;
         
         /// <summary>
-        /// txtEndAtRow control.
+        /// txtTargetItemTemplate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEndAtRow;
+        protected global::System.Web.UI.WebControls.TextBox txtTargetItemTemplate;
         
         /// <summary>
-        /// chkUpdateFieldValues control.
+        /// txtFieldId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkUpdateFieldValues;
+        protected global::System.Web.UI.WebControls.TextBox txtFieldId;
+        
+        /// <summary>
+        /// txtKeyword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtKeyword;
+        
+        /// <summary>
+        /// ddlMatchConditions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMatchConditions;
+        
+        /// <summary>
+        /// txtReplaceWith control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtReplaceWith;
+        
+        /// <summary>
+        /// ddlUpdateConditions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlUpdateConditions;
         
         /// <summary>
         /// chkCreateVersion control.
@@ -67,39 +103,12 @@ namespace Basiscore.Minions.sitecore.admin.minions {
         protected global::System.Web.UI.WebControls.CheckBox chkCreateVersion;
         
         /// <summary>
-        /// ddlLanguages control.
+        /// chkLanguages control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlLanguages;
-        
-        /// <summary>
-        /// btnImportData control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnImportData;
-        
-        /// <summary>
-        /// ltStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltStatus;
-        
-        /// <summary>
-        /// tblResult control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tblResult;
+        protected global::System.Web.UI.WebControls.CheckBoxList chkLanguages;
     }
 }

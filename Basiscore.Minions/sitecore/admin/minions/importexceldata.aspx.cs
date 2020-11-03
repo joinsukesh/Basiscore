@@ -86,6 +86,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         if (IsValidModel(out error))
                         {
                             ///in the excel file, the user input data starts from row 2
+                            bool createVersion = chkCreateVersion.Checked;
                             string selectedLanguage = ddlLanguages.SelectedValue;
                             startRowInExcelSheet = MainUtil.GetInt(txtStartFromRow.Text.Trim(), 2);
                             endRowInExcelSheet = MainUtil.GetInt(endRowInput, -1);
@@ -113,10 +114,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                         out lstItemsToBeUpdated, out lstParentItemsNotFound, startRowInExcelSheet, endRowInExcelSheet);
 
                                     CreateItems(lstItemsToBeCreated, selectedLanguage);
-
-                                    UpdateItems(lstItemsToBeUpdated, selectedLanguage);
-
-                                    RecheckForItemsWithInvalidParent(lstParentItemsNotFound, updateFieldValuesIfItemExists, selectedLanguage);
+                                    UpdateItems(lstItemsToBeUpdated, createVersion, selectedLanguage);
+                                    RecheckForItemsWithInvalidParent(lstParentItemsNotFound, updateFieldValuesIfItemExists, createVersion, selectedLanguage);
 
                                     ///if there are any invalid items, sort them by row number
                                     lstInvalidItemInfo = (lstInvalidItemInfo != null && lstInvalidItemInfo.Count > 0) ? lstInvalidItemInfo.OrderBy(x => x.ExcelSheetRowNumber).ToList() : lstInvalidItemInfo;
@@ -256,13 +255,13 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 itemToBeCreated.ItemTemplate, itemToBeCreated.FieldValueCollection, language, itemToBeCreated.BranchItem);
         }
 
-        private void UpdateItem(ImportExcelDataItemInfo itemToBeUpdated, string language)
+        private void UpdateItem(ImportExcelDataItemInfo itemToBeUpdated, bool createVersion, string language)
         {
             ///pass the key-value list to create item and its fields
-            MinionHelper.UpdateFieldValues(itemToBeUpdated.CurrentItem, itemToBeUpdated.FieldValueCollection, true, language);
+            MinionHelper.UpdateFieldValues(itemToBeUpdated.CurrentItem, itemToBeUpdated.FieldValueCollection, createVersion, language);
         }
 
-        private void RecheckForItemsWithInvalidParent(List<ImportExcelDataItemInfo> lstParentItemsNotFound, bool updateFieldValuesIfItemExists, string language)
+        private void RecheckForItemsWithInvalidParent(List<ImportExcelDataItemInfo> lstParentItemsNotFound, bool updateFieldValuesIfItemExists, bool createVersion, string language)
         {
             List<ImportExcelDataItemInfo> lstItemsToCheckInThisIteration = new List<ImportExcelDataItemInfo>();
             List<ImportExcelDataItemInfo> newList = new List<ImportExcelDataItemInfo>();
@@ -278,7 +277,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     {
                         if (iteminfo.ItemToCreateExists && updateFieldValuesIfItemExists)
                         {
-                            UpdateItem(iteminfo, language);
+                            UpdateItem(iteminfo, createVersion, language);
                             itemsUpdated++;
                         }
                         else if (!iteminfo.ItemToCreateExists && iteminfo.ParentItem != null)
@@ -395,7 +394,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
             }
         }
 
-        private void UpdateItems(List<ImportExcelDataItemInfo> lstItemsToBeUpdated, string language)
+        private void UpdateItems(List<ImportExcelDataItemInfo> lstItemsToBeUpdated, bool createVersion, string language)
         {
             if (lstItemsToBeUpdated != null && lstItemsToBeUpdated.Count > 0)
             {
@@ -403,7 +402,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 {
                     try
                     {
-                        UpdateItem(itemInfo, language);
+                        UpdateItem(itemInfo, createVersion, language);
                         itemsUpdated++;
                     }
                     catch (Exception ex)

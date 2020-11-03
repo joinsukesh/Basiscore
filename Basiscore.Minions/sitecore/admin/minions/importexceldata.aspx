@@ -77,9 +77,15 @@
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label m-top-m5">Update Field Values if Item Exists</label>
+        <label class="col-sm-2 col-form-label m-top-m5">Update field values if item exists</label>
         <div class="col-sm-4">
             <asp:CheckBox ID="chkUpdateFieldValues" runat="server" CssClass="chkbox" ClientIDMode="Static" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label m-top-m5">Create new version for updates</label>
+        <div class="col-sm-4">
+            <asp:CheckBox ID="chkCreateVersion" runat="server" CssClass="chkbox" ClientIDMode="Static" Checked="true"/>
         </div>
     </div>
     <div class="form-group row">
