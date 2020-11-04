@@ -315,12 +315,13 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     string renderingId = dataModel.RenderingId;
                     int renderingIndex = dataModel.RenderingIndex;
                     bool createVersion = dataModel.CreateVersion;
-                    int targetLayoutId = dataModel.TargetLayoutId;
+                    //int targetLayoutId = dataModel.TargetLayoutId;
+                    bool isForFinalLayout = dataModel.TargetLayoutId == 2;
                     string defaultDeviceId = MinionConstants.Items.DefaultLayoutDeviceId;
                     LayoutField layoutField = null;
                     LayoutDefinition layoutDefinition = null;
                     DeviceDefinition deviceDefinition = null;
-                    GetDeviceDefinitions(targetItem, targetLayoutId, defaultDeviceId, out layoutField, out layoutDefinition, out deviceDefinition);
+                    MinionHelper.GetDeviceDefinitions(targetItem, isForFinalLayout, defaultDeviceId, out layoutField, out layoutDefinition, out deviceDefinition);
 
                     if (deviceDefinition != null)
                     {
@@ -332,7 +333,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                             if (createVersion)
                             {
                                 itemToUpdate = targetItem.Versions.AddVersion();
-                                GetDeviceDefinitions(itemToUpdate, targetLayoutId, defaultDeviceId, out layoutField, out layoutDefinition, out deviceDefinition);
+                                MinionHelper.GetDeviceDefinitions(itemToUpdate, isForFinalLayout, defaultDeviceId, out layoutField, out layoutDefinition, out deviceDefinition);
                             }
                             else
                             {
@@ -380,8 +381,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
 
                                     isRenderingRemoved = isRenderingRemovedFromDefinition;
 
-                                    ///merge final layout renderings to shared layout
-                                    if (targetLayoutId == 2 && dataModel.CopyFinalRenderingsToShared)
+                                    ///copy final layout renderings to shared layout
+                                    if (isForFinalLayout && dataModel.CopyFinalRenderingsToShared)
                                     {
                                         ///If we don't have a final layout delta, we're good!
                                         if (!string.IsNullOrEmpty(layoutField.Value))
@@ -485,28 +486,6 @@ namespace Basiscore.Minions.sitecore.admin.minions
             }
 
             return isRenderingAvailable;
-        }
-
-        private static void GetDeviceDefinitions(Item targetItem, int targetLayoutId, string defaultDeviceId, out LayoutField layoutField, out LayoutDefinition layoutDefinition, out DeviceDefinition deviceDefinition)
-        {
-            layoutField = null;
-            layoutDefinition = null;
-            deviceDefinition = null;
-            DeviceDefinition ddef = null;
-
-            /// Get the layout definitions and the device definition	
-            if (targetLayoutId == 1) ///shared layout
-            {
-                layoutField = new LayoutField(targetItem.Fields[FieldIDs.LayoutField]);
-            }
-            else if (targetLayoutId == 2) ///final Layout
-            {
-                layoutField = new LayoutField(targetItem.Fields[FieldIDs.FinalLayoutField]);
-            }
-
-            layoutDefinition = layoutField != null ? LayoutDefinition.Parse(layoutField.Value) : null;
-            ddef = layoutDefinition != null ? layoutDefinition.GetDevice(defaultDeviceId) : null;
-            deviceDefinition = ddef != null ? layoutDefinition.GetDevice(ddef.ID.ToString()) : null;
         }
 
         #endregion

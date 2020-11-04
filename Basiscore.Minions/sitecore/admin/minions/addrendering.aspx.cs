@@ -227,6 +227,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 Item itemToUpdate = null;
                 string status = string.Empty;
                 bool isRenderingAdded = false;
+                bool isForFinalLayout = dataModel.TargetLayoutId == 2;
 
                 foreach (Item page in pageItems)
                 {
@@ -248,7 +249,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         else
                         {
                             itemToUpdate = dataModel.CreateVersion ? itemByLanguage.Versions.AddVersion() : itemByLanguage;
-                            AddRendering(itemToUpdate, dataModel.RenderingId, dataModel.Placeholder, dataModel.DatasourceId, dataModel.RenderingIndex);
+                            AddRendering(itemToUpdate, dataModel.RenderingId, dataModel.Placeholder, dataModel.DatasourceId, dataModel.RenderingIndex, isForFinalLayout, dataModel.CopyFinalRenderingsToShared);
                             isRenderingAdded = true;
                             status += languageName + " - Rendering added.<br>";
                         }
@@ -278,19 +279,20 @@ namespace Basiscore.Minions.sitecore.admin.minions
             return lstResults;
         }
 
-        private static void AddRendering(Item pageItem, string renderingId, string placeholder, string datasourceId, int renderingIndex)
+        private static void AddRendering(Item pageItem, string renderingId, string placeholder, string datasourceId, int renderingIndex, bool isForFinalLayout, bool copyFinalRenderingsToShared)
         {
             if (pageItem != null)
             {
                 /// Get the layout definitions and the device definition	                
-                LayoutField layoutField = new LayoutField(pageItem.Fields[FieldIDs.LayoutField]);
-                LayoutDefinition layoutDefinition = LayoutDefinition.Parse(layoutField.Value);
+                LayoutField layoutField = null;// new LayoutField(pageItem.Fields[FieldIDs.LayoutField]);
+                LayoutDefinition layoutDefinition = null;// LayoutDefinition.Parse(layoutField.Value);
 
                 /// /sitecore/layout/Devices/Default
                 string defaultDeviceId = MinionConstants.Items.DefaultLayoutDeviceId;
 
-                DeviceDefinition deviceDefinition = layoutDefinition.GetDevice(defaultDeviceId);
+                DeviceDefinition deviceDefinition = null;// layoutDefinition.GetDevice(defaultDeviceId);
                 DeviceItem deviceItem = new DeviceItem(MinionHelper.GetItem(defaultDeviceId));
+                MinionHelper.GetDeviceDefinitions(pageItem, isForFinalLayout, defaultDeviceId, out layoutField, out layoutDefinition, out deviceDefinition);
 
                 if (deviceDefinition != null && deviceItem != null)
                 {
@@ -322,8 +324,39 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     using (new SecurityDisabler())
                     {
                         pageItem.Editing.BeginEdit();
-                        layoutField.Value = layoutDefinition.ToXml();
-                        pageItem.Editing.EndEdit();
+
+                        try
+                        {
+                            layoutField.Value = layoutDefinition.ToXml();
+                            pageItem.Editing.EndEdit();
+                        }
+                        catch (Exception)
+                        {
+                            pageItem.Editing.CancelEdit();
+                        }
+
+                        ///copy final layout renderings to shared layout
+                        if (isForFinalLayout && copyFinalRenderingsToShared)
+                        {
+                            ///If we don't have a final layout delta, we're good!
+                            if (!string.IsNullOrEmpty(layoutField.Value))
+                            {
+                                using (new EditContext(pageItem))
+                                {
+                                    try
+                                    {
+                                        LayoutField sharedLayoutField = new LayoutField(pageItem.Fields[FieldIDs.LayoutField]);
+                                        sharedLayoutField.Value = layoutDefinition.ToXml();
+                                        pageItem.Fields[MinionConstants.FieldNames.FinalRenderings].Reset();
+                                        pageItem.Editing.AcceptChanges();
+                                    }
+                                    catch (Exception)
+                                    {
+                                        pageItem.Editing.CancelEdit();
+                                    }
+                                }
+                            }
+                        }
                     } 
                 }                
             }

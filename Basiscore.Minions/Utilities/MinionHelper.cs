@@ -19,6 +19,9 @@ namespace Basiscore.Minions.Utilities
     using System.IO;
     using ClosedXML.Excel;
     using System.Text.RegularExpressions;
+    using Sitecore.Layouts;
+    using Sitecore.Data.Fields;
+    using Sitecore;
 
     public class MinionHelper
     {
@@ -679,6 +682,37 @@ namespace Basiscore.Minions.Utilities
             }
 
             return lstItems;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="targetItem"></param>
+        /// <param name="targetLayoutId"></param>
+        /// <param name="defaultDeviceId"></param>
+        /// <param name="layoutField"></param>
+        /// <param name="layoutDefinition"></param>
+        /// <param name="deviceDefinition"></param>
+        public static void GetDeviceDefinitions(Item targetItem, bool isFinalLayout, string defaultDeviceId, out LayoutField layoutField, out LayoutDefinition layoutDefinition, out DeviceDefinition deviceDefinition)
+        {
+            layoutField = null;
+            layoutDefinition = null;
+            deviceDefinition = null;
+            DeviceDefinition ddef = null;
+
+            /// Get the layout definitions and the device definition	
+            if (isFinalLayout) 
+            {
+                layoutField = new LayoutField(targetItem.Fields[FieldIDs.FinalLayoutField]);
+            }
+            else
+            {
+                layoutField = new LayoutField(targetItem.Fields[FieldIDs.LayoutField]);
+            }
+            
+            layoutDefinition = layoutField != null ? LayoutDefinition.Parse(layoutField.Value) : null;
+            ddef = layoutDefinition != null ? layoutDefinition.GetDevice(defaultDeviceId) : null;
+            deviceDefinition = ddef != null ? layoutDefinition.GetDevice(ddef.ID.ToString()) : null;
         }
     }
 }

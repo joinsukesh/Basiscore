@@ -93,12 +93,27 @@
         </div>
     </div>
     <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Target Layout</label>
+        <div class="col-sm-4">
+            <asp:DropDownList ID="ddlTargetLayouts" runat="server" CssClass="form-control" ClientIDMode="Static">
+                <asp:ListItem Text="Shared Layout" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Final Layout" Value="2"></asp:ListItem>
+            </asp:DropDownList>
+        </div>
+    </div>
+    <div class="form-group row tl tl-2" style="display: none;">
+        <label class="col-sm-2 col-form-label">Copy Final Layout's Renderings to Shared Layout</label>
+        <div class="col-sm-4">
+            <asp:CheckBox ID="chkCopyFinalToShared" runat="server" CssClass="checkbox-inline" ClientIDMode="Static"></asp:CheckBox>
+        </div>
+    </div>
+    <div class="form-group row">
         <label class="col-sm-2 col-form-label">Create New Language Version</label>
         <div class="col-sm-4">
             <asp:CheckBox ID="chkCreateVersion" runat="server" CssClass="checkbox-inline" ClientIDMode="Static" Checked="true"></asp:CheckBox>
         </div>
     </div>
-    
+
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Target Language</label>
         <div class="col-sm-4">
@@ -154,6 +169,18 @@
                 ClearResults();
             });
 
+            $("#ddlTargetLayouts").change(function () {
+                $(".tl").hide();
+                var selectedId = $(this).val();
+                $(".tl-" + selectedId).show();
+
+                if (selectedId == 1 || selectedId == "1") {
+                    $("#chkCopyFinalToShared").prop("checked", "");
+                }
+
+                ClearResults();
+            });
+
             $("#btnSubmit").click(function () {
                 ClearResults();
                 var selectedTaskId = $("#ddlTasks").val();
@@ -175,6 +202,8 @@
             dataModel.Placeholder = $.trim($("#txtPlaceholder").val());
             dataModel.DatasourceId = $.trim($("#txtDatasourceId").val());
             dataModel.InputRenderingIndex = $.trim($("#txtRenderingIndex").val());
+            dataModel.TargetLayoutId = $("#ddlTargetLayouts").val();
+            dataModel.CopyFinalRenderingsToShared = $("#chkCopyFinalToShared").is(":checked");
             dataModel.CreateVersion = $("#chkCreateVersion").is(":checked");
             dataModel.TargetLanguageCode = $("#ddlLanguages").val();
 
@@ -309,9 +338,11 @@
         function ResetValues() {
             ClearFieldValues();
             $("#ddlTasks").val(1);
+            $("#ddlTargetLayouts").val(1);
             $("#ddlLanguages").val(0);
-            $(".task").hide();
-            $(".task-1").show();
+            $(".task, .tl").hide();
+            $(".task-1, .tl-1").show(); 
+            $("#chkCopyFinalToShared").prop("checked", "");
             $("#chkCreateVersion").prop("checked", "checked");
         }
 

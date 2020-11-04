@@ -47,7 +47,7 @@
             </asp:DropDownList>
         </div>
     </div>
-    <div class="form-group row dtt dtt-1">
+    <div class="form-group row dtl dtl-1">
         <label class="col-sm-2 col-form-label">Parent Item <span class="required">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtParentItem" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
@@ -55,7 +55,7 @@
             <span id="spParentItem" class="validation-msg">This field is required</span>
         </div>
     </div>
-    <div class="form-group row dtt dtt-2" style="display: none;">
+    <div class="form-group row dtl dtl-2" style="display: none;">
         <label class="col-sm-2 col-form-label">Target Page Items <span class="required">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtTargetItemPaths" runat="server" CssClass="form-control" ClientIDMode="Static" TextMode="MultiLine" Rows="5"></asp:TextBox>
@@ -67,7 +67,7 @@
             <span id="spTargetItemPaths" class="validation-msg">This field is required</span>
         </div>
     </div>
-    <div class="form-group row dtt dtt-1">
+    <div class="form-group row dtl dtl-1">
         <label class="col-sm-2 col-form-label">Target Page Item Template</label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtTargetItemTemplate" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
@@ -166,9 +166,9 @@
             });
 
             $("#ddlTargetItems").change(function () {
-                $(".dtt").hide();
+                $(".dtl").hide();
                 var selectedId = $(this).val();
-                $(".dtt-" + selectedId).show();
+                $(".dtl-" + selectedId).show();
                 ClearResults();
             });
 
@@ -221,7 +221,7 @@
             dataModel.RenderingId = $.trim($("#txtRenderingId").val());   
             dataModel.TargetLayoutId = $("#ddlTargetLayouts").val();
             dataModel.CreateVersion = $("#chkCreateVersion").is(":checked");
-            dataModel.MergeFinalRenderingsToShared = $("#chkCopyFinalToShared").is(":checked");
+            dataModel.CopyFinalRenderingsToShared = $("#chkCopyFinalToShared").is(":checked");
             dataModel.TargetLanguageCode = $("#ddlLanguages").val();
             return dataModel;
         }
@@ -360,8 +360,8 @@
             $("#ddlTargetItems").val(1);
             $("#ddlTargetLayouts").val(1);
             $("#ddlLanguages").val(0);
-            $(".task, .dtt, .tl").hide();
-            $(".task-1, .dtt-1, .tl-1").show();            
+            $(".task, .dtl, .tl").hide();
+            $(".task-1, .dtl-1, .tl-1").show();            
             $("#chkCopyFinalToShared").prop("checked", "");
             $("#chkCreateVersion").prop("checked", "checked");
         }
