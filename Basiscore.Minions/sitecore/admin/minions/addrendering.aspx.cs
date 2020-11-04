@@ -146,7 +146,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
 
                 if (string.IsNullOrEmpty(dataModel.RenderingId) || !MinionHelper.IsValidID(dataModel.RenderingId))
                 {
-                    error += "Invalid Parent Item Id; ";
+                    error += "Invalid Rendering Id; ";
                 }
 
                 if (!string.IsNullOrEmpty(dataModel.DatasourceId) && !MinionHelper.IsValidID(dataModel.DatasourceId))
@@ -233,10 +233,10 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     try
                     {
                         itemToUpdate = null;
+                        itemByLanguage = MinionHelper.GetItem(page.ID, language);
                         languageName = itemByLanguage.Language.Name;
                         status = string.Empty;
-                        isRenderingAdded = false;
-                        itemByLanguage = MinionHelper.GetItem(page.ID, language);
+                        isRenderingAdded = false;                        
 
                         ///if this language has 0 versions and option to create version is not checked, then do not add rendering.
                         if (!dataModel.CreateVersion && itemByLanguage.Versions.Count <= 0)
@@ -287,7 +287,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 LayoutDefinition layoutDefinition = LayoutDefinition.Parse(layoutField.Value);
 
                 /// /sitecore/layout/Devices/Default
-                string defaultDeviceId = "{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}";
+                string defaultDeviceId = MinionConstants.Items.DefaultLayoutDeviceId;
 
                 DeviceDefinition deviceDefinition = layoutDefinition.GetDevice(defaultDeviceId);
                 DeviceItem deviceItem = new DeviceItem(MinionHelper.GetItem(defaultDeviceId));

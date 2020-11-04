@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Add Renderings" Language="C#" MasterPageFile="~/sitecore/admin/minions/Default.Master" AutoEventWireup="true" CodeBehind="addrendering.aspx.cs" Inherits="Basiscore.Minions.sitecore.admin.minions.addrendering" %>
+﻿<%@ Page Title="Remove Renderings" Language="C#" MasterPageFile="~/sitecore/admin/minions/Default.Master" AutoEventWireup="true" CodeBehind="removerenderings.aspx.cs" Inherits="Basiscore.Minions.sitecore.admin.minions.removerenderings" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -18,7 +18,7 @@
                     <div id="collapse1" class="panel-collapse collapse">
                         <div class="panel-body summary-panel-body-section">
                             <p>
-                                Add a rendering (with datasource) to multiple pages, in the master database.
+                                Remove a rendering from the Shared Layout, for multiple pages, in the master database.
                             </p>
                         </div>
                     </div>
@@ -31,20 +31,31 @@
         <label class="col-sm-2 col-form-label">Tasks</label>
         <div class="col-sm-4">
             <asp:DropDownList ID="ddlTasks" runat="server" CssClass="form-control" ClientIDMode="Static">
-                <asp:ListItem Text="Add rendering to child pages" Value="1"></asp:ListItem>
-                <asp:ListItem Text="Add rendering to specified page items" Value="2"></asp:ListItem>
+                <asp:ListItem Text="Remove first instance of rendering" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Remove last instance of rendering" Value="2"></asp:ListItem>
+                <asp:ListItem Text="Remove rendering if it is at specified index" Value="3"></asp:ListItem>
+                <asp:ListItem Text="Remove all instances of rendering" Value="4"></asp:ListItem>
             </asp:DropDownList>
         </div>
     </div>
-    <div class="form-group row task task-1">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Target Items</label>
+        <div class="col-sm-4">
+            <asp:DropDownList ID="ddlTargetItems" runat="server" CssClass="form-control" ClientIDMode="Static">
+                <asp:ListItem Text="Child items under the parent" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Specified item paths" Value="2"></asp:ListItem>
+            </asp:DropDownList>
+        </div>
+    </div>
+    <div class="form-group row dtt dtt-1">
         <label class="col-sm-2 col-form-label">Parent Item <span class="required">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtParentItem" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-            <span class="text-muted">Enter ID of the parent item.</span><br />
+            <span class="text-muted">Enter ID of the parent item. This item will be excluded.</span><br />
             <span id="spParentItem" class="validation-msg">This field is required</span>
         </div>
     </div>
-    <div class="form-group row task task-2" style="display: none;">
+    <div class="form-group row dtt dtt-2" style="display: none;">
         <label class="col-sm-2 col-form-label">Target Page Items <span class="required">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtTargetItemPaths" runat="server" CssClass="form-control" ClientIDMode="Static" TextMode="MultiLine" Rows="5"></asp:TextBox>
@@ -56,7 +67,7 @@
             <span id="spTargetItemPaths" class="validation-msg">This field is required</span>
         </div>
     </div>
-    <div class="form-group row task task-1">
+    <div class="form-group row dtt dtt-1">
         <label class="col-sm-2 col-form-label">Target Page Item Template</label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtTargetItemTemplate" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
@@ -70,26 +81,29 @@
             <span class="text-muted">Enter ID of the rendering.</span><br />
             <span id="spRenderingId" class="validation-msg">This field is required</span>
         </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Placeholder</label>
-        <div class="col-sm-4">
-            <asp:TextBox ID="txtPlaceholder" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-            <span class="text-muted">Enter placeholder name.</span><br />
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Datasource Id</label>
-        <div class="col-sm-4">
-            <asp:TextBox ID="txtDatasourceId" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-            <span class="text-muted">Enter datasource Id for the rendering if any.</span><br />
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Rendering Index</label>
+    </div>        
+    <div class="form-group row task task-3">
+        <label class="col-sm-2 col-form-label">Rendering Index <span class="required">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtRenderingIndex" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-            <span class="text-muted">Enter the index (position) where the rendering has to be added. The first position will have the index as 0.</span><br />
+            <span class="text-muted">If the rendering is available at this index, it will be removed. The first position will have the index as 0.</span><br />
+            <span id="spRenderingIndex" class="validation-msg">This field is required</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Target Layout</label>
+        <div class="col-sm-4">
+            <asp:DropDownList ID="ddlTargetLayouts" runat="server" CssClass="form-control" ClientIDMode="Static">
+                <asp:ListItem Text="Shared Layout" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Final Layout" Value="2"></asp:ListItem>
+            </asp:DropDownList>
+            <span class="text-muted tl tl-2" style="display:none;">Only renderings that are exclusively added in the final layout will be removed.</span><br />
+        </div>
+    </div>
+    <div class="form-group row tl tl-2" style="display: none;">
+        <label class="col-sm-2 col-form-label">Copy Final Layout's Renderings to Shared Layout</label>
+        <div class="col-sm-4">
+            <asp:CheckBox ID="chkCopyFinalToShared" runat="server" CssClass="checkbox-inline" ClientIDMode="Static"></asp:CheckBox>
         </div>
     </div>
     <div class="form-group row">
@@ -145,48 +159,75 @@
             });
 
             $("#ddlTasks").change(function () {
-                $("#txtParentItem").val("");
-                $("#txtTargetItemTemplate").val("");
-                $("#txtTargetItemPaths").val("");
                 $(".task").hide();
                 var selectedTaskId = $(this).val();
                 $(".task-" + selectedTaskId).show();
                 ClearResults();
             });
 
+            $("#ddlTargetItems").change(function () {
+                $(".dtt").hide();
+                var selectedId = $(this).val();
+                $(".dtt-" + selectedId).show();
+                ClearResults();
+            });
+
+            $("#ddlTargetLayouts").change(function () {
+                $(".tl").hide();
+                var selectedId = $(this).val();
+                $(".tl-" + selectedId).show();
+
+                if (selectedId == 1 || selectedId == "1") {
+                    $("#chkCopyFinalToShared").prop("checked", "");
+                }
+
+                ClearResults();
+            });
+
             $("#btnSubmit").click(function () {
                 ClearResults();
                 var selectedTaskId = $("#ddlTasks").val();
+                var targetItemsTypeId = $("#ddlTargetItems").val();
 
-                if (IsValidModel(selectedTaskId)) {
-                    var dataModel = GetDataModel(selectedTaskId);
-                    OnSubmit(selectedTaskId, dataModel);
+                if (IsValidModel(selectedTaskId, targetItemsTypeId)) {
+                    var dataModel = GetDataModel(selectedTaskId, targetItemsTypeId);
+                    OnSubmit(dataModel);
                 }
             });
 
         });
 
-        function GetDataModel(taskId) {
+        function GetDataModel(taskId, targetItemsTypeId) {
             var dataModel = {};
             dataModel.TaskId = taskId;
-            dataModel.ParentItemId = $.trim($("#txtParentItem").val());
-            dataModel.TargetTemplateId = $.trim($("#txtTargetItemTemplate").val());
-            dataModel.RenderingId = $.trim($("#txtRenderingId").val());
-            dataModel.Placeholder = $.trim($("#txtPlaceholder").val());
-            dataModel.DatasourceId = $.trim($("#txtDatasourceId").val());
-            dataModel.InputRenderingIndex = $.trim($("#txtRenderingIndex").val());
-            dataModel.CreateVersion = $("#chkCreateVersion").is(":checked");
-            dataModel.TargetLanguageCode = $("#ddlLanguages").val();
+            dataModel.TargetItemsTypeId = targetItemsTypeId;
 
-            if (taskId == 2 || taskId == "2") {
+            if (targetItemsTypeId == 1 || targetItemsTypeId == "1") {
+                dataModel.ParentItemId = $.trim($("#txtParentItem").val());
+                dataModel.TargetTemplateId = $.trim($("#txtTargetItemTemplate").val());
+            }
+
+            if (targetItemsTypeId == 2 || targetItemsTypeId == "2") {
                 dataModel.TargetItemPaths = $.trim($("#txtTargetItemPaths").val());
             }
 
+            if (taskId == 3 || taskId == "3") {
+                dataModel.InputRenderingIndex = $.trim($("#txtRenderingIndex").val());
+            }
+            else {
+                dataModel.InputRenderingIndex = -1;
+            }
+
+            dataModel.RenderingId = $.trim($("#txtRenderingId").val());   
+            dataModel.TargetLayoutId = $("#ddlTargetLayouts").val();
+            dataModel.CreateVersion = $("#chkCreateVersion").is(":checked");
+            dataModel.MergeFinalRenderingsToShared = $("#chkCopyFinalToShared").is(":checked");
+            dataModel.TargetLanguageCode = $("#ddlLanguages").val();
             return dataModel;
         }
 
-        function OnSubmit(task, dataModel) {
-            var postUrl = "addrendering.aspx/AddRendering";
+        function OnSubmit(dataModel) {
+            var postUrl = "removerenderings.aspx/RemoveRenderings";
 
             $.ajax({
                 type: "POST",
@@ -274,17 +315,24 @@
             });
         }
 
-        function IsValidModel(taskId) {
+        function IsValidModel(taskId, targetItemsTypeId) {
             var isValidModel = true;
 
-            if (taskId == 1 || taskId == "1") {
+            if (taskId == 3 || taskId == "3") {
+                if (app.StringNullOrEmpty($("#txtRenderingIndex").val())) {
+                    isValidModel = false;
+                    $("#spRenderingIndex").show();
+                }
+            }
+
+            if (targetItemsTypeId == 1 || targetItemsTypeId == "1") {
                 if (app.StringNullOrEmpty($("#txtParentItem").val())) {
                     isValidModel = false;
                     $("#spParentItem").show();
                 }
             }
 
-            if (taskId == 2 || taskId == "2") {
+            if (targetItemsTypeId == 2 || targetItemsTypeId == "2") {
                 if (app.StringNullOrEmpty($("#txtTargetItemPaths").val())) {
                     isValidModel = false;
                     $("#spTargetItemPaths").show();
@@ -309,9 +357,12 @@
         function ResetValues() {
             ClearFieldValues();
             $("#ddlTasks").val(1);
+            $("#ddlTargetItems").val(1);
+            $("#ddlTargetLayouts").val(1);
             $("#ddlLanguages").val(0);
-            $(".task").hide();
-            $(".task-1").show();
+            $(".task, .dtt, .tl").hide();
+            $(".task-1, .dtt-1, .tl-1").show();            
+            $("#chkCopyFinalToShared").prop("checked", "");
             $("#chkCreateVersion").prop("checked", "checked");
         }
 
@@ -335,3 +386,4 @@
         }
     </script>
 </asp:Content>
+

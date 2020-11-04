@@ -17,6 +17,7 @@ namespace Basiscore.Minions.Models
         public string Placeholder { get; set; }
         public string DatasourceId { get; set; }
         public string InputRenderingIndex { get; set; }
+        public int TargetItemsTypeId { get; set; }
 
         public int RenderingIndex
         {
@@ -70,5 +71,9 @@ namespace Basiscore.Minions.Models
                 return MinionHelper.GetTargetLanguages(TargetLanguageCode).FirstOrDefault();
             }
         }
+
+        public int TargetLayoutId { get; set; }
+
+        public bool CopyFinalRenderingsToShared { get; set; }
     }
 }

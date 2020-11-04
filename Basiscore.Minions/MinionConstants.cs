@@ -44,6 +44,11 @@ namespace Basiscore.Minions
             public const string Droptree = "Droptree";
         }
 
+        public struct FieldNames
+        {
+            public static string FinalRenderings = "__Final Renderings";
+        }
+
         public struct Paths
         {
             public static string LoginPagePath = "~/sitecore/login";
@@ -56,6 +61,9 @@ namespace Basiscore.Minions
         public struct Items
         {
             public static ID PublishingTargets = new ID("{D9E44555-02A6-407A-B4FC-96B9026CAADD}");
+
+            /// /sitecore/layout/Devices/Default
+            public static string DefaultLayoutDeviceId = "{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}";
         }
 
         public struct Templates

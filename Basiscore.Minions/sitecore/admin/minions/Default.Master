@@ -156,7 +156,14 @@
                                         <div class="itemRow menuItem">
                                             <div class="rightcolumn">
                                                 <a href="/sitecore/admin/minions/addrendering.aspx" target="_self">
-                                                    <span class="rcpad">Add Rendering</span>
+                                                    <span class="rcpad">Add Renderings</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="itemRow menuItem">
+                                            <div class="rightcolumn">
+                                                <a href="/sitecore/admin/minions/removerenderings.aspx" target="_self">
+                                                    <span class="rcpad">Remove Renderings</span>
                                                 </a>
                                             </div>
                                         </div>
