@@ -20,6 +20,15 @@
                             <p>
                                 Remove a rendering from the Shared Layout, for multiple pages, in the master database.
                             </p>
+                            <p>
+                                <strong>NOTE: </strong>This tool is best suited for a monolingual website or if all the language versions use the same renderings.
+                                <br />
+                                <br />
+                                Though the 'Target Language' field's purpose is to update an item of the selected language, it could be possible that the changes may apply to other languages also, depending on how the Presentation details' Standard values are set for the item.<br />
+                                If you are working on a multi-lingual site, it is recommended that you first check with only a few items before updating multiple pages.<br />
+                                <br />
+                                Reference: <a href="https://doc.sitecore.com/developers/90/sitecore-experience-manager/en/versioned-layouts.html" target="_blank">https://doc.sitecore.com/developers/90/sitecore-experience-manager/en/versioned-layouts.html</a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -81,7 +90,7 @@
             <span class="text-muted">Enter ID of the rendering.</span><br />
             <span id="spRenderingId" class="validation-msg">This field is required</span>
         </div>
-    </div>        
+    </div>
     <div class="form-group row task task-3">
         <label class="col-sm-2 col-form-label">Rendering Index <span class="required">*</span></label>
         <div class="col-sm-4">
@@ -97,7 +106,7 @@
                 <asp:ListItem Text="Shared Layout" Value="1"></asp:ListItem>
                 <asp:ListItem Text="Final Layout" Value="2"></asp:ListItem>
             </asp:DropDownList>
-            <span class="text-muted tl tl-2" style="display:none;">Only renderings that are exclusively added in the final layout will be removed.</span><br />
+            <span class="text-muted tl tl-2" style="display: none;">Only renderings that are exclusively added in the final layout will be removed.</span><br />
         </div>
     </div>
     <div class="form-group row tl tl-2" style="display: none;">
@@ -112,7 +121,7 @@
             <asp:CheckBox ID="chkCreateVersion" runat="server" CssClass="checkbox-inline" ClientIDMode="Static" Checked="true"></asp:CheckBox>
         </div>
     </div>
-    
+
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Target Language</label>
         <div class="col-sm-4">
@@ -218,7 +227,7 @@
                 dataModel.InputRenderingIndex = -1;
             }
 
-            dataModel.RenderingId = $.trim($("#txtRenderingId").val());   
+            dataModel.RenderingId = $.trim($("#txtRenderingId").val());
             dataModel.TargetLayoutId = $("#ddlTargetLayouts").val();
             dataModel.CreateVersion = $("#chkCreateVersion").is(":checked");
             dataModel.CopyFinalRenderingsToShared = $("#chkCopyFinalToShared").is(":checked");
@@ -361,7 +370,7 @@
             $("#ddlTargetLayouts").val(1);
             $("#ddlLanguages").val(0);
             $(".task, .dtl, .tl").hide();
-            $(".task-1, .dtl-1, .tl-1").show();            
+            $(".task-1, .dtl-1, .tl-1").show();
             $("#chkCopyFinalToShared").prop("checked", "");
             $("#chkCreateVersion").prop("checked", "checked");
         }

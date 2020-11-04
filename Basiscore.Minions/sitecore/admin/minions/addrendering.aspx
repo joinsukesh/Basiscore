@@ -20,6 +20,12 @@
                             <p>
                                 Add a rendering (with datasource) to multiple pages, in the master database.
                             </p>
+                            <p>
+                                <strong>NOTE: </strong> This tool is best suited for a monolingual website or if all the language versions use the same renderings. <br /><br />
+                                Though the 'Target Language' field's purpose is to update an item of the selected language, it could be possible that the changes may apply to other languages also, depending on how the Presentation details' Standard values are set for the item.<br />
+                                If you are working on a multi-lingual site, it is recommended that you first check with only a few items before updating multiple pages.<br /><br />
+                                Reference: <a href="https://doc.sitecore.com/developers/90/sitecore-experience-manager/en/versioned-layouts.html" target="_blank">https://doc.sitecore.com/developers/90/sitecore-experience-manager/en/versioned-layouts.html</a>
+                            </p>
                         </div>
                     </div>
                 </div>
