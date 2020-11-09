@@ -18,7 +18,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
     using System.Web.Script.Serialization;
     using System.Web.Services;
 
-    public partial class removerenderings : System.Web.UI.Page
+    public partial class updatedatasource : System.Web.UI.Page
     {
         #region EVENTS
 
@@ -42,7 +42,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
         }
 
         [WebMethod]
-        public static string RemoveRenderings(RenderingsModuleDataModel dataModel)
+        public static string UpdateDatasourceForRenderings(RenderingsModuleDataModel dataModel)
         {
             RenderingModuleResult result = new RenderingModuleResult();
             string error = "";
@@ -56,7 +56,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     if (IsValidModel(dataModel, out error))
                     {
                         List<Item> pageItems = GetTargetPageItems(dataModel);
-                        result.LstRenderingStatus = RemoveRenderingFromPages(dataModel, pageItems, out hasFailedItems, out error);
+                        result.LstRenderingStatus = UpdateRenderingDatasourceInPages(dataModel, pageItems, out hasFailedItems, out error);
 
                         if (hasFailedItems)
                         {
@@ -68,7 +68,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                             else
                             {
                                 result.StatusCode = 0;
-                                result.StatusMessage = "Could not remove rendering for one or more items. Check the table for errors.";
+                                result.StatusMessage = "Could not update datasource for one or more items. Check the table for errors.";
                             }
                         }
                         else
@@ -77,11 +77,11 @@ namespace Basiscore.Minions.sitecore.admin.minions
 
                             if (result.LstRenderingStatus == null || result.LstRenderingStatus.Count <= 0)
                             {
-                                result.StatusMessage = "No renderings removed. The rendering may be unavailable for the given inputs.";
+                                result.StatusMessage = "No datasources updated. The rendering may be unavailable for the given inputs.";
                             }
                             else
                             {
-                                result.StatusMessage = "The rendering is removed from the following pages";
+                                result.StatusMessage = "The datasource is updated for the following pages";
                             }
                         }
                     }
@@ -162,7 +162,12 @@ namespace Basiscore.Minions.sitecore.admin.minions
 
                 if (string.IsNullOrEmpty(dataModel.RenderingId) || !MinionHelper.IsValidID(dataModel.RenderingId))
                 {
-                    error += "Invalid Rendering Id; ";
+                    error += "Invalid rendering Id; ";
+                }
+
+                if (string.IsNullOrEmpty(dataModel.DatasourceId) || !MinionHelper.IsValidID(dataModel.DatasourceId))
+                {
+                    error += "Invalid datasource Id; ";
                 }
 
                 if (dataModel.SelectedLanguage == null)
@@ -223,11 +228,12 @@ namespace Basiscore.Minions.sitecore.admin.minions
             return pageItems;
         }
 
-        private static List<RenderingTaskStatus> RemoveRenderingFromPages(RenderingsModuleDataModel dataModel, List<Item> pageItems, out bool hasFailedItems, out string taskStatusMessage)
+        private static List<RenderingTaskStatus> UpdateRenderingDatasourceInPages(RenderingsModuleDataModel dataModel, List<Item> pageItems, out bool hasFailedItems, out string taskStatusMessage)
         {
             hasFailedItems = false;
             List<RenderingTaskStatus> lstResults = null;
             taskStatusMessage = string.Empty;
+            string errorMsg;
 
             if (pageItems != null && pageItems.Count > 0)
             {
@@ -236,8 +242,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 Item itemByLanguage = null;
                 string languageName = string.Empty;
                 string status = string.Empty;
-                bool isRenderingRemoved = false;
-                string errorMsg = string.Empty;
+                bool isDatasourceUpdated = false;
+                //string errorMsg = string.Empty;
 
                 foreach (Item page in pageItems)
                 {
@@ -246,7 +252,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         itemByLanguage = MinionHelper.GetItem(page.ID, language);
                         languageName = itemByLanguage.Language.Name;
                         status = string.Empty;
-                        isRenderingRemoved = false;
+                        isDatasourceUpdated = false;
                         hasFailedItems = false;
                         errorMsg = string.Empty;
 
@@ -258,34 +264,34 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         }
                         else
                         {
-                            isRenderingRemoved = RemoveRendering(itemByLanguage, dataModel, out errorMsg);
+                            isDatasourceUpdated = UpdateRenderingDatasource(itemByLanguage, dataModel, out errorMsg);
 
-                            if (isRenderingRemoved)
+                            if (isDatasourceUpdated)
                             {
-                                status += languageName + " - Rendering removed.<br>";
+                                status += languageName + " - Rendering datasource updated.<br>";
                             }
                             else if (!string.IsNullOrEmpty(errorMsg))
                             {
                                 status += languageName + " - " + errorMsg + "<br>";
                                 hasFailedItems = true;
-                                isRenderingRemoved = false;
+                                isDatasourceUpdated = false;
                             }
                         }
                     }
                     catch (Exception ex)
                     {
                         hasFailedItems = true;
-                        isRenderingRemoved = false;
+                        isDatasourceUpdated = false;
                         status = languageName + " - " + ex.Message + "<br>";
                     }
 
-                    if (isRenderingRemoved || hasFailedItems)
+                    if (isDatasourceUpdated || hasFailedItems)
                     {
                         lstResults.Add(new RenderingTaskStatus
                         {
                             PageItemPath = page.Paths.FullPath,
                             TargetLanguages = languageName,
-                            StatusCode = isRenderingRemoved ? 1 : 0,
+                            StatusCode = isDatasourceUpdated ? 1 : 0,
                             StatusMessage = status
                         });
                     }
@@ -300,138 +306,140 @@ namespace Basiscore.Minions.sitecore.admin.minions
             return lstResults;
         }
 
-        private static bool RemoveRendering(Item targetItem, RenderingsModuleDataModel dataModel, out string errorMsg)
+        private static bool UpdateRenderingDatasource(Item targetItem, RenderingsModuleDataModel dataModel, out string errorMsg)
         {
-            bool isRenderingRemoved = false;
-            bool isRenderingRemovedFromDefinition = false;
             errorMsg = string.Empty;
-            RenderingDefinition instanceOfRendering = null;
             Item itemToUpdate = null;
+            bool isDatasourceModified = false;
+            RenderingDefinition instanceOfRendering = null;
+            int taskId = dataModel.TaskId;
+            string renderingId = dataModel.RenderingId;
+            int renderingIndex = dataModel.RenderingIndex;
+            bool createVersion = dataModel.CreateVersion;
+            bool isForFinalLayout = dataModel.TargetLayoutId == 2;
+            string defaultDeviceId = MinionConstants.Items.DefaultLayoutDeviceId;
+            LayoutField layoutField = null;
+            LayoutDefinition layoutDefinition = null;
+            DeviceDefinition deviceDefinition = null;
+            MinionHelper.GetDeviceDefinitions(targetItem, isForFinalLayout, defaultDeviceId, out layoutField, out layoutDefinition, out deviceDefinition);
 
-            if (targetItem != null)
+
+            if (deviceDefinition != null)
             {
-                try
+                /// Get the array of all renderings for the target page item	                
+                IEnumerable<RenderingDefinition> renderingsArray = deviceDefinition.Renderings.ToArray().Cast<RenderingDefinition>();
+
+                if (renderingsArray.Count() > 0 && MinionHelper.PageHasRendering(renderingId, renderingsArray, taskId == 3, renderingIndex))
                 {
-                    int taskId = dataModel.TaskId;
-                    string renderingId = dataModel.RenderingId;
-                    int renderingIndex = dataModel.RenderingIndex;
-                    bool createVersion = dataModel.CreateVersion;
-                    bool isForFinalLayout = dataModel.TargetLayoutId == 2;
-                    string defaultDeviceId = MinionConstants.Items.DefaultLayoutDeviceId;
-                    LayoutField layoutField = null;
-                    LayoutDefinition layoutDefinition = null;
-                    DeviceDefinition deviceDefinition = null;
-                    MinionHelper.GetDeviceDefinitions(targetItem, isForFinalLayout, defaultDeviceId, out layoutField, out layoutDefinition, out deviceDefinition);
-
-                    if (deviceDefinition != null)
+                    if (createVersion)
                     {
-                        /// Get the array of all renderings for the target page item	                
-                        IEnumerable<RenderingDefinition> renderingsArray = deviceDefinition.Renderings.ToArray().Cast<RenderingDefinition>();
+                        itemToUpdate = targetItem.Versions.AddVersion();
+                        MinionHelper.GetDeviceDefinitions(itemToUpdate, isForFinalLayout, defaultDeviceId, out layoutField, out layoutDefinition, out deviceDefinition);
+                    }
+                    else
+                    {
+                        itemToUpdate = targetItem;
+                    }
 
-                        if (renderingsArray.Count() > 0 && MinionHelper.PageHasRendering(renderingId, renderingsArray, taskId == 3, renderingIndex))
-                        {
-                            if (createVersion)
+                    switch (dataModel.TaskId)
+                    {
+                        case 1:  /// Modify datasource for first instance of rendering                        
+
+                            instanceOfRendering = MinionHelper.GetRenderingDefinition(dataModel.RenderingId, renderingsArray, MinionHelper.RenderingInstancePosition.First, dataModel.RenderingIndex);
+
+                            if (instanceOfRendering != null)
                             {
-                                itemToUpdate = targetItem.Versions.AddVersion();
-                                MinionHelper.GetDeviceDefinitions(itemToUpdate, isForFinalLayout, defaultDeviceId, out layoutField, out layoutDefinition, out deviceDefinition);
-                            }
-                            else
-                            {
-                                itemToUpdate = targetItem;
-                            }
-
-                            renderingsArray = deviceDefinition.Renderings.ToArray().Cast<RenderingDefinition>();
-
-                            switch (taskId)
-                            {
-                                case 1: /// Remove first instance of rendering  
-                                    instanceOfRendering = MinionHelper.GetRenderingDefinition(renderingId, renderingsArray, MinionHelper.RenderingInstancePosition.First, renderingIndex);
-
-                                    if (instanceOfRendering != null && !string.IsNullOrEmpty(instanceOfRendering.UniqueId))
-                                    {
-                                        deviceDefinition.Renderings = new ArrayList(renderingsArray.Where(r => r.UniqueId != instanceOfRendering.UniqueId).ToList());
-                                    }
-                                    break;
-                                case 2: /// Remove last instance of rendering	
-                                    instanceOfRendering = MinionHelper.GetRenderingDefinition(renderingId, renderingsArray, MinionHelper.RenderingInstancePosition.Last, renderingIndex);
-
-                                    if (instanceOfRendering != null && !string.IsNullOrEmpty(instanceOfRendering.UniqueId))
-                                    {
-                                        deviceDefinition.Renderings = new ArrayList(renderingsArray.Where(r => r.UniqueId != instanceOfRendering.UniqueId).ToList());
-                                    }
-                                    break;
-                                case 3: /// Remove rendering at specified index	                            
-                                    instanceOfRendering = MinionHelper.GetRenderingDefinition(renderingId, renderingsArray, MinionHelper.RenderingInstancePosition.SpecifiedIndex, renderingIndex);
-
-                                    if (instanceOfRendering != null && !string.IsNullOrEmpty(instanceOfRendering.UniqueId))
-                                    {
-                                        deviceDefinition.Renderings = new ArrayList(renderingsArray.Where(r => r.UniqueId != instanceOfRendering.UniqueId).ToList());
-                                    }
-                                    break;
-                                case 4: ///Remove all instances of rendering	                            
-                                    deviceDefinition.Renderings = new ArrayList(renderingsArray.Where(r => r.ItemID != renderingId).ToList());
-                                    break;
+                                instanceOfRendering.Datasource = dataModel.DatasourceId;
+                                isDatasourceModified = true;
                             }
 
-                            isRenderingRemovedFromDefinition = deviceDefinition.Renderings.Count < renderingsArray.Count();
+                            break;
+                        case 2:  /// Modify datasource for last instance of rendering
 
-                            if (isRenderingRemovedFromDefinition)
+                            instanceOfRendering = MinionHelper.GetRenderingDefinition(dataModel.RenderingId, renderingsArray, MinionHelper.RenderingInstancePosition.Last, dataModel.RenderingIndex);
+
+                            if (instanceOfRendering != null)
                             {
-                                /// Save the layout changes	                    
-                                using (new SecurityDisabler())
+                                instanceOfRendering.Datasource = dataModel.DatasourceId;
+                                isDatasourceModified = true;
+                            }
+
+                            break;
+                        case 3:  /// Modify datasource of rendering at specified index
+                            instanceOfRendering = MinionHelper.GetRenderingDefinition(dataModel.RenderingId, renderingsArray, MinionHelper.RenderingInstancePosition.SpecifiedIndex, dataModel.RenderingIndex);
+
+                            if (instanceOfRendering != null && !string.IsNullOrEmpty(instanceOfRendering.UniqueId))
+                            {
+                                instanceOfRendering.Datasource = dataModel.DatasourceId;
+                                isDatasourceModified = true;
+                            }
+
+                            break;
+                        case 4:  /// Modify datasource for all instances of rendering
+                            RenderingDefinition rdefn = null;
+                            foreach (object obj in deviceDefinition.Renderings)
+                            {
+                                rdefn = (RenderingDefinition)obj;
+
+                                if (rdefn != null && rdefn.ItemID == dataModel.RenderingId)
                                 {
-                                    itemToUpdate.Editing.BeginEdit();
+                                    rdefn.Datasource = dataModel.DatasourceId;
+                                    isDatasourceModified = true;
+                                }
+                            }
+                            break;
+                    }
 
+                    /// Save the layout changes
+                    using (new SecurityDisabler())
+                    {
+                        try
+                        {
+                            itemToUpdate.Editing.BeginEdit();
+                            layoutField.Value = layoutDefinition.ToXml();
+                            itemToUpdate.Editing.EndEdit();
+                        }
+                        catch (Exception ex)
+                        {
+                            itemToUpdate.Editing.CancelEdit();
+                            isDatasourceModified = false;
+                        }
+
+                        ///copy final layout renderings to shared layout
+                        if (isForFinalLayout && dataModel.CopyFinalRenderingsToShared)
+                        {
+                            ///If we don't have a final layout delta, we're good!
+                            if (!string.IsNullOrEmpty(layoutField.Value))
+                            {
+                                using (new EditContext(itemToUpdate))
+                                {
                                     try
                                     {
-                                        layoutField.Value = layoutDefinition.ToXml();
-                                        itemToUpdate.Editing.EndEdit();
+                                        LayoutField sharedLayoutField = new LayoutField(itemToUpdate.Fields[FieldIDs.LayoutField]);
+                                        sharedLayoutField.Value = layoutDefinition.ToXml();
+                                        itemToUpdate.Fields[MinionConstants.FieldNames.FinalRenderings].Reset();
+                                        itemToUpdate.Editing.AcceptChanges();
                                     }
-                                    catch (Exception)
+                                    catch (Exception ex)
                                     {
                                         itemToUpdate.Editing.CancelEdit();
-                                        isRenderingRemovedFromDefinition = false;
-                                    }
-
-                                    isRenderingRemoved = isRenderingRemovedFromDefinition;
-
-                                    ///copy final layout renderings to shared layout
-                                    if (isForFinalLayout && dataModel.CopyFinalRenderingsToShared)
-                                    {
-                                        ///If we don't have a final layout delta, we're good!
-                                        if (!string.IsNullOrEmpty(layoutField.Value))
-                                        {
-                                            using (new EditContext(itemToUpdate))
-                                            {
-                                                try
-                                                {
-                                                    LayoutField sharedLayoutField = new LayoutField(itemToUpdate.Fields[FieldIDs.LayoutField]);
-                                                    sharedLayoutField.Value = layoutDefinition.ToXml();
-                                                    itemToUpdate.Fields[MinionConstants.FieldNames.FinalRenderings].Reset();
-                                                    itemToUpdate.Editing.AcceptChanges();
-                                                }
-                                                catch (Exception)
-                                                {
-                                                    itemToUpdate.Editing.CancelEdit();
-                                                }
-                                            }
-                                        }
+                                        errorMsg = "Could not copy final layout renderings to shared layout.";
                                     }
                                 }
                             }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    errorMsg = ex.Message;
+
+                    if (!isDatasourceModified)
+                    {
+                        errorMsg = "Could not update the datasource.";
+                    }
                 }
             }
 
-            return isRenderingRemoved;
+            return isDatasourceModified;
         }
 
         #endregion
     }
 }
-

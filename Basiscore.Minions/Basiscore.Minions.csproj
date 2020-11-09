@@ -136,6 +136,7 @@
     <Content Include="sitecore\admin\minions\publishitems.aspx" />
     <Content Include="sitecore\admin\minions\removerenderings.aspx" />
     <Content Include="sitecore\admin\minions\templatemapper.aspx" />
+    <Content Include="sitecore\admin\minions\updatedatasource.aspx" />
     <Content Include="sitecore\admin\minions\updatefields.aspx" />
     <None Include="Global.asax" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
@@ -238,6 +239,13 @@
     </Compile>
     <Compile Include="sitecore\admin\minions\templatemapper.aspx.designer.cs">
       <DependentUpon>templatemapper.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sitecore\admin\minions\updatedatasource.aspx.cs">
+      <DependentUpon>updatedatasource.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sitecore\admin\minions\updatedatasource.aspx.designer.cs">
+      <DependentUpon>updatedatasource.aspx</DependentUpon>
     </Compile>
     <Compile Include="sitecore\admin\minions\updatefields.aspx.cs">
       <DependentUpon>updatefields.aspx</DependentUpon>

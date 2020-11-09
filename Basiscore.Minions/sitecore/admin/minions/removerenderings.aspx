@@ -18,7 +18,7 @@
                     <div id="collapse1" class="panel-collapse collapse">
                         <div class="panel-body summary-panel-body-section">
                             <p>
-                                Remove a rendering from the Shared Layout, for multiple pages, in the master database.
+                                Remove a rendering from multiple pages, in the master database.
                             </p>
                             <p>
                                 <strong>NOTE: </strong>This tool is best suited for a monolingual website or if all the language versions use the same renderings.
@@ -171,14 +171,14 @@
                 $(".task").hide();
                 var selectedTaskId = $(this).val();
                 $(".task-" + selectedTaskId).show();
-                ClearResults();
             });
 
             $("#ddlTargetItems").change(function () {
+                $("#txtTargetItemPaths").val("");
+                $("#txtParentItem").val("");
                 $(".dtl").hide();
                 var selectedId = $(this).val();
                 $(".dtl-" + selectedId).show();
-                ClearResults();
             });
 
             $("#ddlTargetLayouts").change(function () {
@@ -189,8 +189,6 @@
                 if (selectedId == 1 || selectedId == "1") {
                     $("#chkCopyFinalToShared").prop("checked", "");
                 }
-
-                ClearResults();
             });
 
             $("#btnSubmit").click(function () {

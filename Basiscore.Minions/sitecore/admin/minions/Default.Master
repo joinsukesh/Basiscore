@@ -167,6 +167,13 @@
                                                 </a>
                                             </div>
                                         </div>
+                                         <div class="itemRow menuItem">
+                                            <div class="rightcolumn">
+                                                <a href="/sitecore/admin/minions/updatedatasource.aspx" target="_self">
+                                                    <span class="rcpad">Update Datasource</span>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">

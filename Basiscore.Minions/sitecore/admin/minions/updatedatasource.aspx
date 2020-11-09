@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Add Renderings" Language="C#" MasterPageFile="~/sitecore/admin/minions/Default.Master" AutoEventWireup="true" CodeBehind="addrendering.aspx.cs" Inherits="Basiscore.Minions.sitecore.admin.minions.addrendering" %>
+﻿<%@ Page Title="Update Datasource" Language="C#" MasterPageFile="~/sitecore/admin/minions/Default.Master" AutoEventWireup="true" CodeBehind="updatedatasource.aspx.cs" Inherits="Basiscore.Minions.sitecore.admin.minions.updatedatasource" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -9,7 +9,7 @@
             <div class="panel-group">
                 <div class="panel summary-panel">
                     <a class="anc-summary-panel-heading-section" data-toggle="collapse" href="#collapse1">
-                        <div class="bg-darkseagreen bg-noise summary-panel-heading-section">
+                        <div class="bg-burlywood bg-noise summary-panel-heading-section">
                             <h4 class="panel-title">Instructions
                             </h4>
                             <span class="expand-collapse-icon fa fa-chevron-down"></span>
@@ -18,12 +18,15 @@
                     <div id="collapse1" class="panel-collapse collapse">
                         <div class="panel-body summary-panel-body-section">
                             <p>
-                                Add a rendering (with datasource) to multiple pages, in the master database.
+                                Update a rendering's datasource for multiple pages, in the master database.
                             </p>
                             <p>
-                                <strong>NOTE: </strong> This tool is best suited for a monolingual website or if all the language versions use the same renderings. <br /><br />
+                                <strong>NOTE: </strong>This tool is best suited for a monolingual website or if all the language versions use the same renderings.
+                                <br />
+                                <br />
                                 Though the 'Target Language' field's purpose is to update an item of the selected language, it could be possible that the changes may apply to other languages also, depending on how the Presentation details' Standard values are set for the item.<br />
-                                If you are working on a multi-lingual site, it is recommended that you first check with only a few items before updating multiple pages.<br /><br />
+                                If you are working on a multi-lingual site, it is recommended that you first check with only a few items before updating multiple pages.<br />
+                                <br />
                                 Reference: <a href="https://doc.sitecore.com/developers/90/sitecore-experience-manager/en/versioned-layouts.html" target="_blank">https://doc.sitecore.com/developers/90/sitecore-experience-manager/en/versioned-layouts.html</a>
                             </p>
                         </div>
@@ -34,23 +37,34 @@
     </div>
     <hr />
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Tasks</label>
+        <label class="col-sm-2 col-form-label">Update Datasource for</label>
         <div class="col-sm-4">
             <asp:DropDownList ID="ddlTasks" runat="server" CssClass="form-control" ClientIDMode="Static">
-                <asp:ListItem Text="Add rendering to child pages" Value="1"></asp:ListItem>
-                <asp:ListItem Text="Add rendering to specified page items" Value="2"></asp:ListItem>
+                <asp:ListItem Text="First instance of rendering" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Last instance of rendering" Value="2"></asp:ListItem>
+                <asp:ListItem Text="Rendering at specified index" Value="3"></asp:ListItem>
+                <asp:ListItem Text="All instances of rendering" Value="4"></asp:ListItem>
             </asp:DropDownList>
         </div>
     </div>
-    <div class="form-group row task task-1">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Target Items</label>
+        <div class="col-sm-4">
+            <asp:DropDownList ID="ddlTargetItems" runat="server" CssClass="form-control" ClientIDMode="Static">
+                <asp:ListItem Text="Child items under the parent" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Specified item paths" Value="2"></asp:ListItem>
+            </asp:DropDownList>
+        </div>
+    </div>
+    <div class="form-group row dtl dtl-1">
         <label class="col-sm-2 col-form-label">Parent Item <span class="required">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtParentItem" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-            <span class="text-muted">Enter ID of the parent item.</span><br />
+            <span class="text-muted">Enter ID of the parent item. This item will be excluded.</span><br />
             <span id="spParentItem" class="validation-msg">This field is required</span>
         </div>
     </div>
-    <div class="form-group row task task-2" style="display: none;">
+    <div class="form-group row dtl dtl-2" style="display: none;">
         <label class="col-sm-2 col-form-label">Target Page Items <span class="required">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtTargetItemPaths" runat="server" CssClass="form-control" ClientIDMode="Static" TextMode="MultiLine" Rows="5"></asp:TextBox>
@@ -62,7 +76,7 @@
             <span id="spTargetItemPaths" class="validation-msg">This field is required</span>
         </div>
     </div>
-    <div class="form-group row task task-1">
+    <div class="form-group row dtl dtl-1">
         <label class="col-sm-2 col-form-label">Target Page Item Template</label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtTargetItemTemplate" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
@@ -78,24 +92,18 @@
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Placeholder</label>
-        <div class="col-sm-4">
-            <asp:TextBox ID="txtPlaceholder" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-            <span class="text-muted">Enter placeholder name.</span><br />
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Datasource Id</label>
+        <label class="col-sm-2 col-form-label">New Datasource Id </label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtDatasourceId" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-            <span class="text-muted">Enter datasource Id for the rendering if any.</span><br />
+            <span class="text-muted">Enter ID of the new datasource. If this field is empty, the existing datasource set for that rendering will be removed.</span><br />            
         </div>
     </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Rendering Index</label>
+    <div class="form-group row task task-3">
+        <label class="col-sm-2 col-form-label">Rendering Index <span class="required">*</span></label>
         <div class="col-sm-4">
             <asp:TextBox ID="txtRenderingIndex" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-            <span class="text-muted">Enter the index (position) where the rendering has to be added. The first position will have the index as 0.</span><br />
+            <span class="text-muted">If the rendering is available at this index, it will be removed. The first position will have the index as 0.</span><br />
+            <span id="spRenderingIndex" class="validation-msg">This field is required</span>
         </div>
     </div>
     <div class="form-group row">
@@ -105,6 +113,7 @@
                 <asp:ListItem Text="Shared Layout" Value="1"></asp:ListItem>
                 <asp:ListItem Text="Final Layout" Value="2"></asp:ListItem>
             </asp:DropDownList>
+            <span class="text-muted tl tl-2" style="display: none;">Only renderings that are exclusively added in the final layout will be removed.</span><br />
         </div>
     </div>
     <div class="form-group row tl tl-2" style="display: none;">
@@ -166,12 +175,17 @@
             });
 
             $("#ddlTasks").change(function () {
-                $("#txtParentItem").val("");
-                $("#txtTargetItemTemplate").val("");
-                $("#txtTargetItemPaths").val("");
                 $(".task").hide();
                 var selectedTaskId = $(this).val();
-                $(".task-" + selectedTaskId).show();
+                $(".task-" + selectedTaskId).show();                
+            });
+
+            $("#ddlTargetItems").change(function () {
+                $("#txtTargetItemPaths").val("");
+                $("#txtParentItem").val("");
+                $(".dtl").hide();
+                var selectedId = $(this).val();
+                $(".dtl-" + selectedId).show();                
             });
 
             $("#ddlTargetLayouts").change(function () {
@@ -181,44 +195,54 @@
 
                 if (selectedId == 1 || selectedId == "1") {
                     $("#chkCopyFinalToShared").prop("checked", "");
-                }
+                }                
             });
 
             $("#btnSubmit").click(function () {
                 ClearResults();
                 var selectedTaskId = $("#ddlTasks").val();
+                var targetItemsTypeId = $("#ddlTargetItems").val();
 
-                if (IsValidModel(selectedTaskId)) {
-                    var dataModel = GetDataModel(selectedTaskId);
-                    OnSubmit(selectedTaskId, dataModel);
+                if (IsValidModel(selectedTaskId, targetItemsTypeId)) {
+                    var dataModel = GetDataModel(selectedTaskId, targetItemsTypeId);
+                    OnSubmit(dataModel);
                 }
             });
 
         });
 
-        function GetDataModel(taskId) {
+        function GetDataModel(taskId, targetItemsTypeId) {
             var dataModel = {};
             dataModel.TaskId = taskId;
-            dataModel.ParentItemId = $.trim($("#txtParentItem").val());
-            dataModel.TargetTemplateId = $.trim($("#txtTargetItemTemplate").val());
-            dataModel.RenderingId = $.trim($("#txtRenderingId").val());
-            dataModel.Placeholder = $.trim($("#txtPlaceholder").val());
-            dataModel.DatasourceId = $.trim($("#txtDatasourceId").val());
-            dataModel.InputRenderingIndex = $.trim($("#txtRenderingIndex").val());
-            dataModel.TargetLayoutId = $("#ddlTargetLayouts").val();
-            dataModel.CopyFinalRenderingsToShared = $("#chkCopyFinalToShared").is(":checked");
-            dataModel.CreateVersion = $("#chkCreateVersion").is(":checked");
-            dataModel.TargetLanguageCode = $("#ddlLanguages").val();
+            dataModel.TargetItemsTypeId = targetItemsTypeId;
 
-            if (taskId == 2 || taskId == "2") {
+            if (targetItemsTypeId == 1 || targetItemsTypeId == "1") {
+                dataModel.ParentItemId = $.trim($("#txtParentItem").val());
+                dataModel.TargetTemplateId = $.trim($("#txtTargetItemTemplate").val());
+            }
+
+            if (targetItemsTypeId == 2 || targetItemsTypeId == "2") {
                 dataModel.TargetItemPaths = $.trim($("#txtTargetItemPaths").val());
             }
 
+            if (taskId == 3 || taskId == "3") {
+                dataModel.InputRenderingIndex = $.trim($("#txtRenderingIndex").val());
+            }
+            else {
+                dataModel.InputRenderingIndex = -1;
+            }
+
+            dataModel.RenderingId = $.trim($("#txtRenderingId").val());
+            dataModel.DatasourceId = $.trim($("#txtDatasourceId").val());
+            dataModel.TargetLayoutId = $("#ddlTargetLayouts").val();
+            dataModel.CreateVersion = $("#chkCreateVersion").is(":checked");
+            dataModel.CopyFinalRenderingsToShared = $("#chkCopyFinalToShared").is(":checked");
+            dataModel.TargetLanguageCode = $("#ddlLanguages").val();
             return dataModel;
         }
 
-        function OnSubmit(task, dataModel) {
-            var postUrl = "addrendering.aspx/AddRendering";
+        function OnSubmit(dataModel) {
+            var postUrl = "updatedatasource.aspx/UpdateDatasourceForRenderings";
 
             $.ajax({
                 type: "POST",
@@ -306,17 +330,24 @@
             });
         }
 
-        function IsValidModel(taskId) {
+        function IsValidModel(taskId, targetItemsTypeId) {
             var isValidModel = true;
 
-            if (taskId == 1 || taskId == "1") {
+            if (taskId == 3 || taskId == "3") {
+                if (app.StringNullOrEmpty($("#txtRenderingIndex").val())) {
+                    isValidModel = false;
+                    $("#spRenderingIndex").show();
+                }
+            }
+
+            if (targetItemsTypeId == 1 || targetItemsTypeId == "1") {
                 if (app.StringNullOrEmpty($("#txtParentItem").val())) {
                     isValidModel = false;
                     $("#spParentItem").show();
                 }
             }
 
-            if (taskId == 2 || taskId == "2") {
+            if (targetItemsTypeId == 2 || targetItemsTypeId == "2") {
                 if (app.StringNullOrEmpty($("#txtTargetItemPaths").val())) {
                     isValidModel = false;
                     $("#spTargetItemPaths").show();
@@ -341,10 +372,11 @@
         function ResetValues() {
             ClearFieldValues();
             $("#ddlTasks").val(1);
+            $("#ddlTargetItems").val(1);
             $("#ddlTargetLayouts").val(1);
             $("#ddlLanguages").val(0);
-            $(".task, .tl").hide();
-            $(".task-1, .tl-1").show(); 
+            $(".task, .dtl, .tl").hide();
+            $(".task-1, .dtl-1, .tl-1").show();
             $("#chkCopyFinalToShared").prop("checked", "");
             $("#chkCreateVersion").prop("checked", "checked");
         }
@@ -369,3 +401,5 @@
         }
     </script>
 </asp:Content>
+
+

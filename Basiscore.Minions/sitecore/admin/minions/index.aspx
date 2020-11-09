@@ -52,7 +52,8 @@ publishitems : bg-rosybrown
 generatepackage : bg-burlywood
 installpackage : bg-coral
 addrendering : bg-darkcyan
-removerenderings : bg-darksalmon
+removerenderings : bg-darkseagreen
+updatedatasource : bg-burlywood
 templatemapper : bg-darkkhaki
 
 --%>

@@ -25,6 +25,13 @@ namespace Basiscore.Minions.Utilities
 
     public class MinionHelper
     {
+        public enum RenderingInstancePosition
+        {
+            First = 1,
+            Last = 2,
+            SpecifiedIndex = 3
+        }
+
         public struct Databases
         {
             public static Database masterDb = Factory.GetDatabase(MinionConstants.DatabaseNames.Master);
@@ -713,6 +720,69 @@ namespace Basiscore.Minions.Utilities
             layoutDefinition = layoutField != null ? LayoutDefinition.Parse(layoutField.Value) : null;
             ddef = layoutDefinition != null ? layoutDefinition.GetDevice(defaultDeviceId) : null;
             deviceDefinition = ddef != null ? layoutDefinition.GetDevice(ddef.ID.ToString()) : null;
+        }
+
+        public static bool PageHasRendering(string renderingId, IEnumerable<RenderingDefinition> renderingsArray, bool checkRenderingAtSpecifiedIndex, int renderingIndex)
+        {
+            bool isRenderingAvailable = renderingsArray.Any(x => x.ItemID == renderingId);
+
+            if (checkRenderingAtSpecifiedIndex)
+            {
+                if (isRenderingAvailable)
+                {
+                    if (renderingIndex >= 0 && renderingIndex < renderingsArray.Count())
+                    {
+                        RenderingDefinition instanceOfRendering = renderingsArray.ElementAt(renderingIndex);
+
+                        if (instanceOfRendering == null || instanceOfRendering.ItemID != renderingId)
+                        {
+                            isRenderingAvailable = false;
+                        }
+                    }
+                }
+            }            
+
+            return isRenderingAvailable;
+        }
+
+        /// <summary>	        
+        /// Get the rendering definition of the target rendering from the existing page renderings	        
+        /// <param name="taskId"></param>	        
+        /// <param name="renderingId"></param>	        
+        /// <param name="renderingsArray"></param>	        
+        /// <param name="targetIndex"></param>	        
+        /// <returns></returns>	        
+        /// </summary>
+        public static RenderingDefinition GetRenderingDefinition(string renderingId, IEnumerable<RenderingDefinition> renderingsArray, RenderingInstancePosition renderingInstancePosition, int renderingIndex)
+        {
+            RenderingDefinition instanceOfRendering = null;
+            bool isRenderingAvailable = renderingsArray.Any(x => x.ItemID == renderingId);
+
+            if (isRenderingAvailable)
+            {
+                switch (renderingInstancePosition)
+                {
+                    case RenderingInstancePosition.First: ///get first instance of rendering	                    
+                        instanceOfRendering = renderingsArray.Where(x => x.ItemID == renderingId).First();
+                        break;
+                    case RenderingInstancePosition.Last: ///get last instance of rendering	                    
+                        instanceOfRendering = renderingsArray.Where(x => x.ItemID == renderingId).Last();
+                        break;
+                    case RenderingInstancePosition.SpecifiedIndex: ///get rendering definition of rendering at specified index	  
+                        if (renderingIndex >= 0 && renderingIndex < renderingsArray.Count())
+                        {
+                            instanceOfRendering = renderingsArray.ElementAt(renderingIndex);
+
+                            if (instanceOfRendering == null || instanceOfRendering.ItemID != renderingId)
+                            {
+                                instanceOfRendering = null;
+                            }
+                        }
+                        break;
+                }
+            }
+
+            return instanceOfRendering;
         }
     }
 }
