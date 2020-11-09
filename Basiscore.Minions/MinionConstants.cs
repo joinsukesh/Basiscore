@@ -138,6 +138,17 @@ namespace Basiscore.Minions
                     public static ID NeverPublish = new ID("{9135200A-5626-4DD8-AB9D-D665B8C11748}");
                 }
             }
+
+            public struct Layout
+            {
+                public static ID ID = new ID("{4D30906D-0B49-4FA7-969D-BF90157357EA}");
+
+                public struct Fields
+                {
+                    public static ID __Renderings = new ID("{F1A1FE9E-A60C-4DDB-A3A0-BB5B29FE732E}");
+                    public static ID __FinalRenderings = new ID("{04BF00DB-F5FB-41F7-8AB7-22408372A981}");
+                }
+            }
         }
     }
 }

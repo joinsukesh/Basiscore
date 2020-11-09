@@ -284,13 +284,13 @@ namespace Basiscore.Minions.sitecore.admin.minions
             if (pageItem != null)
             {
                 /// Get the layout definitions and the device definition	                
-                LayoutField layoutField = null;// new LayoutField(pageItem.Fields[FieldIDs.LayoutField]);
-                LayoutDefinition layoutDefinition = null;// LayoutDefinition.Parse(layoutField.Value);
+                LayoutField layoutField = null;
+                LayoutDefinition layoutDefinition = null;
 
                 /// /sitecore/layout/Devices/Default
                 string defaultDeviceId = MinionConstants.Items.DefaultLayoutDeviceId;
 
-                DeviceDefinition deviceDefinition = null;// layoutDefinition.GetDevice(defaultDeviceId);
+                DeviceDefinition deviceDefinition = null;
                 DeviceItem deviceItem = new DeviceItem(MinionHelper.GetItem(defaultDeviceId));
                 MinionHelper.GetDeviceDefinitions(pageItem, isForFinalLayout, defaultDeviceId, out layoutField, out layoutDefinition, out deviceDefinition);
 
