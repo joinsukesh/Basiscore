@@ -10,7 +10,7 @@
 namespace Basiscore.Minions.sitecore.admin.minions {
     
     
-    public partial class fieldvalues {
+    public partial class renderingusage {
         
         /// <summary>
         /// hdnSessionId control.
@@ -20,6 +20,15 @@ namespace Basiscore.Minions.sitecore.admin.minions {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnSessionId;
+        
+        /// <summary>
+        /// txtDatabase control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDatabase;
         
         /// <summary>
         /// ddlTasks control.
@@ -40,13 +49,13 @@ namespace Basiscore.Minions.sitecore.admin.minions {
         protected global::System.Web.UI.WebControls.TextBox txtParentItem;
         
         /// <summary>
-        /// txtDatabase control.
+        /// txtTargetItemPaths control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDatabase;
+        protected global::System.Web.UI.WebControls.TextBox txtTargetItemPaths;
         
         /// <summary>
         /// txtTargetItemTemplate control.
@@ -58,40 +67,13 @@ namespace Basiscore.Minions.sitecore.admin.minions {
         protected global::System.Web.UI.WebControls.TextBox txtTargetItemTemplate;
         
         /// <summary>
-        /// ddlTargetFieldInputTypes control.
+        /// txtRenderingId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlTargetFieldInputTypes;
-        
-        /// <summary>
-        /// txtFieldId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFieldId;
-        
-        /// <summary>
-        /// txtKeyword control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtKeyword;
-        
-        /// <summary>
-        /// ddlMatchConditions control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlMatchConditions;
+        protected global::System.Web.UI.WebControls.TextBox txtRenderingId;
         
         /// <summary>
         /// ddlLanguages control.

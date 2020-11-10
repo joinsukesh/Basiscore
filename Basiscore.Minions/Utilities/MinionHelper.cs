@@ -17,6 +17,7 @@ namespace Basiscore.Minions.Utilities
     using System.Linq;
     using System.Data;
     using System.IO;
+    using System.Web;
     using ClosedXML.Excel;
     using System.Text.RegularExpressions;
     using Sitecore.Layouts;
@@ -708,7 +709,7 @@ namespace Basiscore.Minions.Utilities
             DeviceDefinition ddef = null;
 
             /// Get the layout definitions and the device definition	
-            if (isFinalLayout) 
+            if (isFinalLayout)
             {
                 layoutField = new LayoutField(targetItem.Fields[FieldIDs.FinalLayoutField]);
             }
@@ -716,7 +717,7 @@ namespace Basiscore.Minions.Utilities
             {
                 layoutField = new LayoutField(targetItem.Fields[FieldIDs.LayoutField]);
             }
-            
+
             layoutDefinition = layoutField != null ? LayoutDefinition.Parse(layoutField.Value) : null;
             ddef = layoutDefinition != null ? layoutDefinition.GetDevice(defaultDeviceId) : null;
             deviceDefinition = ddef != null ? layoutDefinition.GetDevice(ddef.ID.ToString()) : null;
@@ -740,7 +741,7 @@ namespace Basiscore.Minions.Utilities
                         }
                     }
                 }
-            }            
+            }
 
             return isRenderingAvailable;
         }
@@ -783,6 +784,66 @@ namespace Basiscore.Minions.Utilities
             }
 
             return instanceOfRendering;
+        }
+
+        /// <summary>
+        /// generate a random string
+        /// </summary>
+        /// <param name="passwordLength"></param>
+        /// <returns></returns>
+        public static string GetRandomString(int stringLength)
+        {
+            ///This one tells you how many characters the string will contain.
+
+            ///This one, is empty for now - but will ultimately hold the finised randomly generated password
+            string newRandomString = "";
+
+            ///This one tells you which characters are allowed in this new password
+            string allowedChars = "";
+            allowedChars = "1,2,3,4,5,6,7,8,9,0";
+            allowedChars += "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
+
+            ///Then working with an array...
+
+            char[] sep = { ',' };
+            string[] arr = allowedChars.Split(sep);
+
+            ///string IDString = "";
+            string temp = "";
+
+            ///utilize the "random" class
+            Random rand = new Random();
+
+            ///and lastly - loop through the generation process...
+            for (int i = 0; i < System.Convert.ToInt32(stringLength); i++)
+            {
+                temp = arr[rand.Next(0, arr.Length)];
+                newRandomString += temp;
+            }
+
+            return newRandomString;
+        }
+
+        public static void DownloadData(DataTable dt, string fileName)
+        {
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt, fileName);
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Response.Buffer = true;
+                HttpContext.Current.Response.Charset = "";
+                HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=" + fileName + ".xlsx");
+
+                using (MemoryStream MyMemoryStream = new MemoryStream())
+                {
+                    wb.SaveAs(MyMemoryStream);
+                    MyMemoryStream.WriteTo(HttpContext.Current.Response.OutputStream);
+                    HttpContext.Current.Response.Flush();
+                    HttpContext.Current.Response.SuppressContent = false; 
+                    HttpContext.Current.ApplicationInstance.CompleteRequest();
+                }
+            }
         }
     }
 }

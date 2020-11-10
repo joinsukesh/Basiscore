@@ -54,6 +54,7 @@ installpackage : bg-coral
 addrendering : bg-darkcyan
 removerenderings : bg-darkseagreen
 updatedatasource : bg-burlywood
+renderingusage : bg-darksalmon
 templatemapper : bg-darkkhaki
 
 --%>

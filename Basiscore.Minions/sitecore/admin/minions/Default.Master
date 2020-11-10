@@ -19,7 +19,7 @@
     <script src="/sitecore/admin/minions/assets/js/jquery.min.js"></script>
     <script src="/sitecore/admin/minions/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/sitecore/admin/minions/assets/js/loadmessages.js?v=300720"></script>
-    <script src="/sitecore/admin/minions/assets/js/app.js?v=1.8"></script>
+    <script src="/sitecore/admin/minions/assets/js/app.js?v=2.8"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -171,6 +171,13 @@
                                             <div class="rightcolumn">
                                                 <a href="/sitecore/admin/minions/updatedatasource.aspx" target="_self">
                                                     <span class="rcpad">Update Datasource</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="itemRow menuItem">
+                                            <div class="rightcolumn">
+                                                <a href="/sitecore/admin/minions/renderingusage.aspx" target="_self">
+                                                    <span class="rcpad">Rendering Usage</span>
                                                 </a>
                                             </div>
                                         </div>

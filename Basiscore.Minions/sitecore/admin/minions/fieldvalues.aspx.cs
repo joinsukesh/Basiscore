@@ -12,6 +12,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Web;
     using System.Web.Script.Serialization;
     using System.Web.Services;
 
@@ -26,6 +27,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 try
                 {
                     BindData();
+                    hdnSessionId.Value = MinionHelper.GetRandomString(7);
                 }
                 catch (Exception ex)
                 {
@@ -57,8 +59,9 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         {
                             if (lstValueMatchedItems != null && lstValueMatchedItems.Count > 0)
                             {
-                                result.TaskStatus = 1;
+                                result.TaskStatus = 1;                                
                                 result.LstValueMatchedItems = GetMatchLog(lstValueMatchedItems, dataModel.SelectedLanguage);
+                                SaveResultInSession(dataModel.SessionId, result.LstValueMatchedItems);
                                 result.TaskStatusMessage = "List of items whose field values have this keyword";
                             }
                             else
@@ -116,8 +119,9 @@ namespace Basiscore.Minions.sitecore.admin.minions
 
                             if (lstValueMatchedItems != null && lstValueMatchedItems.Count > 0)
                             {
-                                result.TaskStatus = 1;
+                                result.TaskStatus = 1;                                
                                 result.LstValueMatchedItems = lstValueMatchedItems;
+                                SaveResultInSession(dataModel.SessionId, result.LstValueMatchedItems);
                                 result.TaskStatusMessage = "List of items with their field values for the field - " + fieldName;
                             }
                             else
@@ -308,6 +312,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         {
                             ItemId = itemByLanguage.ID.ToString(),
                             ItemPath = itemByLanguage.Paths.FullPath,
+                            LanguageCode = selectedLanguage.Name,
+                            FieldNames = fieldName,
                             MatchLog = targetFieldInputType == 1 ? itemByLanguage.Fields[fieldId].Value : itemByLanguage.Fields[fieldName].Value
                         });
                     }
@@ -441,6 +447,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
             ValueMatchedItem valueMatchedItem = null;
             List<string> uniqueItemPaths = lstValueMatchedItems.Select(x => x.ItemPath).Distinct().ToList();
             StringBuilder sbLog = new StringBuilder();
+            string fieldNames = string.Empty;
 
             foreach (string itemPath in uniqueItemPaths)
             {
@@ -448,12 +455,13 @@ namespace Basiscore.Minions.sitecore.admin.minions
 
                 if (valueMatchedItem != null)
                 {
+                    fieldNames = string.Join(", ", valueMatchedItem.Fields).TrimEnd(',');
                     sbLog.AppendLine("<strong>Language: " + targetLanguage.Name + "</strong><br>");
-                    sbLog.AppendLine(string.Join(", ", valueMatchedItem.Fields).TrimEnd(','));
+                    sbLog.AppendLine(fieldNames);
                     sbLog.AppendLine("<br>");
                 }
 
-                lstMatchLog.Add(new ValueMatchedItem { ItemId = valueMatchedItem.ItemId, ItemPath = itemPath, MatchLog = sbLog.ToString() });
+                lstMatchLog.Add(new ValueMatchedItem { ItemId = valueMatchedItem.ItemId, ItemPath = itemPath, LanguageCode = targetLanguage.Name, FieldNames = fieldNames, MatchLog = sbLog.ToString() });
                 sbLog = new StringBuilder();
             }
 
@@ -487,6 +495,23 @@ namespace Basiscore.Minions.sitecore.admin.minions
             }
 
             return matchFound;
+        }
+
+        private static void SaveResultInSession(string sessionId, List<ValueMatchedItem> data)
+        {
+            HttpContext.Current.Session[sessionId] = null;
+
+            try
+            {
+                if (data != null && data.Count > 0)
+                {
+                    HttpContext.Current.Session[sessionId] = data.ToDataTable<ValueMatchedItem>();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         #endregion

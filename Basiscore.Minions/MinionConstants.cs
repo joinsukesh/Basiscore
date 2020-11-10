@@ -46,6 +46,7 @@ namespace Basiscore.Minions
 
         public struct FieldNames
         {
+            public static string Renderings = "__Renderings";
             public static string FinalRenderings = "__Final Renderings";
         }
 

@@ -92,5 +92,7 @@ namespace Basiscore.Minions.Models
         }
 
         public string UpdateCondition { get; set; }
+
+        public string SessionId { get; set; }
     }
 }

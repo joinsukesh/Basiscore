@@ -15,5 +15,7 @@ namespace Basiscore.Minions.Models
 
         public string MatchLog { get; set; }
 
+        public string FieldNames { get; set; }
+
     }
 }

@@ -4,6 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <input type="hidden" class="hdnModuleName" value="<%=Page.Title%>" />
+    <asp:hiddenfield clientidmode="Static" id="hdnSessionId" runat="server" />
     <div class="row">
         <div class="col-md-12">
             <div class="panel-group">
@@ -21,7 +22,7 @@
                                 Use this tool for these item field search related tasks.<br />
                                 <ul>
                                     <li>Find all items that have the keyword as a raw value, in any of their fields.</li>
-                                    <li>Get items and their field values for a field.</li>                                    
+                                    <li>Get items and their field values for a field.</li>
                                 </ul>
                                 <br />
                                 <strong>NOTE: </strong>For a faster search, specify the target template and field IDs.
@@ -36,10 +37,10 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Tasks</label>
         <div class="col-sm-4">
-            <asp:DropDownList ID="ddlTasks" runat="server" CssClass="form-control" ClientIDMode="Static">
+            <asp:dropdownlist id="ddlTasks" runat="server" cssclass="form-control" clientidmode="Static">
                 <asp:ListItem Text="Find Items by Field Value" Value="1"></asp:ListItem>
                 <asp:ListItem Text="Get Items and Field Values by Field" Value="4"></asp:ListItem>                
-            </asp:DropDownList>
+            </asp:dropdownlist>
             <span class="task task-1 text-muted">Find all items under a parent node whose field value <strong>Contains</strong> the keyword.</span>
             <span class="task task-4 text-muted" style="display: none;">Get all items under a parent node with field values, having this field.</span>
         </div>
@@ -47,7 +48,7 @@
     <div class="form-group row task task-1 task-4">
         <label class="col-sm-2 col-form-label">Parent Item <span class="required">*</span></label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtParentItem" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+            <asp:textbox id="txtParentItem" runat="server" cssclass="form-control" clientidmode="Static"></asp:textbox>
             <span class="text-muted">Enter ID of the parent item. All its descendants will be searched including this item.</span><br />
             <span id="spParentItem" class="validation-msg">This field is required</span>
         </div>
@@ -55,29 +56,29 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Source Database</label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtDatabase" runat="server" CssClass="form-control" ClientIDMode="Static" Text="master"></asp:TextBox>
+            <asp:textbox id="txtDatabase" runat="server" cssclass="form-control" clientidmode="Static" text="master"></asp:textbox>
         </div>
     </div>
     <div class="form-group row task task-1 task-4">
         <label class="col-sm-2 col-form-label">Target Item Template</label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtTargetItemTemplate" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+            <asp:textbox id="txtTargetItemTemplate" runat="server" cssclass="form-control" clientidmode="Static"></asp:textbox>
             <span class="text-muted">Enter ID of the template. Child items of only this template will be searched.</span>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Target Field Input Type</label>
         <div class="col-sm-4">
-            <asp:DropDownList ID="ddlTargetFieldInputTypes" runat="server" CssClass="form-control" ClientIDMode="Static">
+            <asp:dropdownlist id="ddlTargetFieldInputTypes" runat="server" cssclass="form-control" clientidmode="Static">
                 <asp:ListItem Text="Field ID" Value="1"></asp:ListItem>
                 <asp:ListItem Text="Field Name" Value="2"></asp:ListItem>
-            </asp:DropDownList>
+            </asp:dropdownlist>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Target Field <span class="task task-4 required" style="display: none;">*</span></label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtFieldId" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+            <asp:textbox id="txtFieldId" runat="server" cssclass="form-control" clientidmode="Static"></asp:textbox>
             <span class="text-muted">Enter <span id="spTfit">ID</span> of the field whose value should be searched/updated.</span><br />
             <span id="spFieldId" class="validation-msg">This field is required</span>
         </div>
@@ -85,7 +86,7 @@
     <div class="task task-1 form-group row">
         <label class="col-sm-2 col-form-label">Search For <span class="required">*</span></label>
         <div class="col-sm-4">
-            <asp:TextBox ID="txtKeyword" runat="server" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+            <asp:textbox id="txtKeyword" runat="server" cssclass="form-control" clientidmode="Static"></asp:textbox>
             <span id="spKeyword" class="validation-msg">This field is required</span>
         </div>
     </div>
@@ -93,16 +94,16 @@
     <div class="form-group row" style="display: none;">
         <label class="col-sm-2 col-form-label">Match Condition</label>
         <div class="col-sm-4">
-            <asp:DropDownList ID="ddlMatchConditions" runat="server" CssClass="form-control" ClientIDMode="Static" Enabled="false">
+            <asp:dropdownlist id="ddlMatchConditions" runat="server" cssclass="form-control" clientidmode="Static" enabled="false">
                 <asp:ListItem Text="Contains" Value="1"></asp:ListItem>
-            </asp:DropDownList>
+            </asp:dropdownlist>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Target Language</label>
         <div class="col-sm-4">
-            <asp:DropDownList ID="ddlLanguages" runat="server" CssClass="form-control" ClientIDMode="Static">
-            </asp:DropDownList>
+            <asp:dropdownlist id="ddlLanguages" runat="server" cssclass="form-control" clientidmode="Static">
+            </asp:dropdownlist>
         </div>
     </div>
     <div class="row">
@@ -120,6 +121,11 @@
             </div>
             <br />
             <p id="pTaskStatus" class="success-msg"></p>
+             <p>
+                <button type="button" id="btnDownload" class="btn btn-warning pull-right" style="display: none;">DOWNLOAD</button>
+                <br />
+                <br />
+            </p>
             <table id="tblResult" class="table table-striped table-bordered table-condensed" style="display: none;">
                 <thead>
                     <tr>
@@ -169,12 +175,25 @@
                     var dataModel = GetDataModel(selectedTaskId);
                     OnSubmit(selectedTaskId, dataModel);
                 }
-            });            
+            });
+
+            $("#btnDownload").click(function () {
+                var taskId = $("#ddlTasks").val();
+                var sessionId = $("#hdnSessionId").val();
+
+                if (taskId == 1) {
+                    app.DownloadData('finditems', sessionId);
+                }
+                else if (taskId == 4) {
+                    app.DownloadData('fieldvalues', sessionId);
+                }                
+            });
 
         });
 
         function GetDataModel(taskId) {
             var dataModel = {};
+            dataModel.SessionId = $("#hdnSessionId").val();
             dataModel.TaskId = taskId;
             dataModel.InputSourceDatabase = $.trim($("#txtDatabase").val());
             dataModel.ParentItemId = $.trim($("#txtParentItem").val());
@@ -230,6 +249,7 @@
                                 else {
                                     if (objData.TaskStatus == 1) {
                                         $("#pTaskStatus").html(objData.TaskStatusMessage);
+                                        $("#btnDownload").show();
                                         var rows = "";
                                         var index = 1;
                                         $.each(objData.LstValueMatchedItems, function () {
@@ -244,7 +264,7 @@
                                             else {
                                                 rows += "<td>" + this.MatchLog + "</td>";
                                             }
-                                            
+
                                             rows += "</tr>";
                                             index++;
                                         });
@@ -312,7 +332,7 @@
         ///clear all field values
         function ResetTargetFieldInputType() {
             $("#ddlTargetFieldInputTypes").val(1);
-                $("#spTfit").html("ID");            
+            $("#spTfit").html("ID");
         }
 
         function ResetValues() {
@@ -321,6 +341,8 @@
             $(".task").hide();
             $(".task-1").show();
             $("#ddlMatchConditions").val(1);
+            $("#btnDownload").hide();
+            $("#d-iframe").remove();
         }
 
         ///clear all field values
@@ -338,6 +360,8 @@
             $("#tbResultRows").html("");
             $("#tblResult").hide();
             $(".divErrorLogContainer").hide();
+            $("#btnDownload").hide();
+            $("#d-iframe").remove();
         }
 
         function Init() {

@@ -75,5 +75,9 @@ namespace Basiscore.Minions.Models
         public int TargetLayoutId { get; set; }
 
         public bool CopyFinalRenderingsToShared { get; set; }
+
+        public string DatabaseName { get; set; }
+
+        public string SessionId { get; set; }
     }
 }

@@ -3,12 +3,12 @@
     app.HighlightActiveMenu();
 
     /*--SECTION SUMMARY EXPAND COLLAPSE ICONS--*/
-    $(".summary-panel .panel-collapse").on("show.bs.collapse", function () {        
+    $(".summary-panel .panel-collapse").on("show.bs.collapse", function () {
         $(this).siblings(".anc-summary-panel-heading-section").addClass("active");
     });
 
     $(".summary-panel .panel-collapse").on("hide.bs.collapse", function () {
-        $(this).siblings(".anc-summary-panel-heading-section").removeClass("active");        
+        $(this).siblings(".anc-summary-panel-heading-section").removeClass("active");
     });
     /*--END SECTION SUMMARY EXPAND COLLAPSE ICONS--*/
 
@@ -29,7 +29,7 @@
     });
     /*END LANGUAGE CHECKBOX SECTION*/
 
-    
+
 });
 
 var app = {
@@ -86,7 +86,7 @@ var app = {
     },
 
     /*DEFAULT RESET FORM*/
-    DefaultResetForm(){
+    DefaultResetForm() {
         ///hide all validation msgs
         $(".validation-msg").hide();
 
@@ -98,7 +98,17 @@ var app = {
         ///uncheck all checkboxes
         $(".chkboxlist input[type='checkbox']").prop("checked", "");
         $("#chkAllLanguages").prop("checked", "");
+    },
+
+    DownloadData(data, id) {
+        $("#d-iframe").remove();
+        var iframe = document.createElement("iframe");
+        iframe.setAttribute("id", "d-iframe");
+        iframe.src = encodeURI("download.aspx?data=" + data + "&id=" + id);
+        iframe.style.cssText = 'display:none';
+        document.body.appendChild(iframe);
+        return false;
     }
-    
+
 };
 
