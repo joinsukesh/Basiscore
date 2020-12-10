@@ -178,22 +178,25 @@ namespace Basiscore.Minions.sitecore.admin.minions
             int itemsCreated = 0;
             int itemsUpdated = 0;
             int itemsSkipped = 0;
+            int itemsDeleted = 0;
             string itemsCreatedStatus = "";
             string itemsUpdatedStatus = "";
             string itemsSkippedStatus = "";
+            string itemsDeletedStatus = "";
 
             try
             {
                 List<Language> languages = customPublishDataModel.SelectedLanguages;
                 List<string> databaseNames = customPublishDataModel.SelectedDatabaseNames;
                 bool excludeItemsWithWorkflow = customPublishDataModel.ExcludeItemsWithWorkflow;
+                bool includeItemsWithNeverPublish = customPublishDataModel.IncludeItemsWithNeverPublish;
                 List<string> lstItemPathsToPublishWithSubitems = customPublishDataModel.GetItemPathsToPublishWithSubitems();
                 List<string> lstItemPathsToPublish = customPublishDataModel.GetItemPathsToPublish();
                 List<string> allItemPaths = new List<string>();
                 List<KeyValuePair<int, string>> lstPublishedItemStatsPerDb = new List<KeyValuePair<int, string>>();
 
                 ///publish parent & children from the list given in the first textbox
-                tempListOfPublishedItems = PublishWithSubItems(lstItemPathsToPublishWithSubitems, databaseNames, languages, excludeItemsWithWorkflow, out errorLog);
+                tempListOfPublishedItems = PublishWithSubItems(lstItemPathsToPublishWithSubitems, databaseNames, languages, includeItemsWithNeverPublish, excludeItemsWithWorkflow, out errorLog);
 
                 if (!string.IsNullOrEmpty(errorLog))
                 {
@@ -211,7 +214,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 {
                     tempListOfPublishedItems = null;
                     errorLog = "";
-                    tempListOfPublishedItems = GetPublishedItemsStats(lstItemPathsToPublish, databaseNames, languages, excludeItemsWithWorkflow, out errorLog);
+                    tempListOfPublishedItems = GetPublishedItemsStats(lstItemPathsToPublish, databaseNames, languages, includeItemsWithNeverPublish, excludeItemsWithWorkflow, out errorLog);
 
                     if (!string.IsNullOrEmpty(errorLog))
                     {
@@ -236,12 +239,15 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     itemsCreated = tempListOfPublishedItems.Where(x => x.ItemPath == itemPath && x.TargetDatabase == dbName).Sum(x => x.ItemsCreated);
                                     itemsUpdated = tempListOfPublishedItems.Where(x => x.ItemPath == itemPath && x.TargetDatabase == dbName).Sum(x => x.ItemsUpdated);
                                     itemsSkipped = tempListOfPublishedItems.Where(x => x.ItemPath == itemPath && x.TargetDatabase == dbName).Sum(x => x.ItemsSkipped);
+                                    itemsDeleted = tempListOfPublishedItems.Where(x => x.ItemPath == itemPath && x.TargetDatabase == dbName).Sum(x => x.ItemsDeleted);
+                                    
                                     /// use this field to caution user if an item is neither created nor updated on publish.
                                     itemPublishStatus.CautionUser = itemsCreated == 0 && itemsUpdated == 0;
-                                    GetItemPublishedStatsSummary(itemsCreated, itemsUpdated, itemsSkipped, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus);
+                                    GetItemPublishedStatsSummary(itemsCreated, itemsUpdated, itemsSkipped, itemsDeleted, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus, out itemsDeletedStatus);
                                     itemPublishStatus.ItemsCreatedStatus += itemsCreatedStatus;
                                     itemPublishStatus.ItemsUpdatedStatus += itemsUpdatedStatus;
                                     itemPublishStatus.ItemsSkippedStatus += itemsSkippedStatus;
+                                    itemPublishStatus.ItemsDeletedStatus += itemsDeletedStatus;
                                 }
 
                                 lstItemPublishStatus.Add(itemPublishStatus);
@@ -302,11 +308,12 @@ namespace Basiscore.Minions.sitecore.admin.minions
         /// <param name="itemPaths"></param>
         /// <param name="databaseNames"></param>
         /// <param name="languages"></param>
+        /// <param name="includeItemsWithNeverPublish"></param>
         /// <param name="excludeItemsWithWorkflow"></param>
         /// <param name="errorLog"></param>
         /// <returns></returns>
         private static List<ItemPublishedStatus> GetPublishedItemsStats(List<string> itemPaths, List<string> databaseNames,
-            List<Language> languages, bool excludeItemsWithWorkflow, out string errorLog)
+            List<Language> languages, bool includeItemsWithNeverPublish, bool excludeItemsWithWorkflow, out string errorLog)
         {
             StringBuilder sbErrorLog = new StringBuilder("");
             ItemPublishedStatus itemPublishStatus = null;
@@ -341,7 +348,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                 ///proceed to publish if it is non-content or it has versions
                                 if (sourceItem != null)
                                 {
-                                    if (sourceItem.Fields[MinionConstants.Templates.Publishing.Fields.NeverPublish].Value != MinionConstants.One)
+                                    if (includeItemsWithNeverPublish || (!includeItemsWithNeverPublish && sourceItem.Fields[MinionConstants.Templates.Publishing.Fields.NeverPublish].Value != MinionConstants.One))
                                     {
                                         hasWorkflow = MinionHelper.HasWorkflow(sourceItem);
 
@@ -406,6 +413,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                 itemPublishStatus.ItemsCreated += publishResult.Statistics.Created;
                                 itemPublishStatus.ItemsUpdated += publishResult.Statistics.Updated;
                                 itemPublishStatus.ItemsSkipped += publishResult.Statistics.Skipped;
+                                itemPublishStatus.ItemsDeleted += publishResult.Statistics.Deleted;
                             }
                         }
 
@@ -534,12 +542,13 @@ namespace Basiscore.Minions.sitecore.admin.minions
         /// <param name="itemsCreatedStatus"></param>
         /// <param name="itemsUpdatedStatus"></param>
         /// <param name="itemsSkippedStatus"></param>
-        private static void GetItemPublishedStatsSummary(int itemsCreated, int itemsUpdated, int itemsSkipped, string targetDbName,
-            out string itemsCreatedStatus, out string itemsUpdatedStatus, out string itemsSkippedStatus)
+        private static void GetItemPublishedStatsSummary(int itemsCreated, int itemsUpdated, int itemsSkipped, int itemsDeleted, string targetDbName,
+            out string itemsCreatedStatus, out string itemsUpdatedStatus, out string itemsSkippedStatus, out string itemsDeletedStatus)
         {
             itemsCreatedStatus = itemsCreated + " for " + targetDbName + "<br/>";
             itemsUpdatedStatus = itemsUpdated + " for " + targetDbName + "<br/>";
             itemsSkippedStatus = itemsSkipped + " for " + targetDbName + "<br/>";
+            itemsDeletedStatus = itemsDeleted + " for " + targetDbName + "<br/>";
         }
 
         /// <summary>
@@ -552,7 +561,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
         /// <param name="errorLog"></param>
         /// <returns></returns>
         private static List<ItemPublishedStatus> PublishWithSubItems(List<string> parentItemPaths, List<string> databaseNames,
-            List<Language> languages, bool excludeItemsWithWorkflow, out string errorLog)
+            List<Language> languages, bool includeItemsWithNeverPublish, bool excludeItemsWithWorkflow, out string errorLog)
         {
             errorLog = "";
             List<ItemPublishedStatus> lstItemPublishStatus = new List<ItemPublishedStatus>();
@@ -563,9 +572,11 @@ namespace Basiscore.Minions.sitecore.admin.minions
             int itemsCreated = 0;
             int itemsUpdated = 0;
             int itemsSkipped = 0;
+            int itemsDeleted = 0;
             string itemsCreatedStatus = "";
             string itemsUpdatedStatus = "";
             string itemsSkippedStatus = "";
+            string itemsDeletedStatus = "";
             IEnumerable<string> uniqueItemPaths = null;
 
             try
@@ -582,9 +593,11 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         itemsCreated = 0;
                         itemsUpdated = 0;
                         itemsSkipped = 0;
+                        itemsDeleted = 0;
                         itemsCreatedStatus = "";
                         itemsUpdatedStatus = "";
                         itemsSkippedStatus = "";
+                        itemsDeletedStatus = "";
 
                         ///get the item with path, from master db
                         masterDbItem = MinionHelper.Databases.masterDb.GetItem(itemPath);
@@ -593,7 +606,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                         {
                             ///publish this parent item
                             tempListOfPublishedItems = GetPublishedItemsStats(new List<string> { itemPath }, databaseNames, languages,
-                                excludeItemsWithWorkflow, out errorLog);
+                                includeItemsWithNeverPublish, excludeItemsWithWorkflow, out errorLog);
 
                             ///collect the error logs if any
                             if (!string.IsNullOrEmpty(errorLog))
@@ -619,12 +632,14 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                             itemsCreated = tempListOfPublishedItems.Where(x => x.ItemPath == path && x.TargetDatabase == dbName).Sum(x => x.ItemsCreated);
                                             itemsUpdated = tempListOfPublishedItems.Where(x => x.ItemPath == path && x.TargetDatabase == dbName).Sum(x => x.ItemsUpdated);
                                             itemsSkipped = tempListOfPublishedItems.Where(x => x.ItemPath == path && x.TargetDatabase == dbName).Sum(x => x.ItemsSkipped);
+                                            itemsDeleted = tempListOfPublishedItems.Where(x => x.ItemPath == path && x.TargetDatabase == dbName).Sum(x => x.ItemsDeleted);
                                             currentItemPublishStats.Add(new ItemPublishedStatus
                                             {
                                                 ItemPath = path,
                                                 ItemsCreated = itemsCreated,
                                                 ItemsUpdated = itemsUpdated,
                                                 ItemsSkipped = itemsSkipped,
+                                                ItemsDeleted = itemsDeleted,
                                                 TargetDatabase = dbName
                                             });
                                         }
@@ -640,8 +655,9 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                 itemsCreated = 0;
                                 itemsUpdated = 0;
                                 itemsSkipped = 0;
+                                itemsDeleted = 0;
                                 tempListOfPublishedItems = GetPublishedItemsStats(masterDbItem.Axes.GetDescendants().Select(x => x.Paths.FullPath).ToList(),
-                                    databaseNames, languages, excludeItemsWithWorkflow, out errorLog);
+                                    databaseNames, languages, includeItemsWithNeverPublish, excludeItemsWithWorkflow, out errorLog);
 
                                 ///collect the error logs if any
                                 if (!string.IsNullOrEmpty(errorLog))
@@ -658,16 +674,19 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                         itemsCreated = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsCreated);
                                         itemsUpdated = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsUpdated);
                                         itemsSkipped = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsSkipped);
-
+                                        itemsDeleted = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsDeleted);
+                                        
                                         ///add the respective stats to that of the parent item
                                         itemsCreated += currentItemPublishStats.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsCreated);
                                         itemsUpdated += currentItemPublishStats.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsUpdated);
                                         itemsSkipped += currentItemPublishStats.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsSkipped);
+                                        itemsDeleted += currentItemPublishStats.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsDeleted);
 
-                                        GetItemPublishedStatsSummary(itemsCreated, itemsUpdated, itemsSkipped, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus);
+                                        GetItemPublishedStatsSummary(itemsCreated, itemsUpdated, itemsSkipped, itemsDeleted, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus, out itemsDeletedStatus);
                                         itemPublishStatus.ItemsCreatedStatus += itemsCreatedStatus;
                                         itemPublishStatus.ItemsUpdatedStatus += itemsUpdatedStatus;
                                         itemPublishStatus.ItemsSkippedStatus += itemsSkippedStatus;
+                                        itemPublishStatus.ItemsDeletedStatus += itemsDeletedStatus;
                                     }
                                 }
                             }
@@ -681,11 +700,13 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                         itemsCreated = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsCreated);
                                         itemsUpdated = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsUpdated);
                                         itemsSkipped = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsSkipped);
+                                        itemsDeleted = tempListOfPublishedItems.Where(x => x.TargetDatabase == dbName).Sum(x => x.ItemsDeleted);
 
-                                        GetItemPublishedStatsSummary(itemsCreated, itemsUpdated, itemsSkipped, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus);
+                                        GetItemPublishedStatsSummary(itemsCreated, itemsUpdated, itemsSkipped, itemsDeleted, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus, out itemsDeletedStatus);
                                         itemPublishStatus.ItemsCreatedStatus += itemsCreatedStatus;
                                         itemPublishStatus.ItemsUpdatedStatus += itemsUpdatedStatus;
                                         itemPublishStatus.ItemsSkippedStatus += itemsSkippedStatus;
+                                        itemPublishStatus.ItemsDeletedStatus += itemsDeletedStatus;
                                     }
                                 }
                             }
@@ -696,10 +717,11 @@ namespace Basiscore.Minions.sitecore.admin.minions
 
                             foreach (string dbName in databaseNames)
                             {
-                                GetItemPublishedStatsSummary(0, 0, 0, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus);
+                                GetItemPublishedStatsSummary(0, 0, 0, 0, dbName, out itemsCreatedStatus, out itemsUpdatedStatus, out itemsSkippedStatus, out itemsDeletedStatus);
                                 itemPublishStatus.ItemsCreatedStatus += itemsCreatedStatus;
                                 itemPublishStatus.ItemsUpdatedStatus += itemsUpdatedStatus;
                                 itemPublishStatus.ItemsSkippedStatus += itemsSkippedStatus;
+                                itemPublishStatus.ItemsDeletedStatus += itemsDeletedStatus;
                             }
                         }
 

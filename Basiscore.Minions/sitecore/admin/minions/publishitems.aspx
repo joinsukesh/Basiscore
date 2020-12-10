@@ -137,6 +137,7 @@
             </div>
             <br />
             <div class="form-group chkboxlist">
+                <input type="checkbox" id="chkIncludeNeverPublish" />&nbsp;<label>Include items set to 'Never Publish'</label><br />
                 <input type="checkbox" id="chkExcludeIfWorkflow" />&nbsp;<label>Exclude items with workflow</label>
             </div>
             <br />
@@ -174,6 +175,7 @@
                         <th>ITEM PATH</th>
                         <th class="center">CREATED</th>
                         <th class="center">UPDATED</th>
+                        <th class="center">DELETED</th>
                         <th class="center">SKIPPED</th>
                     </tr>
                 </thead>
@@ -322,6 +324,7 @@
             dataModel.CommaSeparatedLanguageCodes = GetSelectedLanguageCodes().join(',');
             dataModel.CommaSeparatedDatabaseNames = GetSelectedDbNames().join(',');;
             dataModel.ExcludeItemsWithWorkflow = $("#chkExcludeIfWorkflow").is(":checked");
+            dataModel.IncludeItemsWithNeverPublish = $("#chkIncludeNeverPublish").is(":checked");
             return dataModel;
         }
 
@@ -366,6 +369,7 @@
                                         rows += "<td>" + this.ItemPath + "</td>";
                                         rows += "<td align='center'>" + this.ItemsCreatedStatus + "</td>";
                                         rows += "<td align='center'>" + this.ItemsUpdatedStatus + "</td>";
+                                        rows += "<td align='center'>" + this.ItemsDeletedStatus + "</td>";
                                         rows += "<td align='center'>" + this.ItemsSkippedStatus + "</td>";
                                         rows += "</tr>";
                                     });

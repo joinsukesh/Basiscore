@@ -16,6 +16,7 @@ namespace Basiscore.Minions.Models
         public string CommaSeparatedDatabaseNames { get; set; }
 
         public bool ExcludeItemsWithWorkflow { get; set; }
+        public bool IncludeItemsWithNeverPublish { get; set; }
 
         public List<string> SelectedDatabaseNames
         {
