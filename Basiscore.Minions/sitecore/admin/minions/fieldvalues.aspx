@@ -150,11 +150,12 @@
             });
 
             $("#ddlTasks").change(function () {
-                ClearFieldValues();
+                //ClearFieldValues();
+                ClearResults();
                 $(".task").hide();
                 var selectedTaskId = $(this).val();
                 $(".task-" + selectedTaskId).show();
-                ResetTargetFieldInputType();
+                //ResetTargetFieldInputType();
             });
 
             $("#ddlTargetFieldInputTypes").change(function () {
@@ -343,6 +344,7 @@
             $("#ddlMatchConditions").val(1);
             $("#btnDownload").hide();
             $("#d-iframe").remove();
+            $("#ddlLanguages").prop('selectedIndex', 0);
         }
 
         ///clear all field values

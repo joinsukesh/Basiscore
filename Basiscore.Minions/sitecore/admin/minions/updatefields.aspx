@@ -176,11 +176,12 @@
             });
 
             $("#ddlTasks").change(function () {
-                ClearFieldValues();
+                //ClearFieldValues();
+                ClearResults();
                 $(".task").hide();
                 var selectedTaskId = $(this).val();
                 $(".task-" + selectedTaskId).show();
-                $("#ddlUpdateConditions").val(0);                
+                //$("#ddlUpdateConditions").val(0);                
             });           
 
             $("#btnReplace").click(function () {
@@ -241,16 +242,16 @@
             var postUrl = "";
 
             if (task == 2) {
-                postUrl = "fieldvalues.aspx/ReplaceKeyword";
+                postUrl = "updatefields.aspx/ReplaceKeyword";
             }
             else if (task == 3) {
-                postUrl = "fieldvalues.aspx/UpdateFieldValue";
+                postUrl = "updatefields.aspx/UpdateFieldValue";
             }
             else if (task == 5) {
-                postUrl = "fieldvalues.aspx/UpdateFieldValueByItemPaths";
+                postUrl = "updatefields.aspx/UpdateFieldValueByItemPaths";
             }
             else if (task == 6) {
-                postUrl = "fieldvalues.aspx/ReplaceKeywordForSpecifiedItems";
+                postUrl = "updatefields.aspx/ReplaceKeywordForSpecifiedItems";
             }
 
             $.ajax({
