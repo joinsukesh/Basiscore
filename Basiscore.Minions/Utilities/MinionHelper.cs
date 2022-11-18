@@ -2,27 +2,27 @@
 
 namespace Basiscore.Minions.Utilities
 {
+    using Basiscore.Minions.Models;
+    using ClosedXML.Excel;
+    using Sitecore;
     using Sitecore.Collections;
     using Sitecore.Configuration;
     using Sitecore.Data;
+    using Sitecore.Data.Fields;
     using Sitecore.Data.Items;
     using Sitecore.Data.Managers;
     using Sitecore.Globalization;
+    using Sitecore.Layouts;
     using Sitecore.Publishing;
     using Sitecore.Publishing.Pipelines.Publish;
     using Sitecore.SecurityModel;
-    using Basiscore.Minions.Models;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Data;
     using System.IO;
-    using System.Web;
-    using ClosedXML.Excel;
+    using System.Linq;
     using System.Text.RegularExpressions;
-    using Sitecore.Layouts;
-    using Sitecore.Data.Fields;
-    using Sitecore;
+    using System.Web;
 
     public class MinionHelper
     {
