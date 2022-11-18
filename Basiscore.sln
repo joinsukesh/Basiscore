@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32510.428
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Minions", "Minions", "{73D222E7-2B6A-401A-AC57-50796E6305A1}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basiscore.Minions", "Basiscore.Minions\Basiscore.Minions.csproj", "{35A2CB87-F554-40FE-AF98-DC0EDEB37639}"
 EndProject
 Global
@@ -18,6 +20,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35A2CB87-F554-40FE-AF98-DC0EDEB37639} = {73D222E7-2B6A-401A-AC57-50796E6305A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81955980-D211-4871-A2F4-DB4431E96D30}
