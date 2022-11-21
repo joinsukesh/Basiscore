@@ -18,6 +18,7 @@
                     </a>
                     <div id="collapse1" class="panel-collapse collapse">
                         <div class="panel-body summary-panel-body-section">
+                            <p>Click <a href="/sitecore/admin/minions/assets/files/ImportExcelDataSample.xlsx"><strong>here</strong></a> to download the template excel file.</p>
                             <p>Import data from an excel sheet to create or update Sitecore items.</p>
                             <ul>
                                 <li>The Sitecore template(s) with which the items should be created, should already exist in your CMS.</li>
@@ -40,8 +41,8 @@
                                 </li>
                                 <li>Click <a href="/sitecore/admin/minions/assets/files/ImportExcelDataSample.xlsx"><strong>here</strong></a> to download the template excel file.<br />
                                     You can see that, the <em>Country</em> & <em>State</em> are different templates, with these fields.<br />
-                                    Country - Title, Code, Currency<br />
-                                    State - Title, Code, Minimum Wage<br />
+                                    Country - Country Code<br />
+                                    State - Key, Phrase<br />
                                     Refer the sheet to understand how to create/update items with field values.
                                 </li>
                             </ul>
