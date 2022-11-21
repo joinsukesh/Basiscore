@@ -6,10 +6,11 @@ But, they might be of some help for a few tasks.
 This project is a suite of Sitecore tools aimed to help developer's in some of their everyday tasks.  
 
 ## INSTALLATION  
-1. Clone the solution.
-2. <i>/packages/Libraries</i> folder has the Sitecore & other DLLs used for this project (e.g.: Sitecore.Kernel etc). You can replace them with the ones from your instance webroot.
-3. Build the Solution and publish the project. It will publish the files to <i>C:\out\Basiscore.Minions</i>.  
-4. Have a look at the files and copy them to your instance's webroot. 
+1. Take a backup of the <b>/bin</b> folder, <b>/App_Config</b> folder, and the <b>Web.config</b>, from your instance's webroot.
+2. Clone the solution.
+3. The <b><i>/packages/Libraries</i></b> folder has the Sitecore & other DLLs used for this project (e.g.: Sitecore.Kernel etc). You can replace them with the ones from your instance webroot or leave them as is, as they will not be published.
+4. Build the Solution and publish the project. It will publish the files to <i>C:\out\Basiscore.Minions</i>.  
+5. Have a look at the files and copy them to your instance's webroot. 
 Your instance may already have one or more DLLs e.g.: DocumentFormat.OpenXml.dll. Ignore those and copy the rest.  
 5. Once the installation is done, browse this URL - <i>[your-instance-name]/sitecore/admin/minions/index.aspx</i>, to view the suite.
 
