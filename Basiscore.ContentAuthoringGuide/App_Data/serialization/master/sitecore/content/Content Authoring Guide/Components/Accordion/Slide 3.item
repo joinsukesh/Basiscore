@@ -1,0 +1,58 @@
+----item----
+version: 1
+id: {D9ACC7B4-88F3-4B28-BC60-8DAA0A1A248A}
+database: master
+path: /sitecore/content/Content Authoring Guide/Components/Accordion/Slide 3
+parent: {99E10DFF-7AC0-447B-BDB1-B1FD9E644ECC}
+name: Slide 3
+master: {00000000-0000-0000-0000-000000000000}
+template: {44E4BF0E-317C-49A1-919F-37ACCABE32D7}
+templatekey: Carousel Slide
+
+----version----
+language: en
+version: 1
+revision: 1bef47d1-dcde-4d2a-afee-5d086f83edb5
+
+----field----
+field: {3E06F337-763F-4199-B758-942993B9C3AF}
+name: Image
+key: image
+content-length: 58
+
+<image mediaid="{E5002909-5F99-4C49-B727-E52D6E87046C}" />
+----field----
+field: {2B059E8C-EDED-4273-AABD-03A74F729A02}
+name: Description
+key: description
+content-length: 445
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+----field----
+field: {25BED78C-4957-4165-998A-CA1B52F67497}
+name: __Created
+key: __created
+content-length: 16
+
+20180622T103154Z
+----field----
+field: {8CDC337E-A112-42FB-BBB4-4143751E123F}
+name: __Revision
+key: __revision
+content-length: 36
+
+1bef47d1-dcde-4d2a-afee-5d086f83edb5
+----field----
+field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
+name: __Updated
+key: __updated
+content-length: 16
+
+20180622T103212Z
+----field----
+field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
+name: __Updated by
+key: __updated by
+content-length: 14
+
+sitecore\Admin

@@ -1,0 +1,54 @@
+﻿@using Basiscore.ContentAuthoringGuide.Areas.ContentAuthoringGuide.Models
+@model SearchResultsViewModel
+
+@{
+    int resultIndex = 1;
+}
+
+@if (Model != null)
+{
+    <h4>@Model.StatusMessage</h4>
+
+    if (Model.SearchResults != null && Model.SearchResults.Count > 0)
+    {
+        <table class="table search-results-table">
+            @foreach (SearchResult result in Model.SearchResults)
+            {
+                <tr>
+                    <td style="width:10%;vertical-align:middle;text-align:center;">
+                        <div class="row-index">@(resultIndex)</div>
+                    </td>
+                    <td style="width:90%;">
+                        <h4 class="search-result-title"><a href="#" data-id="@result.ArticleItemID">@result.ArticleTitle</a></h4>
+                      
+                        <div class="search-result-content">
+                            Menu Category  : @result.MenuCategory<br />
+                            Match Found In : @result.MatchFoundIn
+                        </div>
+                    </td>
+                </tr>
+                resultIndex++;
+            }
+        </table>       
+    }
+}
+else
+{
+    <span></span>
+}
+
+<script>
+    $(document).ready(function () {
+
+        $(".search-result-title a").on("click", function () {            
+            var articleid = $(this).attr("data-id");
+            var articleDiv = $(".page-content").find("[data-articleid='" + articleid + "']");            
+            $("#divArticleInfo").html($(articleDiv).html());
+            $("#divSearchResults").hide();
+            $("#divArticleInfo").show();
+            $("#close-articleInfo").show();
+        });
+
+    });
+</script>
+

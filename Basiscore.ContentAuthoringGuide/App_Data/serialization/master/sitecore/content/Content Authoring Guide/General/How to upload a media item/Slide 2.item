@@ -1,0 +1,58 @@
+----item----
+version: 1
+id: {9FBD3DFE-31EE-44A8-B043-B3DF1E676E05}
+database: master
+path: /sitecore/content/Content Authoring Guide/General/How to upload a media item/Slide 2
+parent: {E88888FB-39B5-4A41-885F-9B3806BB2ABA}
+name: Slide 2
+master: {00000000-0000-0000-0000-000000000000}
+template: {44E4BF0E-317C-49A1-919F-37ACCABE32D7}
+templatekey: Carousel Slide
+
+----version----
+language: en
+version: 1
+revision: d056c813-946a-4f59-93f8-082f24ae14f1
+
+----field----
+field: {3E06F337-763F-4199-B758-942993B9C3AF}
+name: Image
+key: image
+content-length: 58
+
+<image mediaid="{9B9C4E8E-8FF5-43AC-A24C-BF3A418D29AE}" />
+----field----
+field: {2B059E8C-EDED-4273-AABD-03A74F729A02}
+name: Description
+key: description
+content-length: 451
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br />
+----field----
+field: {25BED78C-4957-4165-998A-CA1B52F67497}
+name: __Created
+key: __created
+content-length: 16
+
+20180622T103116Z
+----field----
+field: {8CDC337E-A112-42FB-BBB4-4143751E123F}
+name: __Revision
+key: __revision
+content-length: 36
+
+d056c813-946a-4f59-93f8-082f24ae14f1
+----field----
+field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
+name: __Updated
+key: __updated
+content-length: 16
+
+20180622T103144Z
+----field----
+field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
+name: __Updated by
+key: __updated by
+content-length: 14
+
+sitecore\Admin
