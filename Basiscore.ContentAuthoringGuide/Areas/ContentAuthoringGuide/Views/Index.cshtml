@@ -1,0 +1,284 @@
+﻿@using Basiscore.ContentAuthoringGuide.Areas.ContentAuthoringGuide.Models
+@using System.Web.Mvc
+@model GuideRoot
+@{
+    ViewBag.Title = Model != null ? Model.Title : string.Empty;
+    Layout = "~/Areas/ContentAuthoringGuide/Views/Shared/Default.cshtml";
+    int carouselIndex = 1;
+    string slideDescription = string.Empty;
+    List<MenuItem> menuItems = Model != null ? Model.MenuItems : null;
+    List<Article> allArticles = Model != null ? Model.Articles : null;
+    string coverPageImageURL = Model != null ? Model.CoverPageImage : string.Empty;
+    string rootNodeID = Model != null ? Model.InnerItem.ID.ToString() : string.Empty;
+
+    if (Model != null)
+    {
+        <style>
+        .cover-image{
+            background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),
+                url(@coverPageImageURL);
+        }
+        </style>
+    }
+}
+
+<input type="hidden" id="hdnRootNode" value="@rootNodeID" />
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <!-- search form -->
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" id="txtSearch" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button type="button" name="search" id="btnSearch" class="btn btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+        <!-- /.search form -->
+        <div class="fixed-sidebar">
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">&nbsp;</li>
+                @if (menuItems != null && menuItems.Count > 0)
+                {
+                    foreach (MenuItem menuItem in menuItems)
+                    {
+                        if (menuItem.IsArticle)
+                        {
+                            <li>
+                                <a href="#" class="menu-item" data-menuarticleid="@(menuItem.Article.InnerItem.ID)">
+                                    <span>@menuItem.Article.Title</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="treeview">
+                                <a href="#">
+                                    <span>@menuItem.ArticlesFolder.Title</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    @foreach (Article article in menuItem.ArticlesFolder.Articles)
+                                    {
+                                        <li class="">
+                                            <a href="#" class="menu-item" data-menuarticleid="@(article.InnerItem.ID)">
+                                                @article.Title
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    }
+                }
+                
+            </ul>
+        </div>
+
+    </section>
+    <!-- /.sidebar -->
+</aside>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper content-wrapper-light">
+    <section class="content-header">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 page-content">
+
+                <!--SEARCH RESULTS PAGE-->
+                <div id="divSearchResults" class="box box-shadow-light margin-top-30" style="display:none;">
+                    <div class="box-body">
+                        <h3>Search Results</h3>
+                        <div id="close-search" class="close-icon"><i class="fa fa-close"></i></div>
+                        <hr />
+                        <div id="divResult"></div>
+                    </div>
+                </div>
+
+                <!--ARTICLE DETAILS MODAL-->
+                <div style="position:relative;">
+                    <div id="close-articleInfo" class="close-icon" style="display:none;z-index:1000;"><i class="fa fa-close"></i></div>
+                    <div id="divArticleInfo" class="box box-shadow-light margin-top-30 animated zoomIn" style="display:none;">
+
+                    </div>
+                </div>
+                <!--END ARTICLE DETAILS MODAL-->
+                <!--END SEARCH RESULTS PAGE-->
+
+                <div id="divArticles">
+                    <!--COVER PAGE-->
+                    <div class="box box-shadow-light margin-top-30 cover-image-container">
+                        <div class="box-body">
+                            <div class="cover-image">
+                                @if (Model != null)
+                                {
+                                    <div class="top-logo-container">
+                                        @if (!string.IsNullOrEmpty(Model.TopLogo))
+                                        {
+                                            <img src="@Model.TopLogo" class="top-logo" />
+                                        }
+                                        <div class="top-logo-content">
+                                            @Model.TopLogoContent
+                                        </div>
+                                    </div>
+                                    <h2>@Model.Title</h2>
+                                    <div class="bottom-logo-container">
+                                        @if (!string.IsNullOrEmpty(Model.BottomLogo))
+                                        {
+                                            <img src="@Model.BottomLogo" class="bottom-logo" />
+                                        }
+                                        <div class="bottom-logo-content">
+                                            @Model.BottomLogoContent
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <h2 style="font-size: small;text-transform: none;line-height: 20px;">
+                                        Could not find the 'Content Authoring Guide' Item. Pass its ID as URL parameter.
+                                    </h2>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!--END COVER PAGE-->
+                    <!--ARTICLES-->
+                    @if (allArticles != null && allArticles.Count > 0)
+                    {
+                        foreach (Article article in allArticles)
+                        {
+                            <div class="box box-shadow-light margin-top-30" data-articleid="@(article.InnerItem.ID)">
+                                <div class="box-body">
+                                    <h1>@article.Title</h1>
+                                    <div class="article-desc">
+                                        @article.Description
+                                    </div>
+
+                                    @if (!string.IsNullOrEmpty(Convert.ToString(article.ReferenceURL)))
+                                    {
+                                        <h3>Reference URL</h3>
+                                        <div class="article-desc">
+                                            @article.ReferenceURL
+                                        </div>
+                                    }
+
+                                    @if (article.Slides != null && article.Slides.Count > 0)
+                                    {
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div id="myCarousel@(carouselIndex)" class="carousel slide margin-top-30" data-ride="carousel">
+                                                    <!-- Indicators -->
+                                                    @if (article.Slides.Count > 1)
+                                                    {
+                                                        <ol class="carousel-indicators">
+                                                            @for (int index = 0; index < article.Slides.Count; index++)
+                                                            {
+                                                                <li data-target="#myCarousel@(carouselIndex)" data-slide-to="@(index)" class="@(index == 0 ? "active" : "")"></li>
+                                                            }
+                                                        </ol>
+                                                    }
+
+                                                    <!-- Wrapper for slides -->
+                                                    <div class="carousel-inner">
+                                                        @for (int slideIndex = 0; slideIndex < article.Slides.Count; slideIndex++)
+                                                        {
+                                                            slideDescription = Convert.ToString(article.Slides[slideIndex].Description);
+                                                            <div class="@(slideIndex == 0 ? "item active" : "item")">
+                                                                <div class="slide-img">
+                                                                    <img src="@article.Slides[slideIndex].Image" class="@(string.IsNullOrEmpty(slideDescription) ? "img-responsive img-full-width" : "img-responsive")" />
+                                                                </div>
+                                                                @if (!string.IsNullOrEmpty(slideDescription))
+                                                                {
+                                                                    <div class="slide-content">
+                                                                        @article.Slides[slideIndex].Description
+                                                                    </div>
+                                                                }
+                                                                <h3 class="slide-index" style="@(string.IsNullOrEmpty(slideDescription) ? "opacity:0.4;" : "")">
+                                                                    @(slideIndex + 1 > 9 ? Convert.ToString(slideIndex + 1) : "0" + (slideIndex + 1))
+                                                                </h3>
+                                                            </div>
+                                                        }
+                                                    </div>
+
+                                                    <!-- Left and right controls -->
+                                                    @if (article.Slides.Count > 1)
+                                                    {
+                                                        <a class="left carousel-control" href="#myCarousel@(carouselIndex)" data-slide="prev">
+                                                            <span class="fa fa-chevron-left"></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        <a class="right carousel-control" href="#myCarousel@(carouselIndex)" data-slide="next">
+                                                            <span class="fa fa-chevron-right"></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(article.Section1Header))
+                                    {
+                                        <h3>@article.Section1Header</h3>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Convert.ToString(article.Section1Description)))
+                                    {
+                                        <div class="article-desc">@article.Section1Description</div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(article.Section2Header))
+                                    {
+                                        <h3>@article.Section2Header</h3>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Convert.ToString(article.Section2Description)))
+                                    {
+                                        <div class="article-desc">@article.Section2Description</div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(article.Section3Header))
+                                    {
+                                        <h3>@article.Section3Header</h3>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Convert.ToString(article.Section3Description)))
+                                    {
+                                        <div class="article-desc">@article.Section3Description</div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(article.Section4Header))
+                                    {
+                                        <h3>@article.Section4Header</h3>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Convert.ToString(article.Section4Description)))
+                                    {
+                                        <div class="article-desc">@article.Section4Description</div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(article.Section5Header))
+                                    {
+                                        <h3>@article.Section5Header</h3>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Convert.ToString(article.Section5Description)))
+                                    {
+                                        <div class="article-desc">@article.Section5Description</div>
+                                    }
+                                </div>
+                            </div>
+
+                            carouselIndex++;
+                        }
+                    }
+                    <!--END ARTICLES-->
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->

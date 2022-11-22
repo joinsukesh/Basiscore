@@ -1,0 +1,263 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link href="~/Areas/ContentAuthoringGuide/Assets/css/style.css" rel="stylesheet" />
+    <link href="~/Areas/ContentAuthoringGuide/Assets/css/documentation.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="~/Areas/ContentAuthoringGuide/Assets/js/app.js"></script>
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a class="logo">
+                @*<img src="" style="width:50px; height:auto;" />
+                    <span class="logo-mini"></span>
+                    <span class="logo-lg"></span>*@
+            </a>
+
+            <nav class="navbar navbar-static-top">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown messages-menu open">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-paint-brush"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="#" onclick="ChangeTheme(1);">
+                                                <h4>Light</h4>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" onclick="ChangeTheme(2);">
+                                                <h4>Dark</h4>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        @RenderBody()
+
+        <!--SCROLL_TO_TOP-->
+        <a href="" class="back-to-top" style="display: none;">
+            <i class="fa fa-arrow-circle-up"></i>
+        </a>
+        <!--END SCROLL_TO_TOP-->
+    </div>
+    <!-- ./wrapper -->
+    <!--LOADING MODAL-->
+    <div id="modal-loading" class="modal fade in" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="divLoading">
+                        <img src="~/Areas/ContentAuthoringGuide/Assets/img/Intersection.gif" class="submit-status-logo" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END LOADING MODAL-->
+    <script>
+        var cagThemeName = "cagTheme";
+        RemoveSitecoreDivs();
+
+        jQuery(document).ready(function ($) {
+            //remove unnecessary script references
+            $('script').each(function () {
+
+                if (this.src === 'chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/page/prompt.js' ||
+                    this.src === 'chrome-extension://ljdobmomdgdljniojadhoplhkpialdid/page/runScript.js'
+                    ) {
+                    this.parentNode.removeChild(this);
+                }
+            });
+
+            /*-----scroll-to-top----*/
+            var offset = 250;
+            var duration = 300;
+
+            jQuery(window).scroll(function () {
+                if (jQuery(this).scrollTop() > offset) {
+                    jQuery('.back-to-top').fadeIn(duration);
+                } else {
+                    jQuery('.back-to-top').fadeOut(duration);
+                }
+            });
+
+            jQuery('.back-to-top').click(function (event) {
+                event.preventDefault();
+                jQuery('html, body').animate({ scrollTop: 0 }, duration);
+                return false;
+            })
+            /*-----end scroll-to-top----*/
+
+        });
+
+        $(document).ready(function () {
+
+            SetTheme();
+
+            //set autoplay to false for all carousels
+            $('.carousel').carousel({
+                interval: false
+            });
+
+            //collapse the change theme dropdown
+            $(".messages-menu").removeClass("open");
+
+            //scroll to article on menu item click
+            $(".menu-item").click(function () {
+                CloseSearchResults();
+
+                var articleid = $(this).attr("data-menuarticleid");
+                var articleDiv = $(".page-content").find("[data-articleid='" + articleid + "']")
+
+                $('html, body').animate({
+                    scrollTop: $(articleDiv).offset().top
+                }, 1000);
+            });
+
+            //Search
+            $('#txtSearch').on("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    ShowSearchResults();
+                    return false;
+                }
+            });
+
+            $("#btnSearch").click(function () {
+                ShowSearchResults();
+            });
+
+            $("#close-search").click(function () {
+                CloseSearchResults();
+            });
+
+            $("#close-articleInfo").on("click", function () {
+                $("#close-articleInfo").hide();
+                $("#divArticleInfo").hide();
+                $("#divArticleInfo").html("");
+                $("#divSearchResults").fadeIn("slow");
+            });
+            //end Search
+        });
+
+        function RemoveSitecoreDivs() {
+            $("#scPageExtendersForm").remove();
+            $("#scCrossPiece").remove();
+        }
+
+        function SetTheme() {
+
+            var cagThemeNumber = window.localStorage.getItem(cagThemeName);
+
+            if (cagThemeNumber == null || cagThemeNumber == undefined || cagThemeNumber.length <= 0) {
+                cagThemeNumber = 1;
+            }
+
+            ChangeTheme(cagThemeNumber);
+        }
+
+        function ChangeTheme(theme) {
+            $(".content-wrapper").removeClass("content-wrapper-light");
+            $(".content-wrapper").removeClass("content-wrapper-dark");
+            $(".box").each(function () {
+                $(this).removeClass("box-shadow-light");
+                $(this).removeClass("box-shadow-dark");
+            });
+
+            switch (theme) {
+                case 1:
+                case "1":
+                    $(".content-wrapper").addClass("content-wrapper-light");
+                    $(".box").each(function () {
+                        $(this).addClass("box-shadow-light");
+                    });
+                    break;
+                case 2:
+                case "2":
+                    $(".content-wrapper").addClass("content-wrapper-dark");
+                    $(".box").each(function () {
+                        $(this).addClass("box-shadow-dark");
+                    });
+                    break;
+            }
+
+            window.localStorage.setItem(cagThemeName, theme);
+        }
+
+        function ShowSearchResults() {
+            var searchKeyword = $('#txtSearch').val();
+
+            if (searchKeyword.length > 1) {
+                $("#divArticles").hide();
+                $("#divResult").html("");
+                $("#divSearchResults").fadeIn("slow");
+                $("#modal-loading").show();
+
+                var params = JSON.stringify({
+                    'searchKeyword': searchKeyword,
+                    'rootNodeID': $("#hdnRootNode").val()
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetSearchResults", "ContentAuthoringGuide", new { area = "ContentAuthoringGuide"})',
+                    data: params,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (response) {
+                        $("#modal-loading").fadeOut("slow");
+                        $("#divResult").html(response);
+                    },
+                    failure: function (response) {
+                        $("#modal-loading").fadeOut("slow");
+                        $("#divResult").html(response);
+                    },
+                    error: function (response) {
+                        $("#modal-loading").fadeOut("slow");
+                        $("#divResult").html(response);
+                    }
+                });
+            }
+        }
+
+        function CloseSearchResults() {
+            $("#divSearchResults").hide();
+            $("#divArticles").fadeIn("slow");
+            $("#divResult").html("");
+            $("#divArticleInfo").hide();
+            $("#close-articleInfo").hide();
+            $("#divArticleInfo").html("");
+        }
+    </script>
+</body>
+</html>
+
