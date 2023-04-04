@@ -38,7 +38,7 @@ which executes this logic -  after the Sitecore’s default _log.txt_ file is cr
 
 
 ## STEP 2: CONFIGURE SEQ
-We’ll start with creating **Filters** & **Signals**. A _Signal_ is a collection of filters in Seq. You may find one or two default _Signals_ like this:
+We’ll start with creating **Filters** & **Signals**. A _Signal_ is a collection of filters in _Seq_. You may find one or two default _Signals_ like this:
 
  <img width="700" height="auto" src="https://user-images.githubusercontent.com/24619393/229769653-cf847c77-8aec-43dc-a1a3-54a0a34d7d0b.png" />
 
@@ -77,12 +77,13 @@ To create a new Signal, click on the + icon.
 <img width="700" height="auto" src="https://user-images.githubusercontent.com/24619393/229770549-167837fa-cd13-4d6e-bb0d-6024051249aa.png" />
 
 
-Edit the _Title_. Let’s say, your application’s name is ‘_Stratum_’. You can set the same name as the title. Click on the Save icon.
+Edit the _Title_. Let’s say, your application’s name is ‘_Stratum_’. You can set the same name as the title. Click on the _Save_ icon.
 
 <img width="700" height="auto" src="https://user-images.githubusercontent.com/24619393/229770623-cf985a40-4fe9-4d94-9c13-473f13a80584.png" />
 
 
 There are no filters for this _Signal_ yet. Let us create a filter which should display logs which have the ‘Application’ as ‘Stratum’. 
+
 In the Search Box, type this query _Application = ‘Stratum’_ and click the **Add Filter** icon.
 
 <img width="700" height="auto" src="https://user-images.githubusercontent.com/24619393/229770718-472b0731-8454-4c45-95a1-0d0b058fa529.png" />
@@ -127,7 +128,7 @@ You should be able to see the logs
 You can set the **includesystemlogs** setting back to _false_, if you do not wish to capture the system logs.
 
 ## THE PATCH CONFIG
-These are the settings that you can configure for your Sitecore application in the Basiscore.SeqLogger.config
+These are the settings that you can configure for your Sitecore application in the **Basiscore.SeqLogger.config**
 
 <table>
   <tr>
@@ -146,11 +147,11 @@ You can set your application name here. This will allow us to filter the logs by
   <tr>
     <td>includesystemlogs</td>
     <td>Setting this to true, will capture the Sitecore’s default logs. By default, it is set to false. 
-    This will capture only the application logs, i.e., logs that you are capturing in your code e.g., _Log.Error(“”, exception, this);_ </td>
+    This will capture only the application logs, i.e., logs that you are capturing in your code e.g., **Log.Error(“”, exception, this);** </td>
   </tr>
   <tr>
     <td>excludeloggers</td>
-    <td>	This setting is considered only when  _includesystemlogs_ is false. The logger names starting with any of the specified terms will be excluded from logging. This is to further prevent logging of unnecessary system logs.</td>
+    <td>	This setting is considered only when  **includesystemlogs** is false. The logger names starting with any of the specified terms will be excluded from logging. This is to further prevent logging of unnecessary system logs.</td>
   </tr>
   <tr>
     <td>seqapiurl</td>
@@ -207,7 +208,9 @@ Which will render like this:
 
 
 ## INGEST LOGS FROM FILE
-You can also ingest logs from a file. Here is an example.
+You can also ingest logs from a file. 
+
+Here is an example.
 I have copied a _log.{date}.{time}.txt_ file from my Sitecore instance, to _D:\_ and renamed it to _log.txt_.
 
 The contents of this file are like this:
@@ -321,7 +324,7 @@ Execute this command in Windows Command Prompt
 <img width="700" height="auto" src="https://user-images.githubusercontent.com/24619393/229773904-d3aa50d4-de26-416e-92ef-f9a28e2e3898.png" />
 
 
-Once that is done, you will be asked to reset your password
+Once that is done, you will be asked to reset your password.
 
  
 ## 📝REFERENCES
