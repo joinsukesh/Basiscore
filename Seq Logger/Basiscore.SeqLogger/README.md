@@ -140,14 +140,14 @@ These are the settings that you can configure for your Sitecore application in t
     <td>The property ‘Application’ and the configured value (e.g., ‘Stratum’) will be sent to the Seq API and 
     it will be rendered like this:
       
- <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229771813-41470712-d18c-47a2-83de-9144a71bf018.png" />
+ <img width="700" height="auto" src="https://user-images.githubusercontent.com/24619393/229771813-41470712-d18c-47a2-83de-9144a71bf018.png" />
       
-You can set your application name here. This will allow us to filter the logs by Application as discussed in _Step 2.6_ </td>
+You can set your application name here. This will allow us to filter the logs by Application as discussed in Step 2.6 </td>
   </tr>
   <tr>
     <td>includesystemlogs</td>
     <td>Setting this to true, will capture the Sitecore’s default logs. By default, it is set to false. 
-    This will capture only the application logs, i.e., logs that you are capturing in your code e.g., Log.Error(“”, exception, this); </td>
+    This will capture only the application logs, i.e., logs that you are capturing in your code e.g., Log.Error("", exception, this); </td>
   </tr>
   <tr>
     <td>excludeloggers</td>
@@ -162,7 +162,7 @@ You can set your application name here. This will allow us to filter the logs by
     <td>Enter any common custom properties you wish to see for each log in Seq, in this pattern - "Key1,Value1|Key2,Value2"
       
 e.g.: "Environment,Local|Source,Web"
-      <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229772198-f24dd4d9-659d-4812-b016-74f581ec6824.png" />
+      <img width="700" height="auto" src="https://user-images.githubusercontent.com/24619393/229772198-f24dd4d9-659d-4812-b016-74f581ec6824.png" />
     </td>
   </tr>
   <tr>
