@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.32510.428
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Minions", "Minions", "{73D222E7-2B6A-401A-AC57-50796E6305A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basiscore.Minions", "Basiscore.Minions\Basiscore.Minions.csproj", "{35A2CB87-F554-40FE-AF98-DC0EDEB37639}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content Authoring Guide", "Content Authoring Guide", "{721836A1-2256-47A4-B2B6-962F73E9EB23}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basiscore.ContentAuthoringGuide", "Basiscore.ContentAuthoringGuide\Basiscore.ContentAuthoringGuide.csproj", "{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SeqLogger", "SeqLogger", "{177B0C68-C0F0-4113-A8A4-6FD4FA9C5DD3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basiscore.SeqLogger", "Basiscore.SeqLogger\Basiscore.SeqLogger.csproj", "{359603AE-6865-4EC2-8857-395D1507C4B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basiscore.ContentAuthoringGuide", "Content Authoring Guide\Basiscore.ContentAuthoringGuide\Basiscore.ContentAuthoringGuide.csproj", "{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basiscore.Minions", "Minions\Basiscore.Minions\Basiscore.Minions.csproj", "{35A2CB87-F554-40FE-AF98-DC0EDEB37639}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,26 +21,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{35A2CB87-F554-40FE-AF98-DC0EDEB37639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35A2CB87-F554-40FE-AF98-DC0EDEB37639}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35A2CB87-F554-40FE-AF98-DC0EDEB37639}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35A2CB87-F554-40FE-AF98-DC0EDEB37639}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}.Release|Any CPU.Build.0 = Release|Any CPU
 		{359603AE-6865-4EC2-8857-395D1507C4B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{359603AE-6865-4EC2-8857-395D1507C4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{359603AE-6865-4EC2-8857-395D1507C4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{359603AE-6865-4EC2-8857-395D1507C4B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35A2CB87-F554-40FE-AF98-DC0EDEB37639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35A2CB87-F554-40FE-AF98-DC0EDEB37639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35A2CB87-F554-40FE-AF98-DC0EDEB37639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35A2CB87-F554-40FE-AF98-DC0EDEB37639}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{35A2CB87-F554-40FE-AF98-DC0EDEB37639} = {73D222E7-2B6A-401A-AC57-50796E6305A1}
-		{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176} = {721836A1-2256-47A4-B2B6-962F73E9EB23}
 		{359603AE-6865-4EC2-8857-395D1507C4B5} = {177B0C68-C0F0-4113-A8A4-6FD4FA9C5DD3}
+		{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176} = {721836A1-2256-47A4-B2B6-962F73E9EB23}
+		{35A2CB87-F554-40FE-AF98-DC0EDEB37639} = {73D222E7-2B6A-401A-AC57-50796E6305A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81955980-D211-4871-A2F4-DB4431E96D30}
