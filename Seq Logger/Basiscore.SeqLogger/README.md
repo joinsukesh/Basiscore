@@ -222,6 +222,9 @@ Open the Windows command prompt and change the directory to the Seq installation
 
 > _seqcli ingest -i D:\log.txt -x "{Thread:nat} {@t} {@l} {@m:*}{:n}{@x:*}"_
 
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/230702966-a60337df-1cba-4cbb-a9ce-b37028a52b8b.png" />
+
+
 This will ingest the file content as logs into _Seq_, like this:
 
 <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229772807-5dabdfb2-03e7-4981-b4d4-ec3232b026ca.png" />
