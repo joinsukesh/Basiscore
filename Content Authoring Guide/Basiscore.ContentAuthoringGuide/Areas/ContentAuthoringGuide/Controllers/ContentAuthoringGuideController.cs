@@ -41,7 +41,7 @@ namespace Basiscore.ContentAuthoringGuide.Areas.ContentAuthoringGuide.Controller
             }
             catch (Exception ex)
             {
-                LogManager.SaveLog(MethodBase.GetCurrentMethod().ReflectedType.Name + "." + MethodBase.GetCurrentMethod().Name, ex, LogManager.LogTypes.Error, string.Empty);
+                Sitecore.Diagnostics.Log.Error("Basiscore.CAG", ex, this);
                 viewModel = null;
             }
 
@@ -126,7 +126,7 @@ namespace Basiscore.ContentAuthoringGuide.Areas.ContentAuthoringGuide.Controller
             }
             catch (Exception ex)
             {
-                LogManager.SaveLog(MethodBase.GetCurrentMethod().ReflectedType.Name + "." + MethodBase.GetCurrentMethod().Name, ex, LogManager.LogTypes.Error, string.Empty);
+                Sitecore.Diagnostics.Log.Error("Basiscore.CAG", ex, this);
             }
 
             return PartialView("~/Areas/ContentAuthoringGuide/Views/_SearchResults.cshtml", viewModel);

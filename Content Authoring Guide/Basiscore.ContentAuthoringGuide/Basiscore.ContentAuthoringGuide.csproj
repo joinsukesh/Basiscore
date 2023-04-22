@@ -176,7 +176,6 @@
     <Compile Include="Areas\ContentAuthoringGuide\Models\MenuItem.cs" />
     <Compile Include="Areas\ContentAuthoringGuide\Models\SearchResult.cs" />
     <Compile Include="Areas\ContentAuthoringGuide\Models\SearchResultsViewModel.cs" />
-    <Compile Include="Areas\ContentAuthoringGuide\Utilities\LogManager.cs" />
     <Compile Include="Areas\ContentAuthoringGuide\Utilities\SitecoreUtility.cs" />
     <Compile Include="ConfigReferences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
