@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Minions", "Minions", "{73D2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content Authoring Guide", "Content Authoring Guide", "{721836A1-2256-47A4-B2B6-962F73E9EB23}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SeqLogger", "SeqLogger", "{177B0C68-C0F0-4113-A8A4-6FD4FA9C5DD3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Seq Logger", "Seq Logger", "{177B0C68-C0F0-4113-A8A4-6FD4FA9C5DD3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basiscore.ContentAuthoringGuide", "Content Authoring Guide\Basiscore.ContentAuthoringGuide\Basiscore.ContentAuthoringGuide.csproj", "{94C09EC9-E0AA-4AF3-91E5-EC498C2F9176}"
 EndProject
