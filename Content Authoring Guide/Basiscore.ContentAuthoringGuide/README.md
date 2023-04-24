@@ -39,10 +39,15 @@ Install the Sitecore package that is in the Solution- `Basiscore.ContentAuthorin
 #### Method 2: Using Sitecore CLI
 
 If you have Sitecore CLI setup for your instance, then:
+
  **1.** Open terminal with administrator privilges and change the directory to the root folder of this solution.
+ 
  **2.** Execute this command to connect to your Sitecore instance:
+ 
         `dotnet sitecore login --authority https://[instance-identityserver] --cm https://[instance] --allow-write true`
+        
  **3.** Then execute this comman to pull items from the disk to CMS
+ 
         `dotnet sitecore ser pull`
         
 
