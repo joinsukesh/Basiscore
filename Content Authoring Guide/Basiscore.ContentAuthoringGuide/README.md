@@ -2,7 +2,8 @@
 
 Once the Sitecore components are developed & deployed for a project, developers will usually prepare a Word/PDF document for the content author, which has instructions on how to use the CMS, how to add content to a data source, etc.
 
-This **Content Authoring Guide** (CAG) Sitecore module will create a simple & appealing web page template in your Sitecore instance, which serves the same purpose as the former, but with an interesting and user-friendly interface.
+This **Content Authoring Guide** (CAG) Sitecore module will create a simple & appealing web page template in your Sitecore instance, which serves the same purpose as the former, but with an interesting and user-friendly interface. 
+This will be an in-house page, hosted in the CMS itself.  
 
 The content for this CAG page will be picked up from the related Sitecore items. 
 
@@ -31,13 +32,24 @@ The CAG page can be opened from the Launch pad and looks like this:
 ### Sitecore Items
 You can choose either of these two ways to install the Sitecore items into your instance.
 
-**#1.** Install the Sitecore package that is in the Solution- `Basiscore.ContentAuthoringGuide > CMS > Basiscore_ContentAuthoringGuide-v1.0.zip`  
+#### Method 1: Installing the package
 
-**#2.** Copy the serialization folder in the Solution (`Basiscore.ContentAuthoringGuide > CMS > serialization`) to your instance webroot’s `App_Data` folder.
+Install the Sitecore package that is in the Solution- `Basiscore.ContentAuthoringGuide > CMS > Basiscore_ContentAuthoringGuide-v1.0.zip`  
 
-Then in the `Content Editor`, select the `sitecore` node. Switch to the `Developer` tab in the ribbon and use the `Update tree` option to deserialize items and add them to the content tree. 
+#### Method 2: Using Sitecore CLI
 
-Switch to `core` database in CMS, and do the same in case the Launch Pad Button item is not added.
+If you have Sitecore CLI setup for your instance, then:
+
+ **1.** Open terminal with administrator privilges and change the directory to the root folder of this solution.
+ 
+ **2.** Execute this command to connect to your Sitecore instance:
+ 
+        `dotnet sitecore login --authority https://[instance-identityserver] --cm https://[instance] --allow-write true`
+        
+ **3.** Then execute this comman to pull items from the disk to CMS
+ 
+        `dotnet sitecore ser pull`
+        
 
 Any of the above steps will create the following items, in your instance:
 
@@ -50,7 +62,7 @@ Any of the above steps will create the following items, in your instance:
 
 /sitecore/media library/Basiscore/Content-Authoring-Guide/...
 
-**SAMPLE CONTENT:**
+**DEMO CONTENT:**
 
 /sitecore/content/Content Authoring Guide/…
 
@@ -58,17 +70,17 @@ Any of the above steps will create the following items, in your instance:
 
 /sitecore/client/Applications/Launchpad/PageSettings/Buttons/Basiscore/Content Authoring Guide
 
+This tool uses MVC Areas in the backend, which must be registered. So, do an IIS reset from the Internet Information Services (IIS) Manager. This will be a one-time step.
 
-## BROWSE THE GUIDE PAGE
+## VIEW THE DEMO GUIDE
 
-1. This tool uses MVC Areas in the backend, which must be registered. So, do an IIS reset from the Internet Information Services (IIS) Manager. This will be a one-time step.
-2. Open the Launch Pad in your instance and click on the Content Authoring Guide icon. 
+Open the Launch Pad in your instance and click on the Content Authoring Guide icon. 
 
  ![image002](https://user-images.githubusercontent.com/24619393/203295548-c0de76bc-dbe7-425f-afc2-b04bee9532ed.png)
 
 
 This will open a page with the URL - 
-`<instance-name>/ContentAuthoringGuide/{2B2E25EC-1313-42F7-983F-5FDCA163A5CD}`
+`[instance-name]/ContentAuthoringGuide/{2B2E25EC-1313-42F7-983F-5FDCA163A5CD}`
 The ID in the URL is the Item ID of the Guide Root Item - `/sitecore/content/Content Authoring Guide`.
 
 **NOTE:**
