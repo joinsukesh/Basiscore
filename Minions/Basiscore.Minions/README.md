@@ -3,7 +3,7 @@
 But, they might be of some help for a few tasks.  
 
 ## DESCRIPTION  
-This project is a suite of Sitecore tools aimed to help developer's in some of their everyday tasks.  
+This project is a suite of Sitecore tools aimed to help developers in some of their everyday tasks.  
 
 ## INSTALLATION  
 1. Take a backup of the `/bin` folder, `/App_Config` folder, and the `Web.config`, from your instance's webroot.
