@@ -88,7 +88,7 @@
     <Content Include="App_Config\Include\zzz.Basiscore\Basiscore.CAGuide.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Areas\ContentAuthoringGuide\Views\web.config" />
+    <None Include="Areas\ContentAuthoringGuide\Views\web.config" />
     <Content Include="Areas\ContentAuthoringGuide\Views\Shared\Default.cshtml" />
     <Content Include="Areas\ContentAuthoringGuide\Views\_SearchResults.cshtml" />
     <Content Include="Areas\ContentAuthoringGuide\Views\Index.cshtml" />
