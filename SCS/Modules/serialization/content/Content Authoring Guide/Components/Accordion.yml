@@ -1,0 +1,57 @@
+﻿---
+ID: "99e10dff-7ac0-447b-bdb1-b1fd9e644ecc"
+Parent: "19db38f0-2628-4245-8c6b-0ada016223aa"
+Template: "5e55d8e0-f5d0-4ea9-b30d-f18d4e2fee36"
+Path: /sitecore/content/Content Authoring Guide/Components/Accordion
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "19ff5e7f-bf86-468b-a21d-06209b2506c8"
+      Hint: Title
+      Value: Accordion
+    - ID: "24a5323f-5572-46e7-931a-7959e47ef06f"
+      Hint: Section 1 Header
+      Value: Create Featured Items
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20180622T053222Z
+    - ID: "545d262f-c6c9-4d51-87e0-93f3101f5810"
+      Hint: Section 1 Description
+      Value: |
+        <span style="background-color: #ffffff; color: #333333;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+    - ID: "6d9440c6-fbf4-43d6-9408-3934ea627ebb"
+      Hint: Section 2 Header
+      Value: Create Datasource Item
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "9504be3f-450e-445d-ac24-35399955b87e"
+    - ID: "97a97c8d-2c7d-4c5b-84f1-0c3a2104abaa"
+      Hint: Section 2 Description
+      Value: |
+        <span style="background-color: #ffffff; color: #333333;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+    - ID: "ae560313-b582-40dc-a51d-b5da53b28a7a"
+      Hint: Section 3 Description
+      Value: |
+        <span style="background-color: #ffffff; color: #333333;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+    - ID: "b55a427f-ee8f-4339-bd2a-a8ed68847745"
+      Hint: Description
+      Value: |
+        <span style="background-color: #ffffff; color: #333333;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\Admin
+    - ID: "d9473784-d3ab-491e-a350-9c03074690f0"
+      Hint: Reference URL
+      Value: 
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20190605T060821Z
+    - ID: "de3030f1-1dae-4a57-89f6-6321c7750aed"
+      Hint: Slides
+      Value: "{D9ACC7B4-88F3-4B28-BC60-8DAA0A1A248A}"
+    - ID: "fc84ae5b-d45d-4f59-9640-c1eef607e3c7"
+      Hint: Section 3 Header
+      Value: Add Component To Page

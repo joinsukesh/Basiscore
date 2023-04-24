@@ -1,0 +1,30 @@
+﻿---
+ID: "198c6d78-7b45-434f-a089-c9f8164213bf"
+Parent: "93f427d3-5e42-46e2-b948-9d8f94304392"
+Template: "08b2108e-1721-4834-8fc8-6e3d062441ac"
+Path: /sitecore/templates/Branches/Basiscore/Content Authoring Guide/Guide Root/$name/Components
+SharedFields:
+- ID: "ba3f86a2-4a1c-4d78-b63d-91c2779c1b5e"
+  Hint: __Sortorder
+  Value: 300
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20180621T134053Z
+    - ID: "4bb83624-95e3-4ae7-9da0-c28fafd84518"
+      Hint: Title
+      Value: Components
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "664afc46-2531-4938-9aa8-660a3ac81027"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\Admin
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20180621T134104Z

@@ -1,0 +1,36 @@
+{
+  "namespace": "Templates",
+  "references": [ "" ],
+  "items": {
+    "includes": [      
+	    {
+        "name": "templates-root",
+        "allowedPushOperations": "CreateAndUpdate",
+        "path": "/sitecore/templates/Basiscore",
+		    "scope": "SingleItem",
+        "alias": "templates-root"
+      },
+      {
+        "name": "templates",
+        "allowedPushOperations": "CreateAndUpdate",
+        "path": "/sitecore/templates/Basiscore/Content Authoring Guide",
+		    "scope": "ItemAndDescendants",
+        "alias": "templates"
+      },      
+      {
+          "name": "templates-branches-root",
+          "allowedPushOperations": "CreateAndUpdate",
+          "path": "/sitecore/templates/Branches/Basiscore",
+          "scope": "SingleItem",
+          "alias": "templates-br-root"
+      },
+      {
+        "name": "templates-branches",
+        "allowedPushOperations": "CreateAndUpdate",
+        "path": "/sitecore/templates/Branches/Basiscore/Content Authoring Guide",
+        "scope": "ItemAndDescendants",
+        "alias": "templates-br"
+      }	  
+    ]
+  }
+}

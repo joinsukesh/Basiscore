@@ -1,0 +1,55 @@
+﻿---
+ID: "2b2e25ec-1313-42f7-983f-5fdca163a5cd"
+Parent: "0de95ae4-41ab-4d01-9eb0-67441b7c2450"
+Template: "e1d35ecb-79e9-41a3-b47c-4bb6813e0298"
+Path: /sitecore/content/Content Authoring Guide
+SharedFields:
+- ID: "1d395bf0-6ce5-44c1-a024-5fe3fa69dbbf"
+  Hint: Cover Page Image
+  Value: |
+    <image mediaid="{BE3DA1F9-1D0F-4629-B179-1C581082DBA5}" />
+- ID: "696a1f17-5d61-423f-a3a4-899874dfe30e"
+  Hint: Top Logo
+  Value: 
+- ID: "9135200a-5626-4dd8-ab9d-d665b8c11748"
+  Hint: __Never publish
+  Value: 
+- ID: "db80b961-d327-42f4-8a77-65c982938220"
+  Hint: Bottom Logo
+  Value: 
+- ID: "f6d8a61c-2f84-4401-bd24-52d2068172bc"
+  Hint: __Originator
+  Value: "{93F427D3-5E42-46E2-B948-9D8F94304392}"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "0698d819-21e4-4e4a-800d-ff5572ee6142"
+      Hint: Top Logo Content
+      Value: 
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20180621T134144Z
+    - ID: "4c346442-e859-4efd-89b2-44aedf467d21"
+      Hint: __Valid to
+      Value: 
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "521b10d1-7cfb-4d64-96a4-1d15f7a4b24f"
+    - ID: "a9bd8191-522d-4ab9-bbe2-500d09a5fdf7"
+      Hint: Title
+      Value: Content Authoring Guide
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\Admin
+    - ID: "c20e2da8-00fc-4973-b6a6-dd2c7891e6e6"
+      Hint: Bottom Logo Content
+      Value: 
+    - ID: "c8f93afe-bfd4-4e8f-9c61-152559854661"
+      Hint: __Valid from
+      Value: 
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20190605T053944Z

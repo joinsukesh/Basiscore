@@ -1,0 +1,26 @@
+{
+  "namespace": "Core",
+  "references": [ "" ],
+  "items": {
+    "includes": [
+      {
+	       ///For creating the Launchpad buttons folder
+        "name": "core-lp-btn-root",
+        "allowedPushOperations": "CreateAndUpdate",
+        "path": "/sitecore/client/Applications/Launchpad/PageSettings/Buttons/Basiscore",
+        "database":"core",
+        "scope": "SingleItem",
+        "alias": "core-lp-btn-root"
+      },
+      {
+        ///For creating the Launchpad button which will open the CAG
+       "name": "core-lp-btn",
+       "allowedPushOperations": "CreateAndUpdate",
+       "path": "/sitecore/client/Applications/Launchpad/PageSettings/Buttons/Basiscore/Content Authoring Guide",
+       "database":"core",
+       "scope": "ItemAndDescendants",
+       "alias": "core-lp-btn"
+      }		  
+    ]
+  }
+}

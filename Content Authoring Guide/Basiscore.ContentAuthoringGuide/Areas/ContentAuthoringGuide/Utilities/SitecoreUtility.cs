@@ -89,7 +89,7 @@ namespace Basiscore.ContentAuthoringGuide.Areas.ContentAuthoringGuide.Utilities
                     if (image != null)
                     {
                         string imageId = image?.InnerItem?.ID.ToString();
-                        imageUrl = "-/media/" + imageId.Replace("{", "").Replace("}", "").Replace("-", "") + ".ashx";
+                        imageUrl = "/sitecore/shell/Applications/-/media/" + imageId.Replace("{", "").Replace("}", "").Replace("-", "") + ".ashx";
                     }
                 }
             }

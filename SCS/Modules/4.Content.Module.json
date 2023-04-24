@@ -1,0 +1,15 @@
+{
+  "namespace": "Content",
+  "references": [ "" ],
+  "items": {
+    "includes": [	  
+      {
+        "name": "content",
+        "allowedPushOperations": "CreateAndUpdate",
+        "path": "/sitecore/content/Content Authoring Guide",
+		    "scope": "ItemAndDescendants",
+        "alias": "content"
+      }      
+    ]
+  }
+}

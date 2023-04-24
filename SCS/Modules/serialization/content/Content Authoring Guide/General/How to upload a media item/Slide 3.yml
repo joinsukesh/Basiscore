@@ -1,0 +1,30 @@
+﻿---
+ID: "0f0f7e58-3cd2-4e9f-aece-c0a5f0fd74a8"
+Parent: "e88888fb-39b5-4a41-885f-9b3806bb2aba"
+Template: "44e4bf0e-317c-49a1-919f-37accabe32d7"
+Path: /sitecore/content/Content Authoring Guide/General/How to upload a media item/Slide 3
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20180622T103154Z
+    - ID: "2b059e8c-eded-4273-aabd-03a74f729a02"
+      Hint: Description
+      Value: 
+    - ID: "3e06f337-763f-4199-b758-942993b9c3af"
+      Hint: Image
+      Value: |
+        <image mediaid="{E5002909-5F99-4C49-B727-E52D6E87046C}" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "9a5b40a8-3fee-4cf8-9ed0-186cb6c28d14"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\Admin
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20180622T124200Z

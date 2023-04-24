@@ -1,0 +1,49 @@
+﻿---
+ID: "9448fb02-5846-41f3-81e2-5dc260b2f9e3"
+Parent: "e1d35ecb-79e9-41a3-b47c-4bb6813e0298"
+Template: "e1d35ecb-79e9-41a3-b47c-4bb6813e0298"
+Path: /sitecore/templates/Basiscore/Content Authoring Guide/Guide Root/__Standard Values
+SharedFields:
+- ID: "1172f251-dad4-4efb-a329-0c63500e4f1e"
+  Hint: __Masters
+  Value: |
+    {08B2108E-1721-4834-8FC8-6E3D062441AC}
+    {5E55D8E0-F5D0-4EA9-B30D-F18D4E2FEE36}
+- ID: "86fe4f77-4d9a-4ec3-9ed9-263d03bd1965"
+  Hint: __Publish
+  Value: 19991231T183000Z
+- ID: "9135200a-5626-4dd8-ab9d-d665b8c11748"
+  Hint: __Never publish
+  Value: 
+- ID: "f1a1fe9e-a60c-4ddb-a3a0-bb5b29fe732e"
+  Hint: __Renderings
+  Value: 
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20180621T130634Z
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\Admin
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\Admin
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "7efdbadf-16bf-4578-bf33-5396dfb4bd37"
+    - ID: "a9bd8191-522d-4ab9-bbe2-500d09a5fdf7"
+      Hint: Title
+      Value: Project Content Authoring Guide
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\Admin
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20180626T082324Z

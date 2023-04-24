@@ -1,0 +1,44 @@
+﻿---
+ID: "4863d672-93c4-4b4f-aab3-3786606c5c4d"
+Parent: "5e55d8e0-f5d0-4ea9-b30d-f18d4e2fee36"
+Template: "5e55d8e0-f5d0-4ea9-b30d-f18d4e2fee36"
+Path: /sitecore/templates/Basiscore/Content Authoring Guide/Article/__Standard Values
+SharedFields:
+- ID: "1172f251-dad4-4efb-a329-0c63500e4f1e"
+  Hint: __Masters
+  Value: "{44E4BF0E-317C-49A1-919F-37ACCABE32D7}"
+- ID: "9135200a-5626-4dd8-ab9d-d665b8c11748"
+  Hint: __Never publish
+  Value: 
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "19ff5e7f-bf86-468b-a21d-06209b2506c8"
+      Hint: Title
+      Value: $name
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20180621T131434Z
+    - ID: "45ee9eb0-2ef8-4e53-816f-ad172fd22cd0"
+      Hint: Is Active
+      Value: 1
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\Admin
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\Admin
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "edb04daf-8b45-427a-9a9a-8dd83729d08f"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\Admin
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20180625T131603Z

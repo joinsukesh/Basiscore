@@ -1,0 +1,22 @@
+{
+  "namespace": "Media",
+  "references": [ "" ],
+  "items": {
+    "includes": [	  
+      {
+        "name": "media-root",
+        "allowedPushOperations": "CreateAndUpdate",
+        "path": "/sitecore/media library/Basiscore",
+		    "scope": "SingleItem",
+        "alias": "media-root"
+      },
+      {
+        "name": "media",
+        "allowedPushOperations": "CreateAndUpdate",
+        "path": "/sitecore/media library/Basiscore/Content-Authoring-Guide",
+		    "scope": "ItemAndDescendants",
+        "alias": "media"
+      }
+    ]
+  }
+}

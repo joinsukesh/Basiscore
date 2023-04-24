@@ -1,0 +1,30 @@
+﻿---
+ID: "2789a97b-5e7f-48c1-b2e5-ebd272e8c36b"
+Parent: "99e10dff-7ac0-447b-bdb1-b1fd9e644ecc"
+Template: "44e4bf0e-317c-49a1-919f-37accabe32d7"
+Path: /sitecore/content/Content Authoring Guide/Components/Accordion/Slide 2
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20180622T103116Z
+    - ID: "2b059e8c-eded-4273-aabd-03a74f729a02"
+      Hint: Description
+      Value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br />
+    - ID: "3e06f337-763f-4199-b758-942993b9c3af"
+      Hint: Image
+      Value: |
+        <image mediaid="{9B9C4E8E-8FF5-43AC-A24C-BF3A418D29AE}" />
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "d056c813-946a-4f59-93f8-082f24ae14f1"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\Admin
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20180622T103144Z
