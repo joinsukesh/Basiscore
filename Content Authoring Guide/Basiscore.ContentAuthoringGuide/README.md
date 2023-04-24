@@ -2,7 +2,8 @@
 
 Once the Sitecore components are developed & deployed for a project, developers will usually prepare a Word/PDF document for the content author, which has instructions on how to use the CMS, how to add content to a data source, etc.
 
-This **Content Authoring Guide** (CAG) Sitecore module will create a simple & appealing web page template in your Sitecore instance, which serves the same purpose as the former, but with an interesting and user-friendly interface.
+This **Content Authoring Guide** (CAG) Sitecore module will create a simple & appealing web page template in your Sitecore instance, which serves the same purpose as the former, but with an interesting and user-friendly interface. 
+This will be an in-house page, hosted in the CMS itself.  
 
 The content for this CAG page will be picked up from the related Sitecore items. 
 
