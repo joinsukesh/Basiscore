@@ -9,7 +9,12 @@ namespace Basiscore.Minions
         public static string ValidCharacters = "abcdefghijklmnopqrstuvwxyz0123456789.-_ ";
         public static string Timestamp = "Timestamp";
         public static string One = "1";
-        
+
+        public struct Characters
+        {
+            public static char Comma = ',';
+        }
+
         public struct DatabaseNames
         {
             //public static string Core = "core";
@@ -23,6 +28,18 @@ namespace Basiscore.Minions
         }
 
         public List<object> MyProperty { get; set; }
+
+        public struct LinkTypes
+        {
+            public const string External = "external";
+            public const string Internal = "internal";
+        }
+
+        public struct LinkTargetTypes
+        {
+            public const string Blank = "_blank";
+            public const string Self = "_self";
+        }
 
         public struct FieldTypes
         {
@@ -148,6 +165,18 @@ namespace Basiscore.Minions
                 {
                     public static ID __Renderings = new ID("{F1A1FE9E-A60C-4DDB-A3A0-BB5B29FE732E}");
                     public static ID __FinalRenderings = new ID("{04BF00DB-F5FB-41F7-8AB7-22408372A981}");
+                }
+            }
+
+            public struct DictionaryEntry
+            {
+                public static ID ID => new ID("{6D1CD897-1936-4A3A-A511-289A94C2A7B1}");
+
+                public struct Fields
+                {
+                    public static ID Phrase => new ID("{2BA3454A-9A9C-4CDF-A9F8-107FD484EB6E}");
+
+                    public static ID Key => new ID("{580C75A8-C01A-4580-83CB-987776CEB3AF}");
                 }
             }
         }

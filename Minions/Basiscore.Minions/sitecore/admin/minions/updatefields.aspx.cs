@@ -565,7 +565,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
         private static List<Item> GetCheckListItems(string parentItemId, string targetTemlateId)
         {
             List<Item> lstItemsToCheck = null;
-            Item parentItem = MinionHelper.GetItem(parentItemId);
+            Item parentItem = MinionHelper.GetItem(parentItemId, "");
 
             if (parentItem != null)
             {

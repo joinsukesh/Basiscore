@@ -74,7 +74,7 @@ namespace Basiscore.Minions.Models
         {
             get
             {
-                return MinionHelper.GetItem(this.PARENT_ITEM);
+                return MinionHelper.GetItem(this.PARENT_ITEM, "");
             }
         }
 

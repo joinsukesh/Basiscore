@@ -21,6 +21,9 @@
                                 As a developer, whenever you create a <em>Sitecore Template</em>, you also need to have its ID, field references & a related <em>C# class</em>, to access the related items.<br />
                                 Use this tool to generate template references and its mapper class, that you can copy & use in your code.
                             </p>
+                            <p>
+                                <strong>NOTE: </strong> The generated template class uses extension methods from <a target="_blank" href="#">Basiscore.Minions.Extensions.ItemExtensions.cs</a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -36,13 +39,19 @@
                 <span id="spTemplateId" class="validation-msg">This field is required</span>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
             <div class="form-group">
                 <label>Template Struct Prefix</label>
-                <input id="txtTemplateStructPrefix" type="text" class="form-control" value="References.Templates" />
+                <input id="txtTemplateStructPrefix" type="text" class="form-control" value="Templates" />
             </div>
         </div>
-        <div class="col-md-4">
+         <div class="col-md-3">
+            <div class="form-group">
+                <label>Namespace Prefix</label>
+                <input id="txtNamespacePrefix" type="text" class="form-control" value="" />
+            </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <button type="button" id="btnGenerate" class="btn btn-primary mtop21">GENERATE</button>
                 &nbsp;&nbsp;&nbsp;
@@ -65,6 +74,7 @@
                 </div>
                 <div class="form-group">
                     <label>Template Class</label>
+                    <small style="display:block;color:gray;margin-bottom:10px;">The generated template class uses extension methods from <a target="_blank" href="#">Basiscore.Minions.Extensions.ItemExtensions.cs</a></small>
                     <textarea id="txtTemplateClass" class="form-control selectable-readonly" rows="15" readonly>
                     </textarea>
                 </div>
@@ -116,6 +126,7 @@
                 var dataModel = {};
                 dataModel.TemplateId = $("#txtTemplateId").val();
                 dataModel.TemplateStructPrefix = $("#txtTemplateStructPrefix").val();
+                dataModel.NamespacePrefix = $("#txtNamespacePrefix").val();
 
                 $.ajax({
                     type: "POST",

@@ -153,6 +153,31 @@ namespace Basiscore.Minions.Utilities
             return item;
         }
 
+        public static Item GetItem(string itemPathOrId, string database = "")
+        {
+            Item item = null;
+
+            if (!string.IsNullOrWhiteSpace(itemPathOrId))
+            {
+                Database db = string.IsNullOrWhiteSpace(database) ? Sitecore.Context.Database : Factory.GetDatabase(database);
+
+                if (db != null)
+                {
+                    using (new SecurityDisabler())
+                    {
+                        item = db.GetItem(itemPathOrId);
+                    }
+                }
+            }
+
+            return item;
+        }
+
+        public static Item GetItem(string itemPathOrId)
+        {
+            return GetItem(itemPathOrId, "");
+        }
+
         public static List<string> GetTargetDatabases()
         {
             List<string> lstTargetDatabases = null;
@@ -844,6 +869,26 @@ namespace Basiscore.Minions.Utilities
                     HttpContext.Current.ApplicationInstance.CompleteRequest();
                 }
             }
+        }
+
+        public static List<T> GetClassObjectsFromItems<T>(List<Item> lstItems) where T : class
+        {
+            List<T> activeItems = new List<T>();
+
+            if (lstItems != null && lstItems.Count > 0)
+            {
+                foreach (Item item in lstItems)
+                {
+                    T instance = (T)Activator.CreateInstance(typeof(T), args: item);
+
+                    if (instance != null)
+                    {
+                        activeItems.Add(instance);
+                    }
+                }
+            }
+
+            return activeItems;
         }
     }
 }

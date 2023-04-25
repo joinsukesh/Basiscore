@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
     <LegacyPublishPropertiesPageEnabled>true</LegacyPublishPropertiesPageEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -48,6 +48,10 @@
     <Reference Include="ClosedXML">
       <HintPath>..\..\packages\Libraries\ClosedXML.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\..\packages\Libraries\HtmlAgilityPack.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -57,9 +61,11 @@
     </Reference>
     <Reference Include="Sitecore.Client">
       <HintPath>..\..\packages\Libraries\Sitecore.Client.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Sitecore.Kernel">
       <HintPath>..\..\packages\Libraries\Sitecore.Kernel.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.IO.Compression" />
@@ -129,6 +135,7 @@
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ItemExtensions.cs" />
     <Compile Include="Models\CustomPublishDataModel.cs" />
     <Compile Include="Models\CustomPublishReport.cs" />
     <Compile Include="Models\FindByValueDataModel.cs" />
@@ -245,6 +252,7 @@
       <DependentUpon>updatefields.aspx</DependentUpon>
     </Compile>
     <Compile Include="Utilities\DataTableConversionExtensions.cs" />
+    <Compile Include="Utilities\HelperUtility.cs" />
     <Compile Include="Utilities\MinionHelper.cs" />
   </ItemGroup>
   <ItemGroup>

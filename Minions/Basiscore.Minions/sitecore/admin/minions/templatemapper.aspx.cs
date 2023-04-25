@@ -50,7 +50,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                     {
                         result.Status = 1;
                         result.TemplateReferences = BuildTemplateReferencesString(templateItem);
-                        result.TemplateClass = BuildMapperClassString(templateItem, templateMapperDataModel.TemplateStructPrefix);
+                        result.TemplateClass = BuildMapperClassString(templateItem, templateMapperDataModel.TemplateStructPrefix, templateMapperDataModel.NamespacePrefix);
                     }
                     else
                     {
@@ -135,7 +135,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
         /// </summary>
         /// <param name="lstTemplateItems"></param>
         /// <returns></returns>
-        private static string BuildMapperClassString(Item templateItem, string templateStructPrefix)
+        private static string BuildMapperClassString(Item templateItem, string templateStructPrefix, string namespacePrefix)
         {
             StringBuilder sb = new StringBuilder(string.Empty);
             string itemName = string.Empty;
@@ -149,8 +149,18 @@ namespace Basiscore.Minions.sitecore.admin.minions
             itemName = templateItem.Name.Trim().Replace(" ", "");
             sb.AppendLine("using Sitecore;");
             sb.AppendLine("using Sitecore.Data.Items;");
+            sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using System.Web.Mvc;");
+
+            if (!string.IsNullOrWhiteSpace(namespacePrefix))
+            {
+                sb.AppendLine("using " + namespacePrefix + ".Foundation.Common.Extensions;");
+            }
+            else
+            {
+                sb.AppendLine("using Foundation.Common.Extensions;");
+            }
             sb.AppendLine();
             sb.AppendLine(" public class " + itemName + " : CustomItem ");
             sb.AppendLine(" {");///start class                
@@ -166,7 +176,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                 if (itemFieldChildren != null && itemFieldChildren.Count > 0)
                 {
                     templateStructPrefix = templateStructPrefix.Trim().TrimEnd('.');
-                    templateStructPrefix = string.IsNullOrEmpty(templateStructPrefix) ? "References.Templates." : templateStructPrefix + ".";
+                    templateStructPrefix = string.IsNullOrEmpty(templateStructPrefix) ? "Templates." : templateStructPrefix + ".";
 
                     ///class properties
                     foreach (Item fieldItem in itemFieldChildren)
@@ -188,7 +198,15 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return InnerItem.Fields[" + templateStructPrefix + itemName + ".Fields." + fieldName + "].Value == \"1\";");
+                                    //sb.AppendLine("             return InnerItem.Fields[" + templateStructPrefix + itemName + ".Fields." + fieldName + "].Value == \"1\";");
+                                    if (fieldName.Equals("IsActive", StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        sb.AppendLine("         return InnerItem.IsChecked(CommonTemplates.ActiveStatus.Fields.IsActive);");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine("         return InnerItem.IsChecked(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    }
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
                                     break;
@@ -199,7 +217,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return MainUtil.GetInt(System.Convert.ToString(InnerItem.Fields[" + templateStructPrefix + itemName + ".Fields." + fieldName + "].Value), 0);");
+                                    sb.AppendLine("             return MainUtil.GetInt(InnerItem.GetString(" + templateStructPrefix + itemName + ".Fields." + fieldName + "), 0);");
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
                                     break;
@@ -210,7 +228,7 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return DateUtil.IsoDateToDateTime(System.Convert.ToString(InnerItem.Fields[" + templateStructPrefix + itemName + ".Fields." + fieldName + "].Value));");
+                                    sb.AppendLine("             return DateUtil.IsoDateToDateTime(InnerItem.GetString(" + templateStructPrefix + itemName + ".Fields." + fieldName + "));");
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
                                     break;
@@ -221,7 +239,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return InnerItem.ImageUrl(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    //sb.AppendLine("             return InnerItem.ImageUrl(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    sb.AppendLine("             return InnerItem.GetMediaItemUrl(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
 
@@ -230,7 +249,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return InnerItem.ImageAlt(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    //sb.AppendLine("             return InnerItem.ImageAlt(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    sb.AppendLine("             return InnerItem.GetImageAltText(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
                                     break;
@@ -241,7 +261,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return InnerItem.LinkFieldUrl(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    //sb.AppendLine("             return InnerItem.LinkFieldUrl(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    sb.AppendLine("             return InnerItem.GetLinkFieldUrl(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
 
@@ -250,7 +271,8 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return InnerItem.LinkFieldTarget(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    //sb.AppendLine("             return InnerItem.LinkFieldTarget(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    sb.AppendLine("             return InnerItem.GetLinkTargetType(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
                                     break;
@@ -263,18 +285,20 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return new MvcHtmlString(InnerItem.Fields[" + templateStructPrefix + itemName + ".Fields." + fieldName + "].Value);");
+                                    //sb.AppendLine("             return new MvcHtmlString(InnerItem.Fields[" + templateStructPrefix + itemName + ".Fields." + fieldName + "].Value);");
+                                    sb.AppendLine("             return new MvcHtmlString(InnerItem.GetString(" + templateStructPrefix + itemName + ".Fields." + fieldName + "));");
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
                                     break;
                                 case MinionConstants.FieldTypes.Droplink:
                                 case MinionConstants.FieldTypes.Droptree:
                                     sb.AppendLine();
-                                    sb.AppendLine("     public Item Selected" + fieldName + "Item");
+                                    sb.AppendLine("     public Item " + fieldName + "Item");
                                     sb.AppendLine("     {");
                                     sb.AppendLine("         get");
                                     sb.AppendLine("         {");
-                                    sb.AppendLine("             return SitecoreUtility.GetItem(InnerItem.Fields[" + templateStructPrefix + itemName + ".Fields." + fieldName + "].Value);");
+                                    //sb.AppendLine("             return SitecoreUtility.GetItem(InnerItem.Fields[" + templateStructPrefix + itemName + ".Fields." + fieldName + "].Value);");
+                                    sb.AppendLine("             return InnerItem.GetReferenceFieldItem(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
                                     sb.AppendLine("         }");
                                     sb.AppendLine("     }");
                                     break;
@@ -283,7 +307,14 @@ namespace Basiscore.Minions.sitecore.admin.minions
                                 case MinionConstants.FieldTypes.Treelist:
                                 case MinionConstants.FieldTypes.TreelistEx:
                                     sb.AppendLine();
-                                    sb.AppendLine("     public List<object> " + fieldName + " { get; set; }");
+                                    //sb.AppendLine("     public List<object> " + fieldName + " { get; set; }");
+                                    sb.AppendLine("     public Item[] " + fieldName);
+                                    sb.AppendLine("     {");
+                                    sb.AppendLine("         get");
+                                    sb.AppendLine("         {");
+                                    sb.AppendLine("             return InnerItem.GetMultilistFieldItems(" + templateStructPrefix + itemName + ".Fields." + fieldName + ");");
+                                    sb.AppendLine("         }");
+                                    sb.AppendLine("     }");
                                     break;
                                 default:
                                     sb.Append(GetIdPropertyString(templateStructPrefix, itemName, fieldName));
