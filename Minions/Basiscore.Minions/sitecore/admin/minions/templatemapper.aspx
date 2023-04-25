@@ -22,7 +22,7 @@
                                 Use this tool to generate template references and its mapper class, that you can copy & use in your code.
                             </p>
                             <p>
-                                <strong>NOTE: </strong> The generated template class uses extension methods from <a target="_blank" href="#">Basiscore.Minions.Extensions.ItemExtensions.cs</a>
+                                <strong>NOTE: </strong> The generated template class uses extension methods from <a target="_blank" href="https://github.com/sukesh-y/Basiscore/blob/master/Minions/Basiscore.Minions/Extensions/ItemExtensions.cs">Basiscore.Minions.Extensions.ItemExtensions.cs</a>
                             </p>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="form-group">
                     <label>Template Class</label>
-                    <small style="display:block;color:gray;margin-bottom:10px;">The generated template class uses extension methods from <a target="_blank" href="#">Basiscore.Minions.Extensions.ItemExtensions.cs</a></small>
+                    <small style="display:block;color:gray;margin-bottom:10px;">The generated template class uses extension methods from <a target="_blank" href="https://github.com/sukesh-y/Basiscore/blob/master/Minions/Basiscore.Minions/Extensions/ItemExtensions.cs">Basiscore.Minions.Extensions.ItemExtensions.cs</a></small>
                     <textarea id="txtTemplateClass" class="form-control selectable-readonly" rows="15" readonly>
                     </textarea>
                 </div>
