@@ -29,11 +29,16 @@ which executes this logic -  after the Sitecore’s default _log.txt_ file is cr
 
 <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229769483-97dbd57d-d587-4d4c-b28d-573a97dba9a1.png" />
 
-<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229769496-cadc897c-52fc-4a98-8cb2-f8fa870f8a22.png" />
-
-
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234192199-c5cb5e05-ed68-4683-857c-0eeae85aa66c.png" />
 
 3.	If you are prompted with the credentials screen, set your Username & Password.
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234192379-9c7294eb-d974-4f3d-a376-93a5652be42e.png" />
+
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234192492-974febe1-3204-4e5d-99df-632b58e65d23.png" />
+
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234192633-f96d2a22-e31b-402d-b845-303d8d0e822c.png" />
+
+
 4.	Once the installation is complete, browse this URL to view the portal – http://localhost:5341
 
 
