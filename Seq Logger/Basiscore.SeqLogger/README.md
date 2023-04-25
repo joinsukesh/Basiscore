@@ -92,7 +92,7 @@ Edit the _Title_. Let’s say, your application’s name is ‘_Stratum_’. You
 
 There are no filters for this _Signal_ yet. Let us create a filter which should display logs which have the ‘Application’ as ‘Stratum’. 
 
-In the Search Box, type this query _Application = ‘Stratum’_ and click the **Add Filter** icon.
+In the Search Box, type this query _Application = 'Stratum'_ and click the **Add Filter** icon.
 
 <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229770718-472b0731-8454-4c45-95a1-0d0b058fa529.png" />
 
@@ -102,7 +102,7 @@ This will add the filter to your _Signal_. Click on the _Save_ icon to save this
 <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229770787-690ab6eb-1fc8-4a2c-b40d-86bff7ba6ece.png" />
 
 
-In the query _Application = ‘Stratum’_, Application should be a property in the _Seq_ log & _Stratum_ should be its value.
+In the query _Application = 'Stratum'_, _Application_ should be a property in the _Seq_ log & _Stratum_ should be its value.
 We will configure this for our Sitecore application in a later step.
 
 ## STEP 3: DEPLOY THE MODULE FILES
