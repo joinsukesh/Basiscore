@@ -106,6 +106,9 @@ In the query _Application = 'Stratum'_, _Application_ should be a property in th
 We will configure this for our Sitecore application in a later step.
 
 ## STEP 3: DEPLOY THE MODULE FILES
+You can do it in two ways.
+
+**Download the .zip file & copy the contents to your instance**
 1.	Download the module’s latest version from here - [https://github.com/sukesh-y/Downloads/tree/main/Basiscore/SeqLogger](https://github.com/sukesh-y/Downloads/tree/main/Basiscore/SeqLogger)
 2.	Extract the zip and copy the files to the respective locations in your Sitecore instance’ webroot. 
 
@@ -113,6 +116,16 @@ The .zip has 2 files:
 - **\App_config\Include\zzz.Basiscore\Basiscore.SeqLogger.config**  and
 - **\bin\Basiscore.SeqLogger.dll**
 
+OR
+
+**Clone the latest Git solution**
+1. After cloning the solution with the _master_ branch, publish the _Basiscore.SeqLogger_ project.
+2. This will publish files to _C:\out\Basiscore.SeqLogger_
+
+The files will be the same:
+- **\App_config\Include\zzz.Basiscore\Basiscore.SeqLogger.config**  and
+- **\bin\Basiscore.SeqLogger.dll**
+- 
 The **Basiscore.SeqLogger.config** is the patch config where we can configure the log settings. The configurations are explained in a following section.
 
 ## STEP 4: VIEW LOGS IN SEQ
