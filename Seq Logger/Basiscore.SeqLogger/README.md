@@ -221,7 +221,7 @@ I felt the default colors for a few levels weren't appealing, and I decided to a
  
  ````
     
-    <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234217704-c58c8a5d-4513-45b9-ae67-7d9cb6604209.png" />
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234217704-c58c8a5d-4513-45b9-ae67-7d9cb6604209.png" />
 
 
 ## HOW TO LOG IN CODE
