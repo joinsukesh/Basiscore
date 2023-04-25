@@ -192,6 +192,36 @@ e.g.: "Environment,Local|Source,Web"
   </tr>
   </table>
 
+## CHANGE COLOR CODING
+This is an optional step. In the _Seq_ portal, each log will have a color code dot which helps us determine what Log Level it is (Debug or Info or Warning ..etc.), by looking at the row.
+I felt the default colors for a few levels weren't appealing, and I decided to add custom colors to a few.
+1. Open the index.html file from your _Seq_ installation folder. In my case it was _D:\Program Files\Seq\wwwroot\index.html_.
+2. Add this style block in the `head` tag.
+````
+<style>
+        body.dark-theme .level-indicator.seq-level-debug {
+            background-color: gray;
+        }
+        body.light-theme .level-indicator.seq-level-debug {
+            background-color: gray;
+        }
+        body.dark-theme .level-indicator.seq-level-information {
+            background-color: cornflowerblue;
+        }
+        body.light-theme .level-indicator.seq-level-information {
+            background-color: cornflowerblue;
+        }
+        body.dark-theme .level-indicator.seq-level-fatal {
+            background-color: red;            
+        }
+        body.light-theme .level-indicator.seq-level-fatal {
+            background-color: red;            
+        }
+    </style>
+    ````
+    
+    <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234217704-c58c8a5d-4513-45b9-ae67-7d9cb6604209.png" />
+
 
 ## HOW TO LOG IN CODE
 
