@@ -29,12 +29,20 @@ which executes this logic -  after the Sitecore’s default _log.txt_ file is cr
 
 <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229769483-97dbd57d-d587-4d4c-b28d-573a97dba9a1.png" />
 
-<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229769496-cadc897c-52fc-4a98-8cb2-f8fa870f8a22.png" />
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234192199-c5cb5e05-ed68-4683-857c-0eeae85aa66c.png" />
 
-
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234192379-9c7294eb-d974-4f3d-a376-93a5652be42e.png" />
 
 3.	If you are prompted with the credentials screen, set your Username & Password.
-4.	Once the installation is complete, browse this URL to view the portal – http://localhost:5341
+
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234192492-974febe1-3204-4e5d-99df-632b58e65d23.png" />
+
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234192633-f96d2a22-e31b-402d-b845-303d8d0e822c.png" />
+
+
+4.	Once the installation is complete, browse this URL to view the portal – http://localhost:5341 and login.
+
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234193347-1db1c418-6c56-4add-9022-3f31bb463aac.png" />
 
 
 ## STEP 2: CONFIGURE SEQ
@@ -84,7 +92,7 @@ Edit the _Title_. Let’s say, your application’s name is ‘_Stratum_’. You
 
 There are no filters for this _Signal_ yet. Let us create a filter which should display logs which have the ‘Application’ as ‘Stratum’. 
 
-In the Search Box, type this query _Application = ‘Stratum’_ and click the **Add Filter** icon.
+In the Search Box, type this query _Application = 'Stratum'_ and click the **Add Filter** icon.
 
 <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229770718-472b0731-8454-4c45-95a1-0d0b058fa529.png" />
 
@@ -94,14 +102,27 @@ This will add the filter to your _Signal_. Click on the _Save_ icon to save this
 <img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/229770787-690ab6eb-1fc8-4a2c-b40d-86bff7ba6ece.png" />
 
 
-In the query _Application = ‘Stratum’_, Application should be a property in the _Seq_ log & _Stratum_ should be its value.
+In the query _Application = 'Stratum'_, _Application_ should be a property in the _Seq_ log & _Stratum_ should be its value.
 We will configure this for our Sitecore application in a later step.
 
 ## STEP 3: DEPLOY THE MODULE FILES
+You can do it in two ways.
+
+**Download the .zip file & copy the contents to your instance**
 1.	Download the module’s latest version from here - [https://github.com/sukesh-y/Downloads/tree/main/Basiscore/SeqLogger](https://github.com/sukesh-y/Downloads/tree/main/Basiscore/SeqLogger)
 2.	Extract the zip and copy the files to the respective locations in your Sitecore instance’ webroot. 
 
 The .zip has 2 files:
+- **\App_config\Include\zzz.Basiscore\Basiscore.SeqLogger.config**  and
+- **\bin\Basiscore.SeqLogger.dll**
+
+OR
+
+**Clone the latest Git solution**
+1. After cloning the solution with the _master_ branch, publish the _Basiscore.SeqLogger_ project.
+2. This will publish files to _C:\out\Basiscore.SeqLogger_
+
+The files will be the same:
 - **\App_config\Include\zzz.Basiscore\Basiscore.SeqLogger.config**  and
 - **\bin\Basiscore.SeqLogger.dll**
 
@@ -170,6 +191,37 @@ e.g.: "Environment,Local|Source,Web"
     <td>The default is "DEBUG". This means, the logs of level DEBUG & above will be captured.</td>
   </tr>
   </table>
+
+## CHANGE COLOR CODING
+This is an optional step. In the _Seq_ portal, each log will have a color code dot which helps us determine what Log Level it is (Debug or Info or Warning ..etc.), by looking at the row.
+I felt the default colors for a few levels weren't appealing, and I decided to add custom colors to a few.
+1. Open the index.html file from your _Seq_ installation folder. In my case it was _D:\Program Files\Seq\wwwroot\index.html_.
+2. Add this style block in the `head` tag.
+````
+<style>
+        body.dark-theme .level-indicator.seq-level-debug {
+            background-color: gray;
+        }
+        body.light-theme .level-indicator.seq-level-debug {
+            background-color: gray;
+        }
+        body.dark-theme .level-indicator.seq-level-information {
+            background-color: cornflowerblue;
+        }
+        body.light-theme .level-indicator.seq-level-information {
+            background-color: cornflowerblue;
+        }
+        body.dark-theme .level-indicator.seq-level-fatal {
+            background-color: red;            
+        }
+        body.light-theme .level-indicator.seq-level-fatal {
+            background-color: red;            
+        }
+    </style>
+ 
+ ````
+    
+<img width="500" height="auto" src="https://user-images.githubusercontent.com/24619393/234217704-c58c8a5d-4513-45b9-ae67-7d9cb6604209.png" />
 
 
 ## HOW TO LOG IN CODE
