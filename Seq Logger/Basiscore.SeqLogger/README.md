@@ -125,7 +125,7 @@ OR
 The files will be the same:
 - **\App_config\Include\zzz.Basiscore\Basiscore.SeqLogger.config**  and
 - **\bin\Basiscore.SeqLogger.dll**
-- 
+
 The **Basiscore.SeqLogger.config** is the patch config where we can configure the log settings. The configurations are explained in a following section.
 
 ## STEP 4: VIEW LOGS IN SEQ
