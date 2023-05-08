@@ -11,7 +11,7 @@ This project is a suite of Sitecore tools aimed to help developers in some of th
 3. The `/packages/Libraries` folder has the Sitecore & other DLLs used for this project (e.g.: Sitecore.Kernel etc). You can replace them with the ones from your instance webroot or leave them as is, as they will not be published.
 4. Build the Solution and publish the project. It will publish the files to `C:\out\Basiscore.Minions`.  
 5. Have a look at the files and copy them to your instance's webroot. 
-Your instance may already have one or more DLLs e.g.: DocumentFormat.OpenXml.dll. Ignore those and copy the rest.  
+Your instance may already have one or more DLLs e.g.: DocumentFormat.OpenXml.dll. Exclude those and copy the rest.  
 5. Once the installation is done, browse this URL - `[your-instance-name]/sitecore/admin/minions/index.aspx`, to view the suite.
 
 ![image](https://user-images.githubusercontent.com/24619393/202977301-57a1a2a3-5965-4fea-b9ed-e2f087ba9c7e.png)
