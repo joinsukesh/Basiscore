@@ -1,0 +1,16 @@
+﻿The following items keep getting updated frequently, even when CMS is refreshed or idle.
+This means, the OnItemSaving method in the custom event handler will be triggered.
+
+The logic to exclude the audit logging on those "schedule" items is already handled in code.
+However, as an extra measure, you can disable those items (if you are not using them), by setting the end date to any passed date.
+
+{A6599689-3616-4938-A5BB-9EC65480D2F3}
+/sitecore/system/Settings/Email/Instance Tasks/Content Management Primary/Message Statistics/Today
+
+suspended corrupt test
+/sitecore/system/Tasks/Schedules/Content Testing/Suspend Corrupted Tests
+{9955F85F-9EE1-4469-BD70-5422AF976461}
+
+try finish test
+/sitecore/system/Tasks/Schedules/Content Testing/Try Finish Test
+{5A507736-A0A2-46F7-BE59-7324E584796E}

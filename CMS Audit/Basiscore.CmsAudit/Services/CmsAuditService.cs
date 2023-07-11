@@ -6,6 +6,7 @@
     using Sitecore.Data.Fields;
     using Sitecore.Data.Items;
     using Sitecore.Diagnostics;
+    using Sitecore.Publishing.Pipelines.Publish;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -49,19 +50,13 @@
         }
 
         public void BuildItemAuditInfo(Item originalItem, Item changedItem, ItemEventType itemEvent, DateTime logTime,
-             string itemEventAuditLabel, string annotation = "")
+             string itemEventAuditLabel, string changeLog = "", string username = "")
         {
             List<KeyValuePair<string, string>> itemFieldsAndValues_Old = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> itemFieldsAndValues_New = new List<KeyValuePair<string, string>>();
-            StringBuilder sbAnnotations = new StringBuilder(string.Empty);
             IEnumerable<Field> fields = null;
             List<string> allFieldNamesForAudit = new List<string>();
             List<string> validStandardFieldNames = new List<string>();
-
-            if (!string.IsNullOrWhiteSpace(annotation))
-            {
-                sbAnnotations.AppendLine(annotation);
-            }
 
             /// collect fields & values of original item
             originalItem.Fields.ReadAll();
@@ -113,10 +108,9 @@
                 }
             }
 
-            if (itemEvent == ItemEventType.ITEM_CREATED || itemEvent == ItemEventType.ITEM_VERSION_REMOVED ||
-                itemEvent == ItemEventType.ITEM_DELETED ||
-                IsDataDifferentForOldAndNewItems(originalItem, changedItem, itemFieldsAndValues_Old,
-                itemFieldsAndValues_New))
+            if ((itemEvent != ItemEventType.ITEM_SAVED && itemEvent != ItemEventType.SITE_PUBLISHED) ||
+               IsDataDifferentForOldAndNewItems(originalItem, changedItem, itemFieldsAndValues_Old,
+               itemFieldsAndValues_New))
             {
                 ///collect all fieldnames to compare values of old & new item
                 if (validStandardFieldNames.Count > 0)
@@ -125,10 +119,9 @@
                 }
 
                 allFieldNamesForAudit = allFieldNamesForAudit.Distinct().ToList();
-                sbAnnotations.AppendLine(GetChangeLog(allFieldNamesForAudit, itemFieldsAndValues_Old, 
-                    itemFieldsAndValues_New));
                 AuditLog_Item ciai = PrepareAuditLog(originalItem, changedItem, itemEvent, logTime,
-                        itemFieldsAndValues_Old, itemFieldsAndValues_New, itemEventAuditLabel, sbAnnotations.ToString());
+                    allFieldNamesForAudit, itemFieldsAndValues_Old, itemFieldsAndValues_New, itemEventAuditLabel,
+                    changeLog, username);
                 new DbService().InsertCmsItemAuditLog(ciai);
             }
         }
@@ -143,11 +136,15 @@
         {
             bool isDataDifferentForOldAndNewItems = true;
 
-            if (itemFieldsAndValues_Old.SequenceEqual(itemFieldsAndValues_New))
+            if (itemFieldsAndValues_Old.Count == itemFieldsAndValues_New.Count)
             {
-                if (originalItem.ID == changedItem.ID && originalItem.TemplateID == changedItem.TemplateID &&
-                       originalItem.Name == changedItem.Name && originalItem.Paths.Path == changedItem.Paths.Path &&
-                       originalItem.Language == changedItem.Language && originalItem.Version == changedItem.Version)
+                itemFieldsAndValues_Old = itemFieldsAndValues_Old.OrderBy(x => x.Key).ToList();
+                itemFieldsAndValues_New = itemFieldsAndValues_New.OrderBy(x => x.Key).ToList();
+
+                if (itemFieldsAndValues_Old.SequenceEqual(itemFieldsAndValues_New) &&
+                    originalItem.ID == changedItem.ID && originalItem.TemplateID == changedItem.TemplateID &&
+                           originalItem.Name == changedItem.Name && originalItem.Paths.Path == changedItem.Paths.Path &&
+                           originalItem.Language == changedItem.Language && originalItem.Version == changedItem.Version)
                 {
                     isDataDifferentForOldAndNewItems = false;
                 }
@@ -157,17 +154,36 @@
         }
 
         private AuditLog_Item PrepareAuditLog(Item originalItem, Item changedItem, ItemEventType itemEvent,
-            DateTime logTime, List<KeyValuePair<string, string>> itemFieldsAndValues_Old,
-            List<KeyValuePair<string, string>> itemFieldsAndValues_New, string itemEventAuditLabel, string annotations)
+            DateTime logTime, List<string> allFieldNamesForAudit, List<KeyValuePair<string, string>> itemFieldsAndValues_Old,
+            List<KeyValuePair<string, string>> itemFieldsAndValues_New, string itemEventAuditLabel, string changeLog, string username)
         {
             ItemInfo itemDataBeforeSave = null;
             ItemInfo itemDataAfterSave = null;
+            StringBuilder sbAnnotations = new StringBuilder(string.Empty);
+
+            if (itemEvent == ItemEventType.ITEM_MOVED)
+            {
+                sbAnnotations.AppendLine("Previous Path: " + changeLog);
+            }
+            else if (itemEvent == ItemEventType.ITEM_COPIED || itemEvent == ItemEventType.ITEM_CLONE_ADDED)
+            {
+                sbAnnotations.AppendLine("Source Item: " + changeLog);
+            }
+            else if (itemEvent == ItemEventType.ITEM_PUBLISHED)
+            {
+                sbAnnotations.AppendLine(changeLog);
+            }
+            else
+            {
+                sbAnnotations.AppendLine(GetChangeLog(allFieldNamesForAudit, itemFieldsAndValues_Old,
+                        itemFieldsAndValues_New));
+            }
 
             itemDataBeforeSave = new ItemInfo
             {
                 ItemId = originalItem.ID.Guid,
                 ItemName = originalItem.Name,
-                ItemPath = originalItem.Paths.Path,
+                ItemPath = (itemEvent == ItemEventType.ITEM_MOVED) ? changeLog : originalItem.Paths.Path,
                 TemplateId = originalItem.TemplateID.Guid,
                 ItemLanguage = originalItem.Language.Name,
                 ItemVersion = originalItem.Version.Number,
@@ -194,37 +210,85 @@
                 ItemLanguage = changedItem.Language.Name,
                 ItemVersion = changedItem.Version.Number,
                 Event = itemEventAuditLabel,
-                ActionedBy = changedItem.Statistics.UpdatedBy,
+                ActionedBy = string.IsNullOrWhiteSpace(username) ? changedItem.Statistics.UpdatedBy : username,
                 ItemDataBeforeSave = JsonConvert.SerializeObject(itemDataBeforeSave),
                 ItemDataAfterSave = JsonConvert.SerializeObject(itemDataAfterSave),
-                Comments = annotations,
+                Comments = sbAnnotations.ToString(),
                 LoggedTime = logTime
             };
             return ciai;
         }
 
-        private string GetChangeLog(List<string> allFieldNamesForAudit, 
-            List<KeyValuePair<string, string>> itemFieldsAndValues_Old, 
+        private string GetChangeLog(List<string> allFieldNamesForAudit,
+            List<KeyValuePair<string, string>> itemFieldsAndValues_Old,
             List<KeyValuePair<string, string>> itemFieldsAndValues_New)
         {
             string changeLog = string.Empty;
 
             /// compare field values of original & changed items and collect those field names
             IEnumerable<string> differences = allFieldNamesForAudit
-                            .Where(f=> itemFieldsAndValues_Old.FirstOrDefault(x=>x.Key==f).Value != itemFieldsAndValues_New.FirstOrDefault(x => x.Key == f).Value)
+                            .Where(f => itemFieldsAndValues_Old.FirstOrDefault(x => x.Key == f).Value != itemFieldsAndValues_New.FirstOrDefault(x => x.Key == f).Value)
                             .Select(pair => pair)
                             .ToList();
-            //IEnumerable<string> differences1 = itemFieldsAndValues_Old
-            //                .Where((pair, index) => pair.Value != itemFieldsAndValues_New[index].Value)
-            //                .Select(pair => pair.Key)
-            //                .ToList();
-
             if (differences.Any())
             {
                 changeLog = String.Format("Content changed in these fields [{0}]", differences.Aggregate((s1, s2) => s1 + ", " + s2));
             }
 
             return changeLog;
+        }
+
+        public void BuildPublishAuditInfo(PublishContext context)
+        {
+            if (context?.PublishOptions != null)
+            {
+                Item contextItem = context?.PublishOptions.RootItem;
+                StringBuilder sb = new StringBuilder(string.Empty);
+
+                /// if it is an item publish, the publish mode will always be SingleItem
+                string selectedPublishMode = context.PublishOptions.Mode.ToString();
+
+                if (context.PublishOptions.Mode == Sitecore.Publishing.PublishMode.Full ||
+                    context.PublishOptions.Mode == Sitecore.Publishing.PublishMode.SingleItem)
+                {
+                    selectedPublishMode = context.PublishOptions.CompareRevisions ? "Smart Publish" : "Republish";
+                }
+
+                sb.AppendLine(String.Format("Mode: {0}; Published Subitems: {1}, Published Related Items: {2}",
+                    selectedPublishMode, context.PublishOptions.Deep, context.PublishOptions.PublishRelatedItems));
+                sb.AppendLine("Languages: " + string.Join(Constants.Comma.ToString(), context.Languages.Select(x => x.Name)));
+                sb.AppendLine(String.Format("Created: {0}; Updated: {1}; Deleted: {2}; Skipped: {3}",
+                    context.Statistics.Created, context.Statistics.Updated, context.Statistics.Deleted,
+                    context.Statistics.Skipped));
+                sb.AppendLine("Source Database: " + context.PublishOptions.SourceDatabase.Name + "; " + "Target Database: " + context.PublishOptions.TargetDatabase.Name);
+                sb.AppendLine("Published Date: " + context.PublishOptions.PublishDate.ToString("dd-MMM-yyyy HH:mm:ss.fff"));
+
+                if (contextItem == null)
+                {
+                    /// contextItem will be null if it is a site publish
+                    AuditLog_Item ciai = new AuditLog_Item
+                    {
+                        ItemId = Guid.Empty,
+                        ItemName = string.Empty,
+                        ItemPath = string.Empty,
+                        TemplateId = Guid.Empty,
+                        ItemLanguage = string.Empty,
+                        ItemVersion = 0,
+                        Event = Constants.ItemEventAuditLabels.Item.SITE_PUBLISHED,
+                        ActionedBy = context?.PublishOptions.UserName,
+                        ItemDataBeforeSave = string.Empty,
+                        ItemDataAfterSave = string.Empty,
+                        Comments = sb.ToString(),
+                        LoggedTime = context.PublishOptions.PublishDate
+                    };
+
+                    new DbService().InsertCmsItemAuditLog(ciai);
+                }
+                else
+                {
+                    BuildItemAuditInfo(contextItem, contextItem, ItemEventType.ITEM_PUBLISHED, context.PublishOptions.PublishDate, Constants.ItemEventAuditLabels.Item.ITEM_PUBLISHED, sb.ToString(), context.PublishOptions.UserName);
+                }
+            }
         }
     }
 }

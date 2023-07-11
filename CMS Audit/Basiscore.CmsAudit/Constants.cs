@@ -6,6 +6,8 @@
     {
         public static readonly string ModuleName = "Basiscore.CmsAudit";
         public static readonly char Comma = ',';
+        public static readonly string ForwardSlash = "/";
+        public static readonly string Space = " ";
         public static readonly string None = "none";
         public static readonly string True = "true";
         public static readonly string DoubleUnderscore = "__";
@@ -18,17 +20,15 @@
 
         public enum ItemEventType
         {
-            ITEM_CREATED,
-            ITEM_RENAMED,
-            ITEM_SAVING,
-            ITEM_SAVED,
-            ITEM_VERSION_ADDING,
-            ITEM_VERSION_ADDED,
+            ITEM_CREATED,            
             ITEM_VERSION_REMOVED,
-            ITEM_TEMPLATE_CHANGED,
             ITEM_MOVED,
+            ITEM_COPIED,
+            ITEM_CLONE_ADDED,
+            ITEM_DELETED,
+            ITEM_SAVED,
             ITEM_PUBLISHED,
-            ITEM_DELETED
+            SITE_PUBLISHED
         }
 
         public struct ItemEventAuditLabels
@@ -37,13 +37,15 @@
             {
                 public static readonly string ITEM_CREATED = "Item Created";
                 public static readonly string ITEM_RENAMED = "Item Renamed";
-                //public static readonly string ITEM_SAVING = "Item Saved";
                 public static readonly string ITEM_SAVED = "Item Saved";
                 public static readonly string ITEM_VERSION_ADDED = "Item Version Added";
                 public static readonly string ITEM_VERSION_REMOVED = "Item Version Removed";
                 public static readonly string ITEM_TEMPLATE_CHANGED = "Item Template Changed";
                 public static readonly string ITEM_MOVED = "Item Moved";
+                public static readonly string ITEM_COPIED = "Item Copied";
+                public static readonly string ITEM_CLONE_ADDED = "Item Cloned";
                 public static readonly string ITEM_PUBLISHED = "Item Published";
+                public static readonly string SITE_PUBLISHED = "Site Published";
                 public static readonly string ITEM_DELETED = "Item Deleted";
             }
         }

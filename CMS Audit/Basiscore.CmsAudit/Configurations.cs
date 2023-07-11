@@ -20,34 +20,37 @@
 
                 try
                 {
-                    if (HttpContext.Current.Session[Constants.Sessions.AUDIT_ITEM_TEMPLATES] != null)
+                    if (HttpContext.Current != null)
                     {
-                        templateIds = (List<ID>)HttpContext.Current.Session[Constants.Sessions.AUDIT_ITEM_TEMPLATES];
-                    }
-                    else 
-                    {
-                        string commaSeparatedTemplateIds = Settings.GetSetting("AuditOnlyItemsOfTheseTemplates", Constants.None);
-                        commaSeparatedTemplateIds = commaSeparatedTemplateIds.TrimStart(Constants.Comma).TrimEnd(Constants.Comma).Trim();
-
-                        if (string.IsNullOrWhiteSpace(commaSeparatedTemplateIds) || commaSeparatedTemplateIds.Equals(Constants.None, StringComparison.InvariantCultureIgnoreCase))
+                        if (HttpContext.Current.Session[Constants.Sessions.AUDIT_ITEM_TEMPLATES] != null)
                         {
-                            /// do nothing
+                            templateIds = (List<ID>)HttpContext.Current.Session[Constants.Sessions.AUDIT_ITEM_TEMPLATES];
                         }
                         else
                         {
-                            string[] arrTemplateIds = commaSeparatedTemplateIds.Split(Constants.Comma);
+                            string commaSeparatedTemplateIds = Settings.GetSetting("AuditOnlyItemsOfTheseTemplates", Constants.None);
+                            commaSeparatedTemplateIds = commaSeparatedTemplateIds.TrimStart(Constants.Comma).TrimEnd(Constants.Comma).Trim();
 
-                            if (arrTemplateIds != null && arrTemplateIds.Length > 0)
+                            if (string.IsNullOrWhiteSpace(commaSeparatedTemplateIds) || commaSeparatedTemplateIds.Equals(Constants.None, StringComparison.InvariantCultureIgnoreCase))
                             {
-                                foreach (string templateId in arrTemplateIds)
+                                /// do nothing
+                            }
+                            else
+                            {
+                                string[] arrTemplateIds = commaSeparatedTemplateIds.Split(Constants.Comma);
+
+                                if (arrTemplateIds != null && arrTemplateIds.Length > 0)
                                 {
-                                    templateIds.Add(new ID(templateId.Trim()));
-                                }                                
+                                    foreach (string templateId in arrTemplateIds)
+                                    {
+                                        templateIds.Add(new ID(templateId.Trim()));
+                                    }
+                                }
                             }
                         }
-                    }
 
-                    HttpContext.Current.Session[Constants.Sessions.AUDIT_ITEM_TEMPLATES] = templateIds;
+                        HttpContext.Current.Session[Constants.Sessions.AUDIT_ITEM_TEMPLATES] = templateIds; 
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -66,34 +69,37 @@
 
                 try
                 {
-                    if (HttpContext.Current.Session[Constants.Sessions.AUDIT_STANDARD_FIELDS] != null)
+                    if (HttpContext.Current != null)
                     {
-                        stdFieldNames = (List<string>)HttpContext.Current.Session[Constants.Sessions.AUDIT_STANDARD_FIELDS];
-                    }
-                    else
-                    {
-                        string commaSeparatedStandardFieldNames = Settings.GetSetting("IncludeTheseStandardFieldsInLog", Constants.None);
-                        commaSeparatedStandardFieldNames = commaSeparatedStandardFieldNames.TrimStart(Constants.Comma).TrimEnd(Constants.Comma).Trim();
-
-                        if (string.IsNullOrWhiteSpace(commaSeparatedStandardFieldNames) || commaSeparatedStandardFieldNames.Equals(Constants.None, StringComparison.InvariantCultureIgnoreCase))
+                        if (HttpContext.Current.Session[Constants.Sessions.AUDIT_STANDARD_FIELDS] != null)
                         {
-                            /// do nothing
+                            stdFieldNames = (List<string>)HttpContext.Current.Session[Constants.Sessions.AUDIT_STANDARD_FIELDS];
                         }
                         else
                         {
-                            string[] arrFieldNames = commaSeparatedStandardFieldNames.Split(Constants.Comma);
+                            string commaSeparatedStandardFieldNames = Settings.GetSetting("IncludeTheseStandardFieldsInLog", Constants.None);
+                            commaSeparatedStandardFieldNames = commaSeparatedStandardFieldNames.TrimStart(Constants.Comma).TrimEnd(Constants.Comma).Trim();
 
-                            if (arrFieldNames != null && arrFieldNames.Length > 0)
+                            if (string.IsNullOrWhiteSpace(commaSeparatedStandardFieldNames) || commaSeparatedStandardFieldNames.Equals(Constants.None, StringComparison.InvariantCultureIgnoreCase))
                             {
-                                foreach (string fieldName in arrFieldNames)
+                                /// do nothing
+                            }
+                            else
+                            {
+                                string[] arrFieldNames = commaSeparatedStandardFieldNames.Split(Constants.Comma);
+
+                                if (arrFieldNames != null && arrFieldNames.Length > 0)
                                 {
-                                    stdFieldNames.Add(fieldName.Trim());
+                                    foreach (string fieldName in arrFieldNames)
+                                    {
+                                        stdFieldNames.Add(fieldName.Trim());
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    HttpContext.Current.Session[Constants.Sessions.AUDIT_STANDARD_FIELDS] = stdFieldNames;
+                        HttpContext.Current.Session[Constants.Sessions.AUDIT_STANDARD_FIELDS] = stdFieldNames; 
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App_Data\Scripts\CmsAudit.sql" />
+    <None Include="App_Data\NOTES.txt" />
     <Content Include="sitecore\admin\cms-audit\Default.Master" />
     <Content Include="sitecore\admin\cms-audit\item-audit.aspx" />
     <Content Include="App_Config\Include\zzz.Basiscore\Basiscore.CmsAudit.config">
@@ -94,6 +95,7 @@
     <Compile Include="Configurations.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Extensions\ItemExtensions.cs" />
+    <Compile Include="Handlers\AuditPublish.cs" />
     <Compile Include="Handlers\ItemEventHandler.cs" />
     <Compile Include="Models\AuditLog_Item.cs" />
     <Compile Include="Models\ItemInfo.cs" />
