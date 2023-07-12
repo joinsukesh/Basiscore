@@ -14,3 +14,18 @@ suspended corrupt test
 try finish test
 /sitecore/system/Tasks/Schedules/Content Testing/Try Finish Test
 {5A507736-A0A2-46F7-BE59-7324E584796E}
+
+on create - 3 records - 1 for create and 2 for save
+on duplicate - 2 records - 1 for create and 1 for copied
+on copy - 2 records - 1 for create and 1 for copied
+on clone - 5 records - 1 for create, 3 for save & 1 for clone
+on rename - 1 record
+on move - 1 record
+on order change - 1 record for save
+on save - 1 record
+on delete - one record per item. if an item with subitems is deleted, it will insert as many logs as the no. of items deleted
+on publish item - 1 record
+on site publish - 1 record
+
+The publish job operation is independent from the context language/language selection the user has going on in the Content Editor.
+

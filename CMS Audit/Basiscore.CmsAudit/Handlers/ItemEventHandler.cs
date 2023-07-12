@@ -196,7 +196,8 @@
                             break;
                     }
 
-                    caService.BuildItemAuditInfo(originalItem, changedItem, itemEvent, logTime, itemEventAuditLabel, changeLog);
+                    string username = string.IsNullOrWhiteSpace(changedItem.Statistics.UpdatedBy) ? Sitecore.Context.User.Name : changedItem.Statistics.UpdatedBy;
+                    caService.BuildItemAuditInfo(originalItem, changedItem, itemEvent, logTime, itemEventAuditLabel, changeLog, username);
                 }
             }
         }
