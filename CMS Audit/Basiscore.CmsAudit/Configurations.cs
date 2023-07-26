@@ -11,6 +11,7 @@
     {
         public static readonly bool EnableCmsAuditLogging = Settings.GetSetting("EnableCmsAuditLogging") == Constants.True;
         public static readonly string CoreDbName = Settings.GetSetting("CoreDbName", "core");
+        public static readonly string MasterDbName = Settings.GetSetting("MasterDbName", "master");
 
         public List<ID> SpecifiedTemplateIds
         {
@@ -107,6 +108,55 @@
                 }
 
                 return stdFieldNames;
+            }
+        }
+
+        public List<string> SpecifiedDatabases
+        {
+            get
+            {
+                List<string> specifiedDatabases = new List<string>();
+
+                try
+                {
+                    if (HttpContext.Current != null)
+                    {
+                        if (HttpContext.Current.Session[Constants.Sessions.AUDIT_DB_NAMES] != null)
+                        {
+                            specifiedDatabases = (List<string>)HttpContext.Current.Session[Constants.Sessions.AUDIT_DB_NAMES];
+                        }
+                        else
+                        {
+                            string commaSeparatedNames = Settings.GetSetting("LogChangesMadeInDatabases", string.Empty);
+                            commaSeparatedNames = commaSeparatedNames.TrimStart(Constants.Comma).TrimEnd(Constants.Comma).Trim();
+
+                            if (string.IsNullOrWhiteSpace(commaSeparatedNames))
+                            {
+                                /// do nothing
+                            }
+                            else
+                            {
+                                string[] arrNames = commaSeparatedNames.Split(Constants.Comma);
+
+                                if (arrNames != null && arrNames.Length > 0)
+                                {
+                                    foreach (string fieldName in arrNames)
+                                    {
+                                        specifiedDatabases.Add(fieldName.Trim());
+                                    }
+                                }
+                            }
+                        }
+
+                        HttpContext.Current.Session[Constants.Sessions.AUDIT_DB_NAMES] = specifiedDatabases;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(Constants.ModuleName, ex, this);
+                }
+
+                return specifiedDatabases;
             }
         }
     }

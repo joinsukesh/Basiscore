@@ -7,6 +7,7 @@
     using Sitecore.Diagnostics;
     using Sitecore.Events;
     using System;
+    using System.Linq;
     using static Basiscore.CmsAudit.Constants;
 
     public class ItemEventHandler
@@ -125,7 +126,7 @@
                     ItemCreatedEventArgs itemCreatedEventArgs = Event.ExtractParameter<ItemCreatedEventArgs>(args, 0);
                     changedItem = itemCreatedEventArgs?.Item;
                     originalItem = changedItem;
-                    itemEventAuditLabel = Constants.ItemEventAuditLabels.Item.ITEM_CREATED;
+                    itemEventAuditLabel = Constants.EventAuditLabels.Item.ITEM_CREATED;
 
                 }
                 else if (itemEvent == ItemEventType.ITEM_COPIED)
@@ -137,7 +138,9 @@
                     changedItem = Event.ExtractParameter(args, 0) as Item;
                 }
 
-                if (changedItem == null || (!caService.ProceedToInsertItemAuditLog(changedItem)))
+                if (changedItem == null || 
+                    (!new Configurations().SpecifiedDatabases.Any(x => x.Equals(changedItem.Database.Name, StringComparison.InvariantCultureIgnoreCase))) || 
+                    (!caService.ProceedToInsertItemAuditLog(changedItem)))
                 {
                     return;
                 }
@@ -150,49 +153,49 @@
 
                             if (originalItem.Name != changedItem.Name)
                             {
-                                itemEventAuditLabel = Constants.ItemEventAuditLabels.Item.ITEM_RENAMED;
+                                itemEventAuditLabel = Constants.EventAuditLabels.Item.ITEM_RENAMED;
                             }
                             else if (originalItem.TemplateID != changedItem.TemplateID)
                             {
-                                itemEventAuditLabel = Constants.ItemEventAuditLabels.Item.ITEM_TEMPLATE_CHANGED;
+                                itemEventAuditLabel = Constants.EventAuditLabels.Item.ITEM_TEMPLATE_CHANGED;
                             }
                             else if (originalItem.Version != changedItem.Version)
                             {
-                                itemEventAuditLabel = Constants.ItemEventAuditLabels.Item.ITEM_VERSION_ADDED;
+                                itemEventAuditLabel = Constants.EventAuditLabels.Item.ITEM_VERSION_ADDED;
                             }
                             else
                             {
-                                itemEventAuditLabel = Constants.ItemEventAuditLabels.Item.ITEM_SAVED;
+                                itemEventAuditLabel = Constants.EventAuditLabels.Item.ITEM_SAVED;
                             }
                             break;
                         case ItemEventType.ITEM_VERSION_REMOVED:
                             originalItem = changedItem;
-                            itemEventAuditLabel = Constants.ItemEventAuditLabels.Item.ITEM_VERSION_REMOVED;
+                            itemEventAuditLabel = Constants.EventAuditLabels.Item.ITEM_VERSION_REMOVED;
                             break;
                         case ItemEventType.ITEM_MOVED:
                             originalItem = changedItem;
                             /// get previous path
                             string previousParentPath = changedItem.Database.GetItem(new ID(Event.ExtractParameter(args, 1).ToString()))?.Paths.Path;
                             changeLog = previousParentPath + Constants.ForwardSlash + changedItem.Name;
-                            itemEventAuditLabel = Constants.ItemEventAuditLabels.Item.ITEM_MOVED;
+                            itemEventAuditLabel = Constants.EventAuditLabels.Item.ITEM_MOVED;
                             break;
                         case ItemEventType.ITEM_COPIED:
                             originalItem = changedItem;
                             /// get source item's path
                             sourceItem = (Event.ExtractParameter(args, 0) as Item);
                             changeLog = sourceItem?.ID + Constants.Space + sourceItem?.Paths.Path;
-                            itemEventAuditLabel = Constants.ItemEventAuditLabels.Item.ITEM_COPIED;
+                            itemEventAuditLabel = Constants.EventAuditLabels.Item.ITEM_COPIED;
                             break;
                         case ItemEventType.ITEM_CLONE_ADDED:
                             originalItem = changedItem;
                             /// get source item's path
                             sourceItem = changedItem.Database.GetItem(changedItem.SourceUri?.ItemID);
                             changeLog = sourceItem?.ID + Constants.Space + sourceItem?.Paths.Path;
-                            itemEventAuditLabel = Constants.ItemEventAuditLabels.Item.ITEM_CLONE_ADDED;
-                            break;                        
+                            itemEventAuditLabel = Constants.EventAuditLabels.Item.ITEM_CLONE_ADDED;
+                            break;
                         case ItemEventType.ITEM_DELETED:
                             originalItem = changedItem;
-                            itemEventAuditLabel = Constants.ItemEventAuditLabels.Item.ITEM_DELETED;
+                            itemEventAuditLabel = Constants.EventAuditLabels.Item.ITEM_DELETED;
                             break;
                     }
 

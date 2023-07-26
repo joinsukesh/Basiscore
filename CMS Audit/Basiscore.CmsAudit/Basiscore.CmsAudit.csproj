@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlDiff, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\htmldiff.net.1.4.1\lib\net462\HtmlDiff.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -81,24 +84,41 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sitecore\admin\cms-audit\assets\css\app.css" />
+    <Content Include="sitecore\admin\cms-audit\assets\css\vendor.css" />
+    <Content Include="sitecore\admin\cms-audit\assets\img\wait.gif" />
+    <Content Include="sitecore\admin\cms-audit\assets\js\app.js" />
+    <Content Include="sitecore\admin\cms-audit\assets\js\color-modes.js" />
+    <Content Include="sitecore\admin\cms-audit\assets\js\jquery-3.6.3.min.js" />
+    <Content Include="sitecore\admin\cms-audit\assets\js\vendor.js" />
     <None Include="App_Data\Scripts\CmsAudit.sql" />
     <None Include="App_Data\NOTES.txt" />
     <Content Include="sitecore\admin\cms-audit\Default.Master" />
+    <Content Include="sitecore\admin\cms-audit\purge-logs.aspx" />
     <Content Include="sitecore\admin\cms-audit\item-audit.aspx" />
     <Content Include="App_Config\Include\zzz.Basiscore\Basiscore.CmsAudit.config">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <Content Include="sitecore\admin\cms-audit\assets\fonts\bootstrap-icons.woff" />
+    <Content Include="sitecore\admin\cms-audit\assets\fonts\bootstrap-icons.woff2" />
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Extensions\DataTableExtensions.cs" />
     <Compile Include="Extensions\ItemExtensions.cs" />
+    <Compile Include="Handlers\AccountEventHandler.cs" />
     <Compile Include="Handlers\AuditPublish.cs" />
     <Compile Include="Handlers\ItemEventHandler.cs" />
+    <Compile Include="Models\AuditLog_Account.cs" />
     <Compile Include="Models\AuditLog_Item.cs" />
+    <Compile Include="Models\BaseResponse.cs" />
+    <Compile Include="Models\ItemAuditLogRequest.cs" />
     <Compile Include="Models\ItemInfo.cs" />
+    <Compile Include="Models\Pagination.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CmsAuditService.cs" />
     <Compile Include="Services\DbService.cs" />
@@ -108,6 +128,13 @@
     </Compile>
     <Compile Include="sitecore\admin\cms-audit\Default.Master.designer.cs">
       <DependentUpon>Default.Master</DependentUpon>
+    </Compile>
+    <Compile Include="sitecore\admin\cms-audit\purge-logs.aspx.cs">
+      <DependentUpon>purge-logs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sitecore\admin\cms-audit\purge-logs.aspx.designer.cs">
+      <DependentUpon>purge-logs.aspx</DependentUpon>
     </Compile>
     <Compile Include="sitecore\admin\cms-audit\item-audit.aspx.cs">
       <DependentUpon>item-audit.aspx</DependentUpon>

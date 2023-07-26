@@ -11,6 +11,7 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using System.Net;
     using System.Text;
     using static Basiscore.CmsAudit.Constants;
 
@@ -122,7 +123,7 @@
                 AuditLog_Item ciai = PrepareAuditLog(originalItem, changedItem, itemEvent, logTime,
                     allFieldNamesForAudit, itemFieldsAndValues_Old, itemFieldsAndValues_New, itemEventAuditLabel,
                     changeLog, username);
-                new DbService().InsertCmsItemAuditLog(ciai);
+                new DbService().InsertItemAuditLog(ciai);
             }
         }
 
@@ -160,14 +161,22 @@
             ItemInfo itemDataBeforeSave = null;
             ItemInfo itemDataAfterSave = null;
             StringBuilder sbAnnotations = new StringBuilder(string.Empty);
+            string originalItemPath = originalItem.Paths.Path;
+            string changedItemPath = changedItem.Paths.Path;
 
             if (itemEvent == ItemEventType.ITEM_MOVED)
             {
+                originalItemPath = changeLog;
                 sbAnnotations.AppendLine("Previous Path: " + changeLog);
             }
             else if (itemEvent == ItemEventType.ITEM_COPIED || itemEvent == ItemEventType.ITEM_CLONE_ADDED)
             {
                 sbAnnotations.AppendLine("Source Item: " + changeLog);
+            }
+            else if (itemEvent == ItemEventType.ITEM_DELETED)
+            {
+                originalItemPath = string.Empty;
+                changedItemPath = string.Empty;
             }
             else if (itemEvent == ItemEventType.ITEM_PUBLISHED)
             {
@@ -183,7 +192,7 @@
             {
                 ItemId = originalItem.ID.Guid,
                 ItemName = originalItem.Name,
-                ItemPath = (itemEvent == ItemEventType.ITEM_MOVED) ? changeLog : originalItem.Paths.Path,
+                ItemPath = originalItemPath,
                 TemplateId = originalItem.TemplateID.Guid,
                 ItemLanguage = originalItem.Language.Name,
                 ItemVersion = originalItem.Version.Number,
@@ -194,25 +203,25 @@
             {
                 ItemId = changedItem.ID.Guid,
                 ItemName = changedItem.Name,
-                ItemPath = changedItem.Paths.Path,
+                ItemPath = changedItemPath,
                 TemplateId = changedItem.TemplateID.Guid,
                 ItemLanguage = changedItem.Language.Name,
                 ItemVersion = changedItem.Version.Number,
                 FieldData = itemFieldsAndValues_New
             };
-
+            
             AuditLog_Item ciai = new AuditLog_Item
             {
                 ItemId = changedItem.ID.Guid,
                 ItemName = changedItem.Name,
-                ItemPath = changedItem.Paths.Path,
+                ItemPath = changedItemPath,
                 TemplateId = changedItem.TemplateID.Guid,
                 ItemLanguage = changedItem.Language.Name,
                 ItemVersion = changedItem.Version.Number,
                 Event = itemEventAuditLabel,
                 ActionedBy = string.IsNullOrWhiteSpace(username) ? changedItem.Statistics.UpdatedBy : username,
-                ItemDataBeforeSave = JsonConvert.SerializeObject(itemDataBeforeSave),
-                ItemDataAfterSave = JsonConvert.SerializeObject(itemDataAfterSave),
+                ItemDataBeforeSave = WebUtility.HtmlEncode(JsonConvert.SerializeObject(itemDataBeforeSave, Formatting.Indented)),
+                ItemDataAfterSave = WebUtility.HtmlEncode(JsonConvert.SerializeObject(itemDataAfterSave, Formatting.Indented)),
                 Comments = sbAnnotations.ToString(),
                 LoggedTime = logTime
             };
@@ -240,6 +249,8 @@
 
         public void BuildPublishAuditInfo(PublishContext context)
         {
+            DateTime logTime = DateTime.Now;
+
             if (context?.PublishOptions != null)
             {
                 Item contextItem = context?.PublishOptions.RootItem;
@@ -274,19 +285,19 @@
                         TemplateId = Guid.Empty,
                         ItemLanguage = string.Empty,
                         ItemVersion = 0,
-                        Event = Constants.ItemEventAuditLabels.Item.SITE_PUBLISHED,
+                        Event = Constants.EventAuditLabels.Item.SITE_PUBLISHED,
                         ActionedBy = context?.PublishOptions.UserName,
                         ItemDataBeforeSave = string.Empty,
                         ItemDataAfterSave = string.Empty,
                         Comments = sb.ToString(),
-                        LoggedTime = context.PublishOptions.PublishDate
+                        LoggedTime = logTime
                     };
 
-                    new DbService().InsertCmsItemAuditLog(ciai);
+                    new DbService().InsertItemAuditLog(ciai);
                 }
                 else
                 {
-                    BuildItemAuditInfo(contextItem, contextItem, ItemEventType.ITEM_PUBLISHED, context.PublishOptions.PublishDate, Constants.ItemEventAuditLabels.Item.ITEM_PUBLISHED, sb.ToString(), context.PublishOptions.UserName);
+                    BuildItemAuditInfo(contextItem, contextItem, ItemEventType.ITEM_PUBLISHED, logTime, Constants.EventAuditLabels.Item.ITEM_PUBLISHED, sb.ToString(), context.PublishOptions.UserName);
                 }
             }
         }

@@ -1,0 +1,180 @@
+.form-label {
+    font-weight: 500;
+}
+
+.required {
+    color: red;
+}
+
+.hidden {
+    display: none;
+}
+
+.divError {
+    display: none;
+}
+
+.btnViewItemAuditLog {
+    cursor: pointer;
+}
+
+.tblLogSummary thead tr th, .tblLogSummary tbody tr td {
+    text-align: center;
+}
+
+/*#region WAIT IMAGE */
+.mdlWait-dialog {
+    width: 80px;
+}
+
+    .mdlWait-dialog .modal-content {
+        border-radius: 5px;
+    }
+
+    .mdlWait-dialog .modal-body {
+        padding: 5px;
+    }
+
+.img-wait {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: 0 auto;
+}
+/*#endregion */
+
+.thead-dark th {
+    background-color: #343a40;
+    color: white;
+    border: 1px solid black;
+}
+
+/*#region DATATABLE */
+.dataTable {
+    border-top: 1px solid lightgrey;
+    margin-top: 10px !important;
+    display: inline-table;
+}
+
+    .dataTable tbody tr td.text-center {
+        text-align: center;
+    }
+/*#endregion */
+
+/*#region AUDIT LOGS TABLE */
+#gvIal.table {
+    border-color: gray;
+}
+
+#gvIal tbody tr th.col {
+    text-align: center;
+}
+
+#gvIal tbody tr th.col-1 {
+    width: 4% !important;
+}
+
+#gvIal tbody tr th.col-2 {
+    width: 38% !important;
+}
+
+#gvIal tbody tr th.col-3 {
+    width: 11% !important;
+}
+
+#gvIal tbody tr th.col-4 {
+    width: 11% !important;
+}
+
+#gvIal tbody tr th.col-5 {
+    width: 21% !important;
+}
+
+#gvIal tbody tr th.col-6 {
+    width: 9% !important;
+}
+
+#gvIal tbody tr th.col-7 {
+    width: 6% !important;
+}
+
+#gvIal tbody tr td:first-child, #gvIal tbody tr td:last-child {
+    text-align: center;
+}
+
+tr.row-lightgrey td {
+    background-color: lightgray;
+}
+/*#gvIal tbody tr td {
+    max-width: 0px;
+    word-wrap: break-word;
+}*/
+/*#endregion */
+
+/*#region HTMLDIFF */
+ins {
+    background-color: lightgreen;
+    text-decoration: none;
+    color: black;
+}
+
+del {
+    color: darkslategrey;
+    background-color: lightcoral;
+    color: black;
+}
+/*#endregion */
+
+.btn-theme {
+    background-color: #a76f6f;
+    border: 1px solid #a76f6f;
+}
+
+/*#region SIDEBAR */
+.bg-sidebar {
+    background-color: #2d4356 !important;
+}
+
+.sidebar {
+    height: 100%;
+    position: fixed;
+    transition: margin-left 0.5s;
+}
+
+#btnSidebarOpen {
+    color: white;
+    border: none;
+    margin-top: 8px;
+}
+
+    #btnSidebarOpen:hover {
+        background-color: #444;
+    }
+
+.nav-item.active {
+    background-color: rgba(1,1,1,0.4);
+}
+
+.nav-item:hover {
+    background-color: rgba(1,1,1,0.2);
+}
+
+.nav-item a, .nav-item a:hover {
+    color: white;
+}
+
+#main {
+    transition: 0.5s;
+}
+
+@media only screen and (max-width: 600px) {
+    .sidebar {
+        height: 0%;
+    }
+
+    #btnSidebarOpen {
+        display: none;
+    }
+}
+/*#endregion */
+

@@ -11,25 +11,34 @@ namespace Basiscore.CmsAudit.sitecore.admin.cms_audit
 {
 
 
-    public partial class Default
+    public partial class purge_logs
     {
 
         /// <summary>
-        /// head control.
+        /// ltFirstRecordDate_Ial control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Literal ltFirstRecordDate_Ial;
 
         /// <summary>
-        /// ContentPlaceHolder1 control.
+        /// ltRecentRecordDate_Ial control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.Literal ltRecentRecordDate_Ial;
+
+        /// <summary>
+        /// ltTotalRecords_Ial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltTotalRecords_Ial;
     }
 }
