@@ -5,6 +5,9 @@ I have developed this custom Sitecore module which helps in auditing the CMS Ite
 The admin page allows you to easily track and monitor the history of item modifications.   
 It provides a comprehensive record of item updates, including a user friendly visualization of content differences before & after the save operaton.
 
+## COMPATIBILITY
+I have tested this on Sitecore 10.3. But it should work with older or newer versions too as it uses the instance's _Sitecore.Kernel.dll_. The only third party library I have used is _HtmlDiff.net_ with version _1.4.1_.
+
 ## FEATURES
 1. Logs details for all these item events - `Create`, `Save`, `Rename`, `Version Add`, `Copy`, `Move`, `Duplicate`, `Clone`, `Order Change`, `Publish`, `Delete` & `Site Publish`.
 2. When an Item is saved, the field values before & after the save operation are captured.
