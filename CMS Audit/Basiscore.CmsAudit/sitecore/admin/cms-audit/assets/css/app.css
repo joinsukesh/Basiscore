@@ -105,10 +105,7 @@
 tr.row-lightgrey td {
     background-color: lightgray;
 }
-/*#gvIal tbody tr td {
-    max-width: 0px;
-    word-wrap: break-word;
-}*/
+
 /*#endregion */
 
 /*#region HTMLDIFF */
@@ -125,10 +122,24 @@ del {
 }
 /*#endregion */
 
+.navbar-brand {
+    color: #a76f6f !important;
+    font-family: 'Trebuchet MS';
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
 .btn-theme {
     background-color: #a76f6f;
     border: 1px solid #a76f6f;
+    color:white;
 }
+
+    .btn-theme:hover {
+        background-color: #966F6F;
+        border: 1px solid #966F6F;
+        color: white;
+    }
 
 /*#region SIDEBAR */
 .bg-sidebar {

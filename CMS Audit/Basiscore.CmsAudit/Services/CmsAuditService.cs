@@ -265,14 +265,14 @@
                     selectedPublishMode = context.PublishOptions.CompareRevisions ? "Smart Publish" : "Republish";
                 }
 
-                sb.AppendLine(String.Format("Mode: {0}; Published Subitems: {1}, Published Related Items: {2}",
+                sb.AppendLine(String.Format("Mode: {0}; Published Subitems: {1}; Published Related Items: {2}; ",
                     selectedPublishMode, context.PublishOptions.Deep, context.PublishOptions.PublishRelatedItems));
-                sb.AppendLine("Languages: " + string.Join(Constants.Comma.ToString(), context.Languages.Select(x => x.Name)));
-                sb.AppendLine(String.Format("Created: {0}; Updated: {1}; Deleted: {2}; Skipped: {3}",
+                sb.AppendLine("Languages: " + string.Join(Constants.Comma.ToString(), context.Languages.Select(x => x.Name)) + "; ");
+                sb.AppendLine(String.Format("Created: {0}; Updated: {1}; Deleted: {2}; Skipped: {3}; ",
                     context.Statistics.Created, context.Statistics.Updated, context.Statistics.Deleted,
                     context.Statistics.Skipped));
-                sb.AppendLine("Source Database: " + context.PublishOptions.SourceDatabase.Name + "; " + "Target Database: " + context.PublishOptions.TargetDatabase.Name);
-                sb.AppendLine("Published Date: " + context.PublishOptions.PublishDate.ToString("dd-MMM-yyyy HH:mm:ss.fff"));
+                sb.AppendLine("Source Database: " + context.PublishOptions.SourceDatabase.Name + "; " + "Target Database: " + context.PublishOptions.TargetDatabase.Name + "; ");
+                sb.AppendLine("Published Date: " + Sitecore.DateUtil.ToServerTime(context.PublishOptions.PublishDate).ToString("dd-MMM-yyyy HH:mm:ss.fff"));
 
                 if (contextItem == null)
                 {
