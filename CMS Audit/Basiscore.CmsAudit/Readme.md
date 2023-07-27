@@ -1,8 +1,8 @@
 ## OVERVIEW
 
-I have developed this custom Sitecore module which helps in auditing the CMS Item changes. 
-**CMS Audit**, in essence, subscribes to Sitecore events and logs the details into a custom table in the `core` database. 
-The admin page allows you to easily track and monitor the history of item modifications. 
+I have developed this custom Sitecore module which helps in auditing the CMS Item changes.   
+**CMS Audit**, in essence, subscribes to Sitecore events and logs the details into a custom table in the `core` database.   
+The admin page allows you to easily track and monitor the history of item modifications.   
 It provides a comprehensive record of item updates including a user friendly visualization of content differences before & after the save operaton.
 
 ## FEATURES
@@ -10,7 +10,7 @@ It provides a comprehensive record of item updates including a user friendly vis
 2. When an Item is saved, the field values before & after the save operation are captured.
 3. Provides a visual representation of the content differences before & after the save operation.
 4. The admin page displays these logs and allows the user to search by a date range, by Item Id, Username & Language.
-5. Another admin page to purge the logs, if you want to.
+5. Includes another admin page to purge the logs, if you want to.
    
 ## CONS
 1. There could be a performance penalty on the CMS, when large number of users are using it, as each item event will be logged in the database.
