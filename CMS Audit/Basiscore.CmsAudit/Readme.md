@@ -34,6 +34,7 @@ _/sitecore/admin/cms-audit/ (includes pages & assets)_
 These are the SQL queries to create the custom table, and the stored procedures to insert, fetch & delete the audit logs.
 
 ## CONFIGURATIONS
+### Basiscore.CmsAudit.config
 You can configure the module settings here - _/App_Config/Include/zzz.Basiscore/Basiscore.CmsAudit.config_
 | Property  | Description |
 | ------------- | ------------- |
@@ -45,6 +46,44 @@ _core,master_. |
 | AuditOnlyItemsOfTheseTemplates  | Default value is _None_. If you want to insert audit logs for items of only certain templates, replace _None_ with comma separated Item IDs. This setting value should either be _None_ or have Template ID(s). |
 | IncludeTheseStandardFieldsInLog  | The inserted audit logs will store field values of custom fields and the standard field names specified here. This setting value should either be _None_ or have exact standard field names separated by commas. |
 
-## HOW TO USE
-1. Once the pa
+### CMS (master)
+The following items keep getting updated frequently, even when CMS is refreshed or idle. This means, the _OnItemSaving_ method in the custom event handler will be triggered. The logic to exclude the audit logging on those "schedule" items is already handled in code.
+However, as an extra measure, you can disable those items (if you are not using them), by setting the _end date_ to any passed date.
+- _/sitecore/system/Settings/Email/Instance Tasks/Content Management Primary/Message Statistics/Today_
+- _/sitecore/system/Tasks/Schedules/Content Testing/Suspend Corrupted Tests_
+- _/sitecore/system/Tasks/Schedules/Content Testing/Try Finish Test_
 
+## HOW TO USE
+1. Login to your instance and make some item changes like, create, rename, modify the content, publish & delete.
+2. Open the Launchpad and click the CMS Audit icon or browse this URL - _/sitecore/admin/cms-audit/item-audit.aspx_
+![image](https://github.com/joinsukesh/Basiscore/assets/24619393/aa0da4e4-bc41-4cc7-a011-5feb6fc92ed0)
+
+3. In the **Item Audit Logs** page, click on **Submit**. It should display all the item changes made in the selected date range.
+![image](https://github.com/joinsukesh/Basiscore/assets/24619393/fdcd35ec-6554-4d94-9247-853b0898b747)
+
+4. The **View** button will open a modal and display the item's content changes before & after the save operation. The first section will show the differences like this (if any). Then you can scroll down to see & compare the fields & values json data.
+![image](https://github.com/joinsukesh/Basiscore/assets/24619393/2950d33e-7646-4117-83ad-cdaed517018e)
+
+5. Go to the **Purge Logs** page. The table will show the number of records in the logs table (_Basiscore_CmsAudit_Items_). You can select the date range and click on **DELETE ITEM AUDIT LOGS** to delete all the logs in that date range. If you do not wish to have this page available, you can delete it here from your instance folder - _/sitecore/admin/cms-audit/urge-logs.aspx_
+
+## NOTES
+1. There will be one or more logs created depending on the Sitecore event. For example, Sitecore triggers both created & saved events when an item is created.
+| Event  | Records Created in Table |
+| ------------- | ------------- |
+|Item Created|3 (1 for create & 2 for save)|
+|Item Renamed|1|
+|Item Renamed|1|
+|Item Saved|1|
+|Item Version Added|1|
+|Item Duplicated|2 (1 for create & 1 for copy)|
+|Item Copied|2 (1 for create & 1 for copy)|
+|Item Cloned|5 (1 for create, 3 for save & 1 for clone)|
+|Item Moved|1|
+|Item Order Changed|1|
+|Item Language Version Added|0|
+|Item Published|1|
+|Site Published|1|
+|Item Deleted|1. But if an item is deleted with its subitems, then as many records as the number of subitems, will be inserted in the table.|
+
+2. When an item is published through workflow, the `Published Subitems` propery in the `Comments` column, will be `true`.
+3. If a user has selected `Danish` language in CMS and proceed to publish the item. The `Language` property in the `Item Info` column may not be `Danish`. This is because the publish job operation is independent from the context language or the language selected by the user  in the Content Editor. So, cross verify this with the "Languages" in the `Comments` column.
