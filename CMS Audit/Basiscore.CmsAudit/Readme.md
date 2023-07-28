@@ -97,7 +97,7 @@ The property name is **RetainDataOfLastNDaysBeforeScheduledDelete** and the defa
 
 Note that, the scheduled task is disabled by default, because, in its first run it may delete the initial logs even before you got to check the logs in the _item audit logs_ page.    
 To enable the scheduler, navigate to this item in CMS - _/sitecore/system/Tasks/Schedules/Basiscore/CMS Audit/Delete Logs Schedule_.  
-In the _Schedule_ field, replace 0 with 127.  This will indicate the system to trigger this task on any day of the week [Reference](https://doc.sitecore.com/xp/en/SdnArchive/SDN5/FAQ/Administration/Scheduled%20tasks.html).  
+In the _Schedule_ field, replace 0 with 127.  This will indicate the system to trigger this task on any day of the week ([Reference](https://doc.sitecore.com/xp/en/SdnArchive/SDN5/FAQ/Administration/Scheduled%20tasks.html)).  
 
 
 ## NOTES
