@@ -28,13 +28,29 @@ The package will install the following items in your instance:
 _/sitecore/client/Applications/Launchpad/PageSettings/Buttons/Basiscore_  
 _/sitecore/client/Applications/Launchpad/PageSettings/Buttons/Basiscore/CMS Audit_  
 
+**CMS (master):**  
+_/sitecore/system/Tasks/Commands/Basiscore_  
+_/sitecore/system/Tasks/Commands/Basiscore/CMS Audit_  
+_/sitecore/system/Tasks/Commands/Basiscore/CMS Audit/Delete Logs Command_
+
+_/sitecore/system/Tasks/Schedules/Basiscore_  
+_/sitecore/system/Tasks/Schedules/Basiscore/CMS Audit_  
+_/sitecore/system/Tasks/Schedules/Basiscore/CMS Audit/Delete Logs Schedule_    
+
 **FILES:**  
 _/App_Config/Include/zzz.Basiscore/Basiscore.CmsAudit.config_  
 _/bin/Basiscore.CmsAudit.dll_  
 _/bin/HtmlDiff.dll_  
 _/sitecore/admin/cms-audit/ (includes pages & assets)_  
 
-2. If for any reason, you are unable to install the package in the instance, extract the content of the zip file and copy the files into the respective locations. The CMS core items are for the Launchpad Button. You can create your own and give this target URL - _/sitecore/admin/cms-audit/item-audit.aspx_
+2. If for any reason, you are unable to install the package in the instance, extract the content of the zip file and copy the **files** into the respective locations. 
+You can create the CMS items manually like this:
+
+|#|Database|Parent Item|Item Name|Template|Field - Value|  
+|-|--------|-----------|---------|--------|-------------|  
+|1|master|/sitecore/system/Tasks/Commands|Delete Logs Command|/sitecore/templates/System/Tasks/Command |**Type:** Basiscore.CmsAudit.Services.CmsAuditService,Basiscore.CmsAudit<br>**Method:** DeleteItemAuditLogs|  
+|2|master|/sitecore/system/Tasks/Schedules|Delete Logs Schedule|/sitecore/templates/System/Tasks/Schedule |**Command:** Commands/Delete Logs Command<br>**Schedule:** `20230101\|99990101\|0\|720:00:00`<br>**Async:** Checked<br><br>![image](https://github.com/joinsukesh/Basiscore/assets/24619393/fafaafeb-14d3-4eb2-9381-b1c20165b279)|  
+|3|core|/sitecore/client/Applications/Launchpad/PageSettings/Buttons|CMS Audit|/sitecore/client/Applications/Launchpad/PageSettings/Templates/LaunchPad-Button |**Link:** /sitecore/admin/cms-audit/item-audit.aspx<br>**OpenNewTab:** Checked|
 
 3. [Download](https://github.com/joinsukesh/Downloads/blob/main/CMS%20Audit/CmsAudit.sql) this file and execute these queries in the **core** database of your instance. 
 These are the SQL queries to create the custom table, and the stored procedures to insert, fetch & delete the audit logs.
@@ -49,7 +65,8 @@ You can configure the module settings here - _/App_Config/Include/zzz.Basiscore/
 | MasterDbName  | The value should be the name of the connection string of `master` database. By default, it is set to _master_. |
 | LogChangesMadeInDatabases  | Only changes made in the specified databases will be logged. Default values are _core,master_. |
 | AuditOnlyItemsOfTheseTemplates  | Default value is _None_. If you want to insert audit logs for items of only certain templates, replace _None_ with comma separated Item IDs. This setting value should either be _None_ or have Template ID(s). |
-| IncludeTheseStandardFieldsInLog  | The inserted audit logs will store field values of custom fields and the standard field names specified here. This setting value should either be _None_ or have exact standard field names separated by commas. |
+| IncludeTheseStandardFieldsInLog  | The inserted audit logs will store field values of custom fields and the standard field names specified here. This setting value should either be _None_ or have exact standard field names separated by commas. |  
+| DeleteLastNDayRecordsWithScheduledTask  | There is a scheduled task item in CMS which is configured to run after every 30 days. The task will execute code to delete the records from the audit table. You can configure the last _n_ day records to be deleted. Default value is 30, meaning the last 30 day rows will be deleted from the table when the scheduled task is run. |
 
 ### CMS (master)
 The following items keep getting updated frequently, even when CMS is refreshed or idle. This means, the _OnItemSaving_ method in the custom event handler will be triggered. The logic to exclude the audit logging on those "schedule" items is already handled in code.
@@ -69,7 +86,13 @@ However, as an extra measure, you can disable these items (if you are not using 
 4. The **View** button will open a modal and display the item's content changes before & after the save operation. The first section will show the differences like this (if any). Then you can scroll down to see & compare the fields & values json data.
 ![image](https://github.com/joinsukesh/Basiscore/assets/24619393/2950d33e-7646-4117-83ad-cdaed517018e)
 
-5. Go to the **Purge Logs** page. The table will show the number of records in the logs table (`Basiscore_CmsAudit_Items`). You can select the date range and click on **DELETE ITEM AUDIT LOGS** to delete all the logs in that date range. If you do not wish to have this page available, you can delete it here from your instance folder - _/sitecore/admin/cms-audit/urge-logs.aspx_
+### DELETE LOGS
+Eventually, the database table is going to get filled with numerous rows and it is recommended to and delete historical records.  
+For this you have two options.  
+
+**Option 1:** The simpler one. Go to the **Purge Logs** page. The table will show the number of records in the logs table (`Basiscore_CmsAudit_Items`). You can select the date range and click on **DELETE ITEM AUDIT LOGS** to delete all the logs in that date range. [If you do not wish to have this page available for the users, you can delete it here from your instance folder - _/sitecore/admin/cms-audit/urge-logs.aspx_]
+
+**Option 2:** There is a `Scheduled Task` item that is installed from the package. It is configured to run every 720 hours (30 days). The task when triggered will delete
 
 ## NOTES
 1. There will be one or more logs created depending on the Sitecore event. For example, Sitecore triggers both created & saved events when an item is created.
