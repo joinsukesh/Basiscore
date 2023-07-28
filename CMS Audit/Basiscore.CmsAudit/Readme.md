@@ -99,6 +99,8 @@ Note that, the scheduled task is disabled by default, because, in its first run 
 To enable the scheduler, navigate to this item in CMS - _/sitecore/system/Tasks/Schedules/Basiscore/CMS Audit/Delete Logs Schedule_.  
 In the _Schedule_ field, replace 0 with 127.  This will indicate the system to trigger this task on any day of the week ([Reference](https://doc.sitecore.com/xp/en/SdnArchive/SDN5/FAQ/Administration/Scheduled%20tasks.html)).  
 
+![image](https://github.com/joinsukesh/Basiscore/assets/24619393/a88bd990-7832-49d8-8748-f9df8105eb3c)
+
 
 ## NOTES
 1. There will be one or more logs created depending on the Sitecore event. For example, Sitecore triggers both created & saved events when an item is created.
