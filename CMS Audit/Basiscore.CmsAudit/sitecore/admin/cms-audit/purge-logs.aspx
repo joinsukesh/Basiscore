@@ -43,7 +43,7 @@
                 <input type="date" id="txtToDate_Pl" class="form-control form-control-sm">
             </div>
             <div class="col">
-                <div style="line-height: 35px;">&nbsp;</div>
+                <div style="line-height: 31px;">&nbsp;</div>
                 <button id="btnDeleteIaLogs" type="button" class="btn btn-danger btn-sm">DELETE ITEM AUDIT LOGS</button>
             </div>
         </div>

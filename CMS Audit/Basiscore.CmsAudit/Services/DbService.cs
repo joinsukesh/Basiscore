@@ -146,7 +146,7 @@
             return dtData;
         }
 
-        public int DeleteItemAuditLogs(DateTime fromDate, DateTime toDate)
+        public int DeleteItemAuditLogs(DateTime fromDate, DateTime toDate, bool isScheduledDelete = false, int dataRetentionDays = 30)
         {
             int deletedRows = 0;
 
@@ -157,6 +157,8 @@
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@FromDate", SqlDbType.DateTime).Value = fromDate;
                 cmd.Parameters.AddWithValue("@ToDate", SqlDbType.DateTime).Value = toDate;
+                cmd.Parameters.AddWithValue("@IsScheduledDelete", SqlDbType.Bit).Value = isScheduledDelete;
+                cmd.Parameters.AddWithValue("@DataRetentionDays", SqlDbType.Int).Value = dataRetentionDays;
                 deletedRows = cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
