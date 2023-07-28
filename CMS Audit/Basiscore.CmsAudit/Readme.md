@@ -6,7 +6,7 @@ The admin page allows you to easily track and monitor the history of item modifi
 It provides a comprehensive record of item updates, including a user friendly visualization of content differences before & after the save operaton.
 
 ## COMPATIBILITY
-I have tested this on Sitecore 10.3. But it should work with older or newer versions too as it uses the instance's _Sitecore.Kernel.dll_. The only third party library I have used is _HtmlDiff.net_ with version _1.4.1_.
+I have tested this on Sitecore 10.3. But it should work with older or newer versions too, as it uses the instance's _Sitecore.Kernel.dll_. The only third party library I have used is _HtmlDiff.net_ with version _1.4.1_.
 
 ## FEATURES
 1. Logs details for all these item events - `Create`, `Save`, `Rename`, `Version Add`, `Copy`, `Move`, `Duplicate`, `Clone`, `Order Change`, `Publish`, `Delete` & `Site Publish`.
@@ -66,7 +66,7 @@ You can configure the module settings here - _/App_Config/Include/zzz.Basiscore/
 | LogChangesMadeInDatabases  | Only changes made in the specified databases will be logged. Default values are _core,master_. |
 | AuditOnlyItemsOfTheseTemplates  | Default value is _None_. If you want to insert audit logs for items of only certain templates, replace _None_ with comma separated Item IDs. This setting value should either be _None_ or have Template ID(s). |
 | IncludeTheseStandardFieldsInLog  | The inserted audit logs will store field values of custom fields and the standard field names specified here. This setting value should either be _None_ or have exact standard field names separated by commas. |  
-| DeleteLastNDayRecordsWithScheduledTask  | There is a scheduled task item in CMS which is configured to run after every 30 days. The task will execute code to delete the records from the audit table. You can configure the last _n_ day records to be deleted. Default value is 30, meaning the last 30 day rows will be deleted from the table when the scheduled task is run. |
+| RetainDataOfLastNDaysBeforeScheduledDelete  | There is a scheduled task item in CMS which is configured to run after every 30 days. The task will execute code to delete the records from the audit table. You can configure to retain last n day records and the rest will be deleted. Default value is 30, meaning the last 30 day rows will be retained and the rest will be deleted from the table when the scheduled task is run. |
 
 ### CMS (master)
 The following items keep getting updated frequently, even when CMS is refreshed or idle. This means, the _OnItemSaving_ method in the custom event handler will be triggered. The logic to exclude the audit logging on those "schedule" items is already handled in code.
@@ -92,7 +92,13 @@ For this you have two options.
 
 **Option 1:** The simpler one. Go to the **Purge Logs** page. The table will show the number of records in the logs table (`Basiscore_CmsAudit_Items`). You can select the date range and click on **DELETE ITEM AUDIT LOGS** to delete all the logs in that date range. [If you do not wish to have this page available for the users, you can delete it here from your instance folder - _/sitecore/admin/cms-audit/urge-logs.aspx_]
 
-**Option 2:** There is a `Scheduled Task` item that is installed from the package. It is configured to run every 720 hours (30 days). The task when triggered will delete
+**Option 2:** There is a `Scheduled Task` item that is installed from the package. It is configured to run every 720 hours (30 days). The task when triggered will retain some data & delete the rest of the records from the audit logs table. The retention days can be configured here - /App_Config/Include/zzz.Basiscore/Basiscore.CmsAudit.config_.   
+The property name is **RetainDataOfLastNDaysBeforeScheduledDelete** and the default value is 30.
+
+Note that, the scheduled task is disabled by default, because, in its first run it may delete the initial logs even before you got to check the logs in the _item audit logs_ page.    
+To enable the scheduler, navigate to this item in CMS - _/sitecore/system/Tasks/Schedules/Basiscore/CMS Audit/Delete Logs Schedule_.  
+In the _Schedule_ field, replace 0 with 127.  This will indicate the system to trigger this task on any day of the week [Reference](https://doc.sitecore.com/xp/en/SdnArchive/SDN5/FAQ/Administration/Scheduled%20tasks.html).  
+
 
 ## NOTES
 1. There will be one or more logs created depending on the Sitecore event. For example, Sitecore triggers both created & saved events when an item is created.
