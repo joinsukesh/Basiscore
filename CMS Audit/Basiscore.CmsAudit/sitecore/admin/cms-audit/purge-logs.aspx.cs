@@ -56,7 +56,7 @@
                 if (SitecoreUtility.IsAdministrator())
                 {
                     int deletedRows = new DbService().DeleteItemAuditLogs(fromDate, toDate);
-                    result.StatusMessage = Convert.ToString(deletedRows); //string.Format("{0} rows deleted", deletedRows);
+                    result.StatusMessage = Convert.ToString(deletedRows);
                     result.StatusCode = 1;
                 }
                 else

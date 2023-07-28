@@ -7,6 +7,7 @@
     using Sitecore.Data.Items;
     using Sitecore.Diagnostics;
     using Sitecore.Publishing.Pipelines.Publish;
+    using Sitecore.Tasks;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -209,7 +210,7 @@
                 ItemVersion = changedItem.Version.Number,
                 FieldData = itemFieldsAndValues_New
             };
-            
+
             AuditLog_Item ciai = new AuditLog_Item
             {
                 ItemId = changedItem.ID.Guid,
@@ -299,6 +300,18 @@
                 {
                     BuildItemAuditInfo(contextItem, contextItem, ItemEventType.ITEM_PUBLISHED, logTime, Constants.EventAuditLabels.Item.ITEM_PUBLISHED, sb.ToString(), context.PublishOptions.UserName);
                 }
+            }
+        }
+
+        public void DeleteItemAuditLogs(Item[] items, CommandItem commandItem, ScheduleItem scheduleItem)
+        {
+            try
+            {
+                int deletedRows = new DbService().DeleteItemAuditLogs(DateTime.Now, DateTime.Now, true, Configurations.DataRetentionDays);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(Constants.ModuleName, ex, this);
             }
         }
     }

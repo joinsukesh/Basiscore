@@ -1,5 +1,6 @@
 ﻿namespace Basiscore.CmsAudit
 {
+    using Sitecore;
     using Sitecore.Configuration;
     using Sitecore.Data;
     using Sitecore.Diagnostics;
@@ -50,7 +51,7 @@
                             }
                         }
 
-                        HttpContext.Current.Session[Constants.Sessions.AUDIT_ITEM_TEMPLATES] = templateIds; 
+                        HttpContext.Current.Session[Constants.Sessions.AUDIT_ITEM_TEMPLATES] = templateIds;
                     }
                 }
                 catch (Exception ex)
@@ -99,7 +100,7 @@
                             }
                         }
 
-                        HttpContext.Current.Session[Constants.Sessions.AUDIT_STANDARD_FIELDS] = stdFieldNames; 
+                        HttpContext.Current.Session[Constants.Sessions.AUDIT_STANDARD_FIELDS] = stdFieldNames;
                     }
                 }
                 catch (Exception ex)
@@ -157,6 +158,15 @@
                 }
 
                 return specifiedDatabases;
+            }
+        }
+
+        public static int DataRetentionDays
+        {
+            get
+            {
+                int days = MainUtil.GetInt(Settings.GetSetting("RetainDataOfLastNDaysBeforeScheduledDelete"), 30);
+                return days;
             }
         }
     }
