@@ -5,6 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <form runat="server">
+        <asp:ScriptManager ID="ScriptManger1" runat="Server"></asp:ScriptManager>
         <asp:HiddenField ID="hdnIsPostBack" runat="server" ClientIDMode="Static" Value="0" />
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h5>Item Audit Logs</h5>
@@ -57,27 +58,36 @@
         <hr />
         <div class="mb-3 divError" id="divError">
             <label class="required">ERROR: </label>
-            &nbsp;
-        <span id="spError" class="required"></span>
+            &nbsp;        
+            <asp:Label ID="spError" runat="server" ForeColor="Red"></asp:Label>
         </div>
         <div class="mb-3" id="divResult_Ial" style="overflow: auto;">
-            <asp:GridView ID="gvIal" runat="server" AutoGenerateColumns="false" CssClass="table table-bordered table-sm table-striped thead-dark"
-                AllowPaging="true" ClientIDMode="Static" AllowSorting="true" Width="100%"
-                OnPageIndexChanging="gvIal_PageIndexChanging" PageSize="10" ShowHeaderWhenEmpty="true" EnableViewState="true">
-                <Columns>
-                    <asp:BoundField DataField="Row_Id" HeaderText="#" HeaderStyle-CssClass="col col-1" HtmlEncode="false" />
-                    <asp:BoundField DataField="Item_Info" HeaderText="Item Info" HeaderStyle-CssClass="col col-2" HtmlEncode="false" />
-                    <asp:BoundField DataField="Event" HeaderText="Event" HeaderStyle-CssClass="col col-3" HtmlEncode="false" />
-                    <asp:BoundField DataField="Actioned_By" HeaderText="Actioned By" HeaderStyle-CssClass="col col-4" HtmlEncode="false" />
-                    <asp:BoundField DataField="Comments" HeaderText="Comments" HeaderStyle-CssClass="col col-5" HtmlEncode="false" />
-                    <asp:BoundField DataField="Logged_Time" HeaderText="Logged Time" HeaderStyle-CssClass="col col-6" HtmlEncode="false" />
-                    <asp:BoundField DataField="Item_Content" HeaderText="Item Content" HeaderStyle-CssClass="col col-7" HtmlEncode="false" />
-                </Columns>
-                <EmptyDataTemplate>
-                    <div align="center">No records found</div>
-                </EmptyDataTemplate>
-                <PagerSettings Mode="NumericFirstLast" Position="TopAndBottom" FirstPageText="First" LastPageText="Last" PageButtonCount="5" />
-            </asp:GridView>
+            <asp:UpdatePanel ID="upIal" runat="server" UpdateMode="Conditional">
+                <ContentTemplate>
+                    <asp:GridView ID="gvIal" runat="server" AutoGenerateColumns="false" CssClass="table table-bordered table-sm table-striped thead-dark"
+                        AllowPaging="true" ClientIDMode="Static" AllowSorting="true" OnSorting="gvIal_Sorting" Width="100%"
+                        OnPageIndexChanging="gvIal_PageIndexChanging" PageSize="10" ShowHeaderWhenEmpty="true" EnableViewState="true">
+                        <Columns>
+                            <asp:BoundField DataField="Row_Id" HeaderText="#" HeaderStyle-CssClass="col col-1" HtmlEncode="false" />
+                            <asp:BoundField DataField="Item_Info" HeaderText="Item Info" HeaderStyle-CssClass="col col-2" HtmlEncode="false" SortExpression="Item_Info" />
+                            <asp:BoundField DataField="Event" HeaderText="Event" HeaderStyle-CssClass="col col-3" HtmlEncode="false" SortExpression="Event" />
+                            <asp:BoundField DataField="Actioned_By" HeaderText="Actioned By" HeaderStyle-CssClass="col col-4" HtmlEncode="false" SortExpression="Actioned_By" />
+                            <asp:BoundField DataField="Comments" HeaderText="Comments" HeaderStyle-CssClass="col col-5" HtmlEncode="false" SortExpression="Comments" />
+                            <asp:BoundField DataField="Logged_Time" HeaderText="Logged Time" HeaderStyle-CssClass="col col-6" HtmlEncode="false" SortExpression="Logged_Time" />
+                            <asp:BoundField DataField="Item_Content" HeaderText="Item Content" HeaderStyle-CssClass="col col-7" HtmlEncode="false" />
+                        </Columns>
+                        <EmptyDataTemplate>
+                            <div align="center">No records found</div>
+                        </EmptyDataTemplate>
+                        <PagerSettings Mode="NumericFirstLast" Position="TopAndBottom" FirstPageText="First" LastPageText="Last" PageButtonCount="5" />
+                    </asp:GridView>
+                </ContentTemplate>
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="btnIalSubmit" EventName="Click" />
+                    <asp:AsyncPostBackTrigger ControlID="gvIal" EventName="PageIndexChanging" />
+                    <asp:AsyncPostBackTrigger ControlID="gvIal" EventName="Sorting" />
+                </Triggers>
+            </asp:UpdatePanel>
         </div>
 
         <div class="modal fade" id="mdlItemAuditLog" tabindex="-1" aria-labelledby="mdlItemAuditLog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">

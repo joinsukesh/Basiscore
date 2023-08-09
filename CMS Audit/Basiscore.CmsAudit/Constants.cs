@@ -15,6 +15,9 @@
         public static readonly string Hash = "#";
         public static readonly string GenericErrorMessage = "A problem occurred while processing your equest. Please try again later.";
         public static readonly string LoginPagePath = "~/sitecore/login";
+        public static string SortDirection = "SortDirection";
+        public static string ASC = "ASC";
+        public static string DESC = "DESC";
 
         public struct Sessions
         {

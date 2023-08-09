@@ -13,6 +13,12 @@
 
     public partial class item_audit : System.Web.UI.Page
     {
+        private string SortDirection
+        {
+            get { return ViewState[Constants.SortDirection] != null ? ViewState[Constants.SortDirection].ToString() : Constants.ASC; }
+            set { ViewState[Constants.SortDirection] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -32,6 +38,7 @@
             catch (Exception ex)
             {
                 Log.Error(Constants.ModuleName, ex, Constants.ModuleName);
+                spError.Text = ex.Message;
             }
         }
 
@@ -51,13 +58,35 @@
             catch (Exception ex)
             {
                 Log.Error(Constants.ModuleName, ex, Constants.ModuleName);
+                spError.Text = ex.Message;
             }            
         }
 
         protected void gvIal_PageIndexChanging(object sender, System.Web.UI.WebControls.GridViewPageEventArgs e)
         {
-            gvIal.PageIndex = e.NewPageIndex;
-            BindLogsData(true);
+            try
+            {
+                gvIal.PageIndex = e.NewPageIndex;
+                BindLogsData(true);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(Constants.ModuleName, ex, Constants.ModuleName);
+                spError.Text = ex.Message;
+            }
+        }
+
+        protected void gvIal_Sorting(object sender, System.Web.UI.WebControls.GridViewSortEventArgs e)
+        {
+            try
+            {
+                BindLogsData(true, e.SortExpression);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(Constants.ModuleName, ex, Constants.ModuleName);
+                spError.Text = ex.Message;
+            }
         }
 
         private void BindLanguages()
@@ -88,7 +117,7 @@
             }
         }
 
-        private void BindLogsData(bool isPostBack)
+        private void BindLogsData(bool isPostBack, string sortExpression = null)
         {
             DataTable dt = null;
 
@@ -102,16 +131,40 @@
                 itemAuditLogRequest.ActionedBy = txtUsername.Text;
                 itemAuditLogRequest.ItemLanguage = ddlLanguages.SelectedValue;
                 dt = GetAuditData(itemAuditLogRequest);
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    if (sortExpression != null)
+                    {
+                        DataView dv = dt.AsDataView();
+                        this.SortDirection = this.SortDirection == Constants.ASC ? Constants.DESC : Constants.ASC;
+
+                        dv.Sort = sortExpression + " " + this.SortDirection;
+                        gvIal.DataSource = dv; 
+                    }
+                    else
+                    {
+                        gvIal.DataSource = dt;
+                    }
+                }
+                else
+                {
+                    dt = GetAuditLogsTableSchema();
+                    dt.Rows.Add();
+                    gvIal.DataSource = dt;
+                }
+
                 hdnIsPostBack.Value = Constants.One;
             }
             else
             {
                 dt = GetAuditLogsTableSchema();
                 dt.Rows.Add();
+                gvIal.DataSource = dt;
             }
 
-            gvIal.DataSource = dt;
             gvIal.DataBind();
+            upIal.Update();
         }
 
         private static DataTable GetAuditData(ItemAuditLogRequest itemAuditLogRequest)
@@ -180,5 +233,6 @@
             return dtLogs;
         }
 
+        
     }
 }
