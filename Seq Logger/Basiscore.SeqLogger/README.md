@@ -263,7 +263,7 @@ Which will render like this:
 You can also ingest logs from a file. 
 
 Here is an example.
-I have copied a _log.{date}.{time}.txt_ file from my Sitecore instance, to _D:\_ and renamed it to _log.txt_.
+I have copied a _log.{date}.{time}.txt_ file from my Sitecore instance, to D:\ and renamed it to _log.txt_.
 
 The contents of this file are like this:
 
